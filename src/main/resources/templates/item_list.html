@@ -60,7 +60,7 @@
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
 									<input type="text" name="name" id="code"
-										class="form-control input-sm" />
+										class="form-control input-sm" autocomplete="on">
 								</div>
 							</div>
 							<div class="text-center">
@@ -100,6 +100,9 @@
 						</tr>
 					</tbody>
 				</table>
+				<span th:each="page:${pageList}">
+					<a th:href="@{'/item/showList?page='+${page}}"><button th:text="${page}" th:value="${page}"></button></a>
+				</span>
 			</div>
 		</div>
 	</div>
