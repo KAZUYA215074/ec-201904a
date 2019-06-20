@@ -15,12 +15,12 @@ import com.example.ecommerce_a.domain.Item;
 public class ItemRepository {
 	private static final RowMapper<Item> ITEM_ROW_MAPPER = (rs,i)->{
 		Item item = new Item();
-		item.setId(rs.getInt("i_id"));
-		item.setName(rs.getString("i_name"));
+		item.setId(rs.getInt("id"));
+		item.setName(rs.getString("name"));
 		item.setDescription(rs.getString("description"));
-		item.setImagePath(rs.getString("imagePath"));
-		item.setPriceM(rs.getInt("priceM"));
-		item.setPriceL(rs.getInt("priceL"));
+		item.setImagePath(rs.getString("image_path"));
+		item.setPriceM(rs.getInt("price_m"));
+		item.setPriceL(rs.getInt("price_l"));
 		return item;
 	};
 	
