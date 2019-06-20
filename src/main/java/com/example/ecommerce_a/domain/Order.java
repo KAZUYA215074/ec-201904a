@@ -41,6 +41,29 @@ public class Order {
 	/** 商品注文リスト */
 	private List<OrderItem> orderItemList;
 
+	public Order() {
+	}
+	public Order(Integer id, Integer userId, Integer status, Integer totalPrice, Date orderDate, String destinationName,
+			String destinationEmail, String destinationZipcode, String destinationAddress, String destinationTel,
+			Timestamp deliveryTime, Integer paymentMethod, User user, List<OrderItem> orderItemList) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.status = status;
+		this.totalPrice = totalPrice;
+		this.orderDate = orderDate;
+		this.destinationName = destinationName;
+		this.destinationEmail = destinationEmail;
+		this.destinationZipcode = destinationZipcode;
+		this.destinationAddress = destinationAddress;
+		this.destinationTel = destinationTel;
+		this.deliveryTime = deliveryTime;
+		this.paymentMethod = paymentMethod;
+		this.user = user;
+		this.orderItemList = orderItemList;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
