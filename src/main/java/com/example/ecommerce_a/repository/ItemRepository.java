@@ -13,6 +13,8 @@ import com.example.ecommerce_a.domain.Item;
 
 @Repository
 public class ItemRepository {
+	private static final int ELEMENT_COUNT = 9;
+	
 	private static final RowMapper<Item> ITEM_ROW_MAPPER = (rs,i)->{
 		Item item = new Item();
 		item.setId(rs.getInt("id"));
@@ -26,10 +28,19 @@ public class ItemRepository {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-		
-	public List<Item> findByName(String name){
-		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%"+name+"%");
+	
+	public List<Item> findAll(){
+		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items";
+		List<Item> itemList = template.query(sql,ITEM_ROW_MAPPER);
+		return itemList;
+	}
+	
+	public List<Item> findByName(String name,Integer offset){
+		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name limit :limit offset :offset";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("name", "%"+name+"%")
+				.addValue("limit",ELEMENT_COUNT)
+				.addValue("offset",offset);
 		List<Item> itemList = template.query(sql,param,ITEM_ROW_MAPPER);
 		return itemList;
 	}
@@ -41,14 +52,18 @@ public class ItemRepository {
 		return item;
 	}
 	
-	public List<Item> sort(String sort){
+	public List<Item> sort(String sort,Integer offset){
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items ";
 		if("price_m".equals(sort)) {
-			sql += " order by price_m asc";
+			sql += " order by price_m asc ";
 		}else if("name".equals(sort)) {
-			sql += " order by name asc";
+			sql += " order by name asc ";
 		}
-		List<Item> itemList = template.query(sql,ITEM_ROW_MAPPER);
+		sql += " limit :limit offset :offset";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("limit",ELEMENT_COUNT)
+				.addValue("offset",offset);
+		List<Item> itemList = template.query(sql,param,ITEM_ROW_MAPPER);
 		return itemList;
 	}
 }

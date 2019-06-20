@@ -15,15 +15,27 @@ public class ItemService {
 	@Autowired
 	private ItemRepository itemRepository;
 	
-	public List<Item> findByName(String name){
-		return itemRepository.findByName(name);
+	public List<Item> findAll(){
+		return itemRepository.findAll();
+	}
+	
+	public List<Item> findByName(String name,Integer offset){
+		if(offset == null) {
+			offset = 1;
+		}
+		offset = offset *10 - 9;
+		return itemRepository.findByName(name,offset);
 	}
 	
 	public Item load(Integer id) {
 		return itemRepository.load(id);
 	}
 	
-	public List<Item> sort(String sort){
-		return itemRepository.sort(sort);
+	public List<Item> sort(String sort,Integer offset){
+		if(offset == null) {
+			offset = 1;
+		}
+		offset = offset *10 - 9;
+		return itemRepository.sort(sort,offset);
 	}
 }
