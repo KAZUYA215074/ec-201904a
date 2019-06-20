@@ -22,7 +22,7 @@ public class UserLoginController {
 	 */
 	@RequestMapping("/")
 	public String toLogin(Model model, @RequestParam(required=false) String error) {
-		System.err.println("login error"+ error);
+		System.err.println("login error "+ error);
 		if (error != null) {
 			System.err.println("login failed");
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
