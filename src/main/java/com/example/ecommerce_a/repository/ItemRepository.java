@@ -11,10 +11,17 @@ import org.springframework.stereotype.Repository;
 
 import com.example.ecommerce_a.domain.Item;
 
+/**
+ * Itemを操作するRepositoryクラス.
+ * 
+ * @author sho.ikehara
+ *
+ */
 @Repository
 public class ItemRepository {
 	private static final int ELEMENT_COUNT = 9;
 	
+	/**ItemのRowMapper*/
 	private static final RowMapper<Item> ITEM_ROW_MAPPER = (rs,i)->{
 		Item item = new Item();
 		item.setId(rs.getInt("id"));
@@ -29,12 +36,24 @@ public class ItemRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	/**
+	 * 全件検索
+	 * 
+	 * @return　商品一覧
+	 */
 	public List<Item> findAll(){
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items";
 		List<Item> itemList = template.query(sql,ITEM_ROW_MAPPER);
 		return itemList;
 	}
 	
+	/**
+	 * あいまい検索を行う.
+	 * 
+	 * @param name 入力された名前
+	 * @param offset　ページネーション
+	 * @return　任意の件数の商品一覧
+	 */
 	public List<Item> findByName(String name,Integer offset){
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name limit :limit offset :offset";
 		SqlParameterSource param = new MapSqlParameterSource()
@@ -45,6 +64,12 @@ public class ItemRepository {
 		return itemList;
 	}
 	
+	/**
+	 * 商品詳細を表示する.
+	 * 
+	 * @param id 取得したID
+	 * @return　商品情報
+	 */
 	public Item load(Integer id) {
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where id= :id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id",id);
@@ -52,6 +77,13 @@ public class ItemRepository {
 		return item;
 	}
 	
+	/**
+	 * 商品一覧の並び替え.
+	 * 
+	 * @param sort ソートするカラム名
+	 * @param offset　ページネーション
+	 * @return　商品一覧
+	 */
 	public List<Item> sort(String sort,Integer offset){
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items ";
 		if("price_m".equals(sort)) {

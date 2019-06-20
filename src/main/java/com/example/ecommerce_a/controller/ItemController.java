@@ -11,14 +11,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.service.ItemService;
 
+/**
+ * Itemを操作するcontrollerクラス.
+ * 
+ * @author sho.ikehara
+ *
+ */
 @Controller
 @RequestMapping("/item")
 public class ItemController {
 	@Autowired
 	ItemService itemService;
+	/**表示する最大の列数*/
 	private static final int MAX_COLS = 3;
+	/**1ページに表示する最大商品数*/
 	private static final int ELEMENT_COUNT = 9;
 	
+	/**
+	 * 商品一覧を表示する.
+	 * 
+	 * @param model モデル
+	 * @param name　あいまい検索
+	 * @param page　ページネーション
+	 * @return　商品一覧ページ
+	 */
 	@RequestMapping("/showList")
 	public String showList(Model model,String name,Integer page) {
 		if(name==null) {
@@ -43,6 +59,14 @@ public class ItemController {
 		return "item_list";
 	}
 	
+	/**
+	 * 商品の並び替え.
+	 * 
+	 * @param model モデル
+	 * @param sort　ソートするカラム名
+	 * @param page　ページネーション
+	 * @return　商品一覧ページ
+	 */
 	@RequestMapping("/sort")
 	public String sort(Model model, String sort,Integer page) {
 		List<Integer> pageList = new ArrayList<>();
