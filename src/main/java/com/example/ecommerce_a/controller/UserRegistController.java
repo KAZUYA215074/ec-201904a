@@ -86,5 +86,6 @@ public class UserRegistController {
 		
 		return "forward:/item/showList";
 	}
+	
 
 }

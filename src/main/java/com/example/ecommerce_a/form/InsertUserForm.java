@@ -4,6 +4,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+/**
+ * ユーザー情報登録時に使うフォーム.
+ * 
+ * @author yuki
+ *
+ */
 public class InsertUserForm {
 	
 	/** ID */
