@@ -83,7 +83,7 @@ public class UserRegistController {
 		
 		userService.insert(user);
 		
-		return "item_list";
+		return "forward:/item/showList";
 	}
 
 }

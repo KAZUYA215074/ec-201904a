@@ -1,26 +1,45 @@
 package com.example.ecommerce_a.form;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class InsertUserForm {
 	
 	/** ID */
 	private Integer id;
 	/** 名前 */
+	@NotBlank(message="名前を入力してください")
 	private String name;
 	/** メールアドレス */
+	@NotBlank(message="メールアドレスを入力してください")
+	@Email(message="メールアドレスの形式ではありません")
 	private String mailAddress;
 	/** パスワード */
+	@NotBlank(message="パスワードを入力してください")
+	@Size(min = 6, max = 12, message="パスワードは６〜１２文字で入力してください")
 	private String password;
+	/** 確認用パスワード */
+	@NotBlank(message="パスワードを入力してください")
+	@Size(min = 6, max = 12, message="パスワードは６〜１２文字で入力してください")
+	private String checkedpassword;
 	/** 郵便番号 */
+	@NotBlank(message="郵便番号を入力してください")
 	private String zipCode;
 	/** 住所 */
+	@NotBlank(message="住所を入力してください")
 	private String address;
 	/** 電話番号 */
+	@NotBlank(message="電話番号を入力してください")
 	private String telephone;
 	
+
+
 	@Override
 	public String toString() {
 		return "InsertUserForm [id=" + id + ", name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ ", zipCode=" + zipCode + ", address=" + address + ", telephone=" + telephone + "]";
+				+ ", checkedpassword=" + checkedpassword + ", zipCode=" + zipCode + ", address=" + address
+				+ ", telephone=" + telephone + "]";
 	}
 
 	public Integer getId() {
@@ -77,6 +96,14 @@ public class InsertUserForm {
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+
+	public String getCheckedpassword() {
+		return checkedpassword;
+	}
+
+	public void setCheckedpassword(String checkedpassword) {
+		this.checkedpassword = checkedpassword;
 	}
 	
 
