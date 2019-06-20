@@ -34,4 +34,20 @@ public class ItemController {
 		model.addAttribute("listList",listList);
 		return "item_list";
 	}
+	
+	@RequestMapping("/sort")
+	public String sort(Model model, String sort) {
+		List<Item> itemList = itemService.sort(sort);
+		List<Item> list = new ArrayList<>();
+		List<List<Item>> listList = new ArrayList<>();
+		for(int i=0;i<itemList.size();i++) {
+			list.add(itemList.get(i));
+			if((i+1)%MAX_COLS==0) {
+				listList.add(list);
+				list = new ArrayList<>();				
+			}
+		}
+		model.addAttribute("listList",listList);
+		return "item_list";
+	}
 }

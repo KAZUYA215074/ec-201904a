@@ -15,15 +15,15 @@ public class ItemService {
 	@Autowired
 	private ItemRepository itemRepository;
 	
-	public List<Item> findAll(){
-		return itemRepository.findAll();
-	}
-	
 	public List<Item> findByName(String name){
 		return itemRepository.findByName(name);
 	}
 	
 	public Item load(Integer id) {
 		return itemRepository.load(id);
+	}
+	
+	public List<Item> sort(String sort){
+		return itemRepository.sort(sort);
 	}
 }

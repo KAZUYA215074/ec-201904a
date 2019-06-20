@@ -65,8 +65,15 @@
 							</div>
 							<div class="text-center">
 								<button type="submit" value="検索" class="btn btn-primary">検索</button>
-								<button type="reset" value="クリア" class="btn btn-default">クリア</button>
+								<button type="reset" value="クリア" class="btn btn-default">クリア</button><br>
 							</div>
+						</form>
+						<form method="post" th:action="@{/item/sort}">
+							<select id="sort" name="sort">
+								<option value="price_m">価格順</option>
+								<option value="name">五十音順</option>
+							</select>
+							<input type="submit" value="並び替え" class="btn btn-primary">
 						</form>
 					</div>
 				</div>

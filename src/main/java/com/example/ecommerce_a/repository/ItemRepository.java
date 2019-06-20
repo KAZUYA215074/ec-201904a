@@ -40,4 +40,15 @@ public class ItemRepository {
 		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 		return item;
 	}
+	
+	public List<Item> sort(String sort){
+		String sql = "";
+		if("price_m".equals(sort)) {
+			sql = "select id,name,description,price_m,price_l,image_path,deleted from items order by price_m asc";
+		}else if("name".equals(sort)) {
+			sql = "select id,name,description,price_m,price_l,image_path,deleted from items order by name asc";
+		}
+		List<Item> itemList = template.query(sql,ITEM_ROW_MAPPER);
+		return itemList;
+	}
 }
