@@ -24,6 +24,21 @@ public class OrderItem {
 	/** トッピングリスト */
 	private List<OrderTopping> orderToppingList;
 
+	public OrderItem() {
+	}
+	public OrderItem(Integer id, Integer itemId, Integer orderId, Integer quantity, Character size, Item item,
+			List<OrderTopping> orderToppingList) {
+		super();
+		this.id = id;
+		this.itemId = itemId;
+		this.orderId = orderId;
+		this.quantity = quantity;
+		this.size = size;
+		this.item = item;
+		this.orderToppingList = orderToppingList;
+	}
+
+
 	@Override
 	public String toString() {
 		return "OrderItem [id=" + id + ", itemId=" + itemId + ", orderId=" + orderId + ", quantity=" + quantity
