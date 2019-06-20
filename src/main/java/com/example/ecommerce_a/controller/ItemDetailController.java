@@ -38,6 +38,8 @@ public class ItemDetailController {
 	private static final int MAX_COLS = 3;
 
 	/**
+	 * ピザの詳細を表示する.
+	 * 
 	 * @param id    ピザのid
 	 * @param model モデル
 	 * @return ピザの詳細ページ

@@ -1,7 +1,7 @@
 package com.example.ecommerce_a.domain;
 
 /**
- * ユーザ情報の受け渡しを行う.
+ * ユーザ情報のドメイン.
  * 
  * @author yuki.maekawa
  *
@@ -23,6 +23,21 @@ public class User {
 	/** 電話番号 */
 	private String telephone;
 	
+	public User() {
+	}
+	public User(Integer id, String name, String mailAddress, String password, String zipCode, String address,
+			String telephone) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.mailAddress = mailAddress;
+		this.password = password;
+		this.zipCode = zipCode;
+		this.address = address;
+		this.telephone = telephone;
+	}
+
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", mailAddress=" + mailAddress + ", password=" + password

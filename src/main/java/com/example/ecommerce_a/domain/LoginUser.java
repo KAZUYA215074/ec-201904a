@@ -4,6 +4,11 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 
+//XXX:javadoc書きましょう
+/**
+ * @author yuki.maekawa
+ *
+ */
 public class LoginUser extends org.springframework.security.core.userdetails.User{
 	
 	private static final long serialVersionUID = 1L;

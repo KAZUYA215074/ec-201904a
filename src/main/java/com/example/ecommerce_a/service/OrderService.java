@@ -11,6 +11,12 @@ import com.example.ecommerce_a.repository.OrderItemRepository;
 import com.example.ecommerce_a.repository.OrderRepository;
 import com.example.ecommerce_a.repository.OrderToppingRepository;
 
+/**
+ * 注文のサービス.
+ * 
+ * @author taka
+ *
+ */
 @Service
 @Transactional
 public class OrderService {
@@ -21,6 +27,7 @@ public class OrderService {
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 
+	//TODO:注文情報の挿入未実装
 	/**
 	 * 注文情報を挿入
 	 * 
@@ -49,6 +56,7 @@ public class OrderService {
 		return orderRepository.load(OrderId);
 	}
 
+	//TODO:注文情報を結合して検索未実装
 	/**
 	 * 注文情報を結合して検索.
 	 * 

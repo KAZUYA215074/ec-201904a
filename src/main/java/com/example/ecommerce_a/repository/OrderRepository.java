@@ -12,9 +12,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderTopping;
+import com.example.ecommerce_a.domain.Topping;
+import com.example.ecommerce_a.domain.User;
 
 /**
  * 注文(カート)のリポジトリ.
@@ -56,43 +59,63 @@ public class OrderRepository {
 	private static final String TABLE_NAME_ORDERITEM = "order_items";
 	/** 注文トッピングテーブル名 */
 	private static final String TABLE_NAME_ORDERTOPPING = "order_toppings";
+	/** アイテムテーブル名 */
+	private static final String TABLE_NAME_ITEM = "items";
+	/** トッピングテーブル名 */
+	private static final String TABLE_NAME_TOPPING = "toppings";
 	/** 注文,注文商品,注文トッピングのすべてのカラム名 */
 	private static final String ALL_COLUMN_JOIN
 	= " o.id AS order_id, o.user_id AS order_user_id, o.status AS order_status, o.total_price AS order_total_price, o.order_date AS order_date, o.destination_name AS order_destination_name, "
 	+ " o.destination_email AS order_destination_email, o.destination_zipcode AS order_destination_zipcode, o.destination_address AS order_destination_address, "
 	+ " o.destination_tel AS order_destination_tel, o.delivery_time AS order_delivery_time, o.payment_method AS order_payment_method,"
 	+ " oi.id AS oi_id, oi.item_id AS oi_item_id,  oi.quantity AS oi_quantity, oi.size AS oi_size, "
-	+ " ot.id AS ot_id,	ot.topping_id AS ot_topping_id ";
+	+ " ot.id AS ot_id,	ot.topping_id AS ot_topping_id, "
+	+ " i.name AS i_name, i.description AS i_description, i.price_m AS i_price_m, i.price_l AS i_price_l, i.image_path AS i_image_path, i.deleted AS i_deleted,"
+	+ " t.name AS t_name, t.price_m AS t_price_m, t.price_l AS t_price_l";
 	
 	/** 注文情報のExtractor */
 	private static final ResultSetExtractor<List<Order>> ORDER_RESULT_SET
 	= (rs) -> {
 		List<Order> orderList = new ArrayList<>();
-		Order order = null;
-		OrderItem orderItem = null;
 		List<OrderItem> orderItemList = null;
 		List<OrderTopping> orderToppingList = null;
-		OrderTopping orderTopping = null;
+		List<Topping> toppingList = null;
+		OrderItem orderItem = null;
+		
 		int beforeOrderId = 0;
 		int beforeOrderItemId = 0;
+		
 		while(rs.next()) {
+			
+			// オーダー情報を取得
 			int orderId = rs.getInt("order_id");
 			if( orderId != beforeOrderId ) {
 				orderItemList = new ArrayList<>();
-				order = new Order(orderId,rs.getInt("order_user_id"),rs.getInt("order_status"),rs.getInt("order_total_price"),rs.getDate("order_date"),
+				User user = new User();
+				Order order = new Order(orderId,rs.getInt("order_user_id"),rs.getInt("order_status"),rs.getInt("order_total_price"),rs.getDate("order_date"),
 						rs.getString("order_destination_name"),rs.getString("order_destination_email"),rs.getString("order_destination_zipcode"),
 						rs.getString("order_destination_address"),rs.getString("order_destination_tel"),rs.getTimestamp("order_delivery_time"),
-						rs.getInt("order_payment_method"),null,orderItemList);
+						rs.getInt("order_payment_method"),user,orderItemList);
 				orderList.add(order);
 			}
 			
+			// アイテムリストを取得
 			int orderItemId = rs.getInt("oi_id");
 			if( orderItemId != beforeOrderItemId ) {
+				int itemId = rs.getInt("oi_item_id");
+				
+				toppingList = null;
+				Item item = new Item(itemId,rs.getString("i_name"),rs.getString("i_description"),rs.getInt("i_price_m"),rs.getInt("i_price_l"),rs.getString("i_image_path"),rs.getBoolean("i_deleted"),toppingList);
+				
 				orderToppingList = new ArrayList<>();
-				orderItem = new OrderItem(orderItemId,rs.getInt("oi_item_id"),orderId,rs.getInt("oi_quantity"),rs.getString("oi_size").charAt(0),null,orderToppingList);
+				orderItem = new OrderItem(orderItemId,itemId,orderId,rs.getInt("oi_quantity"),rs.getString("oi_size").charAt(0),item,orderToppingList);
 				orderItemList.add(orderItem);
 			}
-			orderTopping = new OrderTopping(rs.getInt("ot_id"),rs.getInt("ot_topping_id"),orderId,null);
+			
+			// トッピングリストを取得
+			int toppingId = rs.getInt("ot_topping_id");
+			Topping topping = new Topping(toppingId,rs.getString("t_name"),rs.getInt("t_price_m"),rs.getInt("t_price_L"));
+			OrderTopping orderTopping = new OrderTopping(rs.getInt("ot_id"),toppingId,orderId,topping);
 			orderToppingList.add(orderTopping);
 			
 			beforeOrderId = orderId;
@@ -101,7 +124,7 @@ public class OrderRepository {
 		return orderList;
 	};
 	
-	
+	//TODO:注文情報の追加レポジトリ未実装
 	/**
 	 * 注文情報を追加する.
 	 * 
@@ -147,12 +170,18 @@ public class OrderRepository {
 	 */
 	public List<Order> findByJoinedOrder(int orderId) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT ");	sql.append(ALL_COLUMN_JOIN);
-		sql.append(" FROM ");	sql.append(TABLE_NAME_ORDER);	sql.append(" AS o ");
-		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_ORDERITEM);	sql.append(" AS oi ");
+		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
+		sql.append(" FROM ");		sql.append(TABLE_NAME_ORDER);			sql.append(" AS o ");
+		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_ORDERITEM);		sql.append(" AS oi ");
 		sql.append(" ON o.id = oi.order_id ");
 		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_ORDERTOPPING);	sql.append(" AS ot ");
-		sql.append(" ON oi.id = ot.order_item_id WHERE o.id=:orderId ORDER BY o.id" );
+		sql.append(" ON oi.id = ot.order_item_id ");
+		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_ITEM);			sql.append(" AS i ");
+		sql.append(" ON oi.item_id = i.id ");
+		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_TOPPING);			sql.append(" AS t ");
+		sql.append(" ON ot.topping_id = t.id ");
+		sql.append(" WHERE o.id=:orderId ORDER BY o.id" );
+		
 		SqlParameterSource param =  new MapSqlParameterSource().addValue("orderId", orderId);
 		return template.query(sql.toString(), param,ORDER_RESULT_SET);
 	}

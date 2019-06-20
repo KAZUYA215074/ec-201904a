@@ -7,6 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.repository.UserRepository;
 
+
+//XXX:Javadoc書こう
+/**
+ * @author yuki.maekawa
+ *
+ */
 @Service
 @Transactional
 public class UserService {
