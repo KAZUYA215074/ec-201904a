@@ -72,13 +72,11 @@
 								</div>
 								<div class="col-sm-12">
 									<label class="radio-inline">
-										<input type="radio"
-											name="responsibleCompany" checked="checked">
+										<input type="radio" name="responsibleCompany" checked="checked" value="M">
 										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)
 									</label>
 									<label class="radio-inline">
-										<input type="radio"
-											name="responsibleCompany">
+										<input type="radio" name="responsibleCompany" value="L">
 										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)
 									</label>
 								</div>
@@ -100,7 +98,7 @@
 								<div>
 									<div class="col-sm-12" th:each="splitedToppingList: ${splitedToppingListInList}">
 										<label class="checkbox-inline" th:each="topping: ${splitedToppingList}">
-											<input type="checkbox" value="" th:text="${topping.name}">
+											<input class="toppingCheckbox" type="checkbox" value="" th:text="${topping.name}">
 										</label>
 									</div>
 								</div>
@@ -160,8 +158,8 @@
 
 	</div>
 	<!-- end container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/autoCalcPrice.js}"></script>
 </body>
 </html>
