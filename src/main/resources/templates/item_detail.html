@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -97,31 +97,12 @@
 										<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
 									</label>
 								</div>
-								<div class="col-sm-12">
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">オニオン
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">チーズ
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">ピーマン
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">ロースハム
-									</label><br>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">ほうれん草
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">ぺパロに
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">グリルナス
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">あらびきソーセージ
-									</label>
+								<div>
+									<div class="col-sm-12" th:each="splitedToppingList: ${splitedToppingListInList}">
+										<label class="checkbox-inline" th:each="topping: ${splitedToppingList}">
+											<input type="checkbox" value="" th:text="${topping.name}">
+										</label>
+									</div>
 								</div>
 							</div>
 						</div>

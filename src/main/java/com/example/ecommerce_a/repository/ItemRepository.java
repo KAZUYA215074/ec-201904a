@@ -11,6 +11,16 @@ import org.springframework.stereotype.Repository;
 
 import com.example.ecommerce_a.domain.Item;
 
+/**
+ * ピザを操作するリポジトリ.
+ * 
+ * @author Makoto
+ *
+ */
+/**
+ * @author Makoto
+ *
+ */
 @Repository
 public class ItemRepository {
 	
@@ -29,12 +39,23 @@ public class ItemRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	
+	/**
+	 * ピザを全検検索する.
+	 * 
+	 * @return ピザのリスト.
+	 */
 	public List<Item> findAll(){
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items";
 		List<Item> itemList = template.query(sql,ITEM_ROW_MAPPER);
 		return itemList;
 	}
 	
+	/**
+	 * ピザを名前であいまい検索する.
+	 * @param name ピザの名前
+	 * @return ピザのリスト.
+	 */
 	public List<Item> findByName(String name){
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%"+name+"%");
@@ -42,6 +63,11 @@ public class ItemRepository {
 		return itemList;
 	}
 	
+	/**
+	 * ピザの主キー検索.
+	 * @param id ピザのid
+	 * @return ピザ
+	 */
 	public Item load(Integer id) {
 		String sql = "select id, name, description, price_m, price_l, image_path, deleted from items where id= :id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id",id);
