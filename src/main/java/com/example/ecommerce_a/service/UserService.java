@@ -14,8 +14,21 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	/**
+	 * ユーザー情報を登録.
+	 * 
+	 * @param user
+	 */
 	public void insert(User user) {
 		userRepository.insert(user);
+	}
+	
+	public Boolean isCheckByMailAddress(String mailAddress) {
+		if(userRepository.findByMailAddress(mailAddress)!= null) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }
