@@ -42,11 +42,11 @@ public class ItemRepository {
 	}
 	
 	public List<Item> sort(String sort){
-		String sql = "";
+		String sql = "\"select id,name,description,price_m,price_l,image_path,deleted from items order by ";
 		if("price_m".equals(sort)) {
-			sql = "select id,name,description,price_m,price_l,image_path,deleted from items order by price_m asc";
+			sql +=  "price_m asc";
 		}else if("name".equals(sort)) {
-			sql = "select id,name,description,price_m,price_l,image_path,deleted from items order by name asc";
+			sql += "name asc";
 		}
 		List<Item> itemList = template.query(sql,ITEM_ROW_MAPPER);
 		return itemList;
