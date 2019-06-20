@@ -24,8 +24,11 @@ public class UserService {
 	}
 	
 	/**
+	 * メールアドレスからアカウントの有無を調べる.
+	 * 
 	 * @param mailAddress
-	 * @return
+	 * @return アカウントの有無
+	 * 
 	 */
 	public Boolean isCheckByMailAddress(String mailAddress) {
 		if(userRepository.findByMailAddress(mailAddress)!= null) {
