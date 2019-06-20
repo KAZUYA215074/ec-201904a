@@ -29,13 +29,26 @@ public class OrderItem {
 		return "OrderItem [id=" + id + ", itemId=" + itemId + ", orderId=" + orderId + ", quantity=" + quantity
 				+ ", size=" + size + ", item=" + item + ", orderToppingList=" + orderToppingList + "]";
 	}
-	
+
 	/**
+	 * 注文した商品の合計金額を返す.
 	 * 
-	 * @return
+	 * @return 合計金額
 	 */
 	public int getSubTotal() {
-		
+		int total = 0;
+		if (size == 'L') {
+			for (OrderTopping orderTopping : orderToppingList) {
+				total += orderTopping.getTopping().getPriceL();
+			}
+			total += item.getPriceL();
+		} else if (size == 'M') {
+			for (OrderTopping orderTopping : orderToppingList) {
+				total += orderTopping.getTopping().getPriceM();
+			}
+			total += item.getPriceM();
+		}
+		return total = total * quantity;
 	}
 
 	public Integer getId() {
