@@ -17,6 +17,17 @@ public class OrderTopping {
 	/**トッピング*/
 	private Topping topping;
 
+	public OrderTopping() {
+	}
+	public OrderTopping(Integer id, Integer toppingId, Integer orderId, Topping topping) {
+		super();
+		this.id = id;
+		this.toppingId = toppingId;
+		this.orderId = orderId;
+		this.topping = topping;
+	}
+
+
 	@Override
 	public String toString() {
 		return "OrderTopping [id=" + id + ", toppingId=" + toppingId + ", orderId=" + orderId + ", topping=" + topping

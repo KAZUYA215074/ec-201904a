@@ -1,84 +1,111 @@
-package com.example.ecommerce_a.domain;
+package com.example.ecommerce_a.form;
 
-import java.util.List;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import com.example.ecommerce_a.domain.User;
+
 /**
- * 注文するドメインです.
+ * 注文する際のお届け先登録時に使用するフォーム
  * 
  * @author risa.nazato
  *
  */
-public class Order {
-
+public class OrderForm {
 	/** ID */
 	private Integer id;
 	/** ユーザID */
-	private Integer userId;
+	private String userId;
 	/** 状態 */
-	private Integer status;
+	private String status;
 	/** 合計金額 */
-	private Integer totalPrice;
+	private String totalPrice;
 	/** 注文日 */
-	private Date orderDate;
+	private String orderDate;
 	/** 宛先氏名 */
+	@NotBlank(message = "氏名を入力してください")
 	private String destinationName;
 	/** 宛先Eメール */
+	@Email(message = "メールアドレスの形式ではありません")
+	@NotBlank(message = "メールアドレスを入力してください")
 	private String destinationEmail;
 	/** 宛先郵便番号 */
+	@NotBlank(message = "郵便番号を入力してください")
 	private String destinationZipcode;
 	/** 宛先住所 */
+	@NotBlank(message = "住所を入力してください")
 	private String destinationAddress;
 	/** 宛先TEL */
+	@NotBlank(message = "電話番号を入力してください")
 	private String destinationTel;
 	/** 配達時間 */
+	@NotBlank(message = "配達日時を入力してください")
 	private Timestamp deliveryTime;
 	/** 支払方法 */
-	private Integer paymentMethod;
+	@NotBlank(message = "支払方法を入力してください")
+	private String paymentMethod;
 	/** ユーザ */
 	private User user;
-	/** 商品注文リスト */
-	private List<OrderItem> orderItemList;
-
-	public Order() {
-	}
-	public Order(Integer id, Integer userId, Integer status, Integer totalPrice, Date orderDate, String destinationName,
-			String destinationEmail, String destinationZipcode, String destinationAddress, String destinationTel,
-			Timestamp deliveryTime, Integer paymentMethod, User user, List<OrderItem> orderItemList) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.status = status;
-		this.totalPrice = totalPrice;
-		this.orderDate = orderDate;
-		this.destinationName = destinationName;
-		this.destinationEmail = destinationEmail;
-		this.destinationZipcode = destinationZipcode;
-		this.destinationAddress = destinationAddress;
-		this.destinationTel = destinationTel;
-		this.deliveryTime = deliveryTime;
-		this.paymentMethod = paymentMethod;
-		this.user = user;
-		this.orderItemList = orderItemList;
-	}
-
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
+		return "OrderForm [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
 				+ ", orderDate=" + orderDate + ", destinationName=" + destinationName + ", destinationEmail="
 				+ destinationEmail + ", destinationZipcode=" + destinationZipcode + ", destinationAddress="
 				+ destinationAddress + ", destinationTel=" + destinationTel + ", deliveryTime=" + deliveryTime
-				+ ", paymentMethod=" + paymentMethod + ", orderItemList=" + orderItemList + "]";
+				+ ", paymentMethod=" + paymentMethod + ", user=" + user + "]";
 	}
 
-	public int getTax() {
-		return (int) (totalPrice * 0.08);
+	/**
+	 * ユーザIDをInteger型で返す.
+	 * 
+	 * @return ユーザID
+	 */
+	public Integer getIntuserId() {
+		return Integer.parseInt(userId);
 	}
 
-	public int getCalcTotalPrice() {
-		return (int) (totalPrice * 1.08);
+	/**
+	 * 状態をInteger型で返す.
+	 * 
+	 * @return 状態
+	 */
+	public Integer getIntStatus() {
+		return Integer.parseInt(status);
+	}
+
+	/**
+	 * 合計金額をInteger型で返す.
+	 * 
+	 * @return 合計金額
+	 */
+	public Integer getIntTotalPrice() {
+		return Integer.parseInt(totalPrice);
+	}
+
+	/**
+	 * 注文日をDate型で返す.
+	 * 
+	 * @return 注文年月日
+	 */
+	public Date getDateOrderDate() throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date formatDate = sdf.parse(orderDate);
+		return formatDate;
+	}
+
+	/**
+	 * 支払方法をInteger型で返す.
+	 * 
+	 * @return 支払方法
+	 */
+	public Integer getIntPaymentMethod() {
+		return Integer.parseInt(paymentMethod);
 	}
 
 	public Integer getId() {
@@ -89,35 +116,35 @@ public class Order {
 		this.id = id;
 	}
 
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public Integer getTotalPrice() {
+	public String getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(Integer totalPrice) {
+	public void setTotalPrice(String totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
-	public Date getOrderDate() {
+	public String getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
 	}
 
@@ -169,11 +196,11 @@ public class Order {
 		this.deliveryTime = deliveryTime;
 	}
 
-	public Integer getPaymentMethod() {
+	public String getPaymentMethod() {
 		return paymentMethod;
 	}
 
-	public void setPaymentMethod(Integer paymentMethod) {
+	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
 
@@ -183,14 +210,6 @@ public class Order {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public List<OrderItem> getOrderItemList() {
-		return orderItemList;
-	}
-
-	public void setOrderItemList(List<OrderItem> orderItemList) {
-		this.orderItemList = orderItemList;
 	}
 
 }
