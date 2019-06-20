@@ -19,8 +19,9 @@ public class ItemController {
 	private static final int MAX_COLS=3;
 	
 	@RequestMapping("/showList")
-	public String showList(Model model) {
-		List<Item> itemList = itemService.findAll();
+	public String showList(Model model,String name) {
+		if(name==null) name="";
+		List<Item> itemList = itemService.findByName(name);
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
 		for(int i=0;i<itemList.size();i++) {
@@ -31,13 +32,6 @@ public class ItemController {
 			}
 		}
 		model.addAttribute("listList",listList);
-		return "item_list";
-	}
-	
-	@RequestMapping("/findByName")
-	public String findByName(String name,Model model) {
-		List<Item> itemList = itemService.findByName(name);
-		model.addAttribute("itemList",itemList);
 		return "item_list";
 	}
 }
