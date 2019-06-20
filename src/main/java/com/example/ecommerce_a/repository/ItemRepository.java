@@ -1,5 +1,6 @@
 package com.example.ecommerce_a.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,16 @@ public class ItemRepository {
 				.addValue("offset",offset);
 		List<Item> itemList = template.query(sql,param,ITEM_ROW_MAPPER);
 		return itemList;
+	}
+	
+	public List<String> itemAllName(){
+		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items";
+		List<Item> itemList = template.query(sql,ITEM_ROW_MAPPER);
+		List<String> nameList = new ArrayList<>();
+		for(Item item : itemList) {
+			nameList.add(item.getName());
+		}
+		return nameList;
 	}
 	
 	public Item load(Integer id) {

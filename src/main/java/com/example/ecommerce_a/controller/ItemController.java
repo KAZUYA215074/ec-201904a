@@ -38,6 +38,7 @@ public class ItemController {
 		for(int i = 1;i <(itemService.findAll().size()/ELEMENT_COUNT)+1;i++) {
 			pageList.add(i);
 		}
+		List<String> nameList = itemService.itemAllName();
 		List<Item> itemList = itemService.findByName(name,page);
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
@@ -50,6 +51,7 @@ public class ItemController {
 		}
 		model.addAttribute("listList",listList);
 		model.addAttribute("pageList",pageList);
+		model.addAttribute("nameList",nameList);
 		return "item_list";
 	}
 	
@@ -68,6 +70,7 @@ public class ItemController {
 			pageList.add(i);
 		}
 		List<Item> itemList = itemService.sort(sort,page);
+		List<String> nameList = itemService.itemAllName();
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
 		for(int i=0;i<itemList.size();i++) {
@@ -79,6 +82,7 @@ public class ItemController {
 		}
 		model.addAttribute("listList",listList);
 		model.addAttribute("pageList",pageList);
+		model.addAttribute("nameList",nameList);
 		return "item_list";
 	}
 }

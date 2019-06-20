@@ -27,6 +27,10 @@ public class ItemService {
 		return itemRepository.findByName(name,offset);
 	}
 	
+	public List<String> itemAllName(){
+		return itemRepository.itemAllName();
+	}
+	
 	public Item load(Integer id) {
 		return itemRepository.load(id);
 	}
