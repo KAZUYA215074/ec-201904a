@@ -13,16 +13,14 @@ import com.example.ecommerce_a.domain.Item;
 
 @Repository
 public class ItemRepository {
-	private static final int ELEMENT_COUNT = 9;
-	
 	private static final RowMapper<Item> ITEM_ROW_MAPPER = (rs,i)->{
 		Item item = new Item();
-		item.setId(rs.getInt("id"));
-		item.setName(rs.getString("name"));
+		item.setId(rs.getInt("i_id"));
+		item.setName(rs.getString("i_name"));
 		item.setDescription(rs.getString("description"));
-		item.setImagePath(rs.getString("image_path"));
-		item.setPriceM(rs.getInt("price_m"));
-		item.setPriceL(rs.getInt("price_l"));
+		item.setImagePath(rs.getString("imagePath"));
+		item.setPriceM(rs.getInt("priceM"));
+		item.setPriceL(rs.getInt("priceL"));
 		return item;
 	};
 	
@@ -35,12 +33,9 @@ public class ItemRepository {
 		return itemList;
 	}
 	
-	public List<Item> findByName(String name,Integer offset){
-		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name limit :limit offset :offset";
-		SqlParameterSource param = new MapSqlParameterSource()
-				.addValue("name", "%"+name+"%")
-				.addValue("limit",ELEMENT_COUNT)
-				.addValue("offset",offset);
+	public List<Item> findByName(String name){
+		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%"+name+"%");
 		List<Item> itemList = template.query(sql,param,ITEM_ROW_MAPPER);
 		return itemList;
 	}
@@ -50,20 +45,5 @@ public class ItemRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id",id);
 		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 		return item;
-	}
-	
-	public List<Item> sort(String sort,Integer offset){
-		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items ";
-		if("price_m".equals(sort)) {
-			sql += " order by price_m asc ";
-		}else if("name".equals(sort)) {
-			sql += " order by name asc ";
-		}
-		sql += " limit :limit offset :offset";
-		SqlParameterSource param = new MapSqlParameterSource()
-				.addValue("limit",ELEMENT_COUNT)
-				.addValue("offset",offset);
-		List<Item> itemList = template.query(sql,param,ITEM_ROW_MAPPER);
-		return itemList;
 	}
 }

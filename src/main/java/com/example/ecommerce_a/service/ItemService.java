@@ -19,23 +19,11 @@ public class ItemService {
 		return itemRepository.findAll();
 	}
 	
-	public List<Item> findByName(String name,Integer offset){
-		if(offset == null) {
-			offset = 1;
-		}
-		offset = offset *10 - 9;
-		return itemRepository.findByName(name,offset);
+	public List<Item> findByName(String name){
+		return itemRepository.findByName(name);
 	}
 	
 	public Item load(Integer id) {
 		return itemRepository.load(id);
-	}
-	
-	public List<Item> sort(String sort,Integer offset){
-		if(offset == null) {
-			offset = 1;
-		}
-		offset = offset *10 - 9;
-		return itemRepository.sort(sort,offset);
 	}
 }
