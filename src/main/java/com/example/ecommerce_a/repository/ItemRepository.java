@@ -42,9 +42,9 @@ public class ItemRepository {
 	}
 	
 	public List<Item> sort(String sort){
-		String sql = "\"select id,name,description,price_m,price_l,image_path,deleted from items order by ";
+		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items order by ";
 		if("price_m".equals(sort)) {
-			sql +=  "price_m asc";
+			sql += "price_m asc";
 		}else if("name".equals(sort)) {
 			sql += "name asc";
 		}
