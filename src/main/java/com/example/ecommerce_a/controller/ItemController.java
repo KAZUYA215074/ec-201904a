@@ -1,5 +1,6 @@
 package com.example.ecommerce_a.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,21 @@ import com.example.ecommerce_a.service.ItemService;
 public class ItemController {
 	@Autowired
 	ItemService itemService;
+	private static final int MAX_COLS=3;
 	
 	@RequestMapping("/showList")
 	public String showList(Model model) {
 		List<Item> itemList = itemService.findAll();
-		model.addAttribute("itemList",itemList);
+		List<Item> list = new ArrayList<>();
+		List<List<Item>> listList = new ArrayList<>();
+		for(int i=0;i<itemList.size();i++) {
+			list.add(itemList.get(i));
+			if((i+1)%MAX_COLS==0) {
+				listList.add(list);
+				list = new ArrayList<>();				
+			}
+		}
+		model.addAttribute("listList",listList);
 		return "item_list";
 	}
 	
