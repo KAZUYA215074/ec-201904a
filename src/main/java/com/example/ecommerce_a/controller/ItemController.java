@@ -22,4 +22,11 @@ public class ItemController {
 		model.addAttribute("itemList",itemList);
 		return "item_list";
 	}
+	
+	@RequestMapping("/findByName")
+	public String findByName(String name,Model model) {
+		List<Item> itemList = itemService.findByName(name);
+		model.addAttribute("itemList",itemList);
+		return "item_list";
+	}
 }
