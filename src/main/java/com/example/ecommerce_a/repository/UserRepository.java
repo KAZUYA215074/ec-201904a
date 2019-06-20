@@ -24,13 +24,16 @@ public class UserRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	private static final String All_COLUMN
+	= "id,name, email, password, zipcode, address, telephone";
+	
 	private static final RowMapper<User> USER_ROWMAPPER = (rs, i) -> {
 		User user = new User();
 		user.setId(rs.getInt("id"));
 		user.setName(rs.getString("name"));
-		user.setMailAddress(rs.getString("mailAddress"));
+		user.setMailAddress(rs.getString("email"));
 		user.setPassword(rs.getString("password"));
-		user.setZipCode(rs.getString("zipCode"));
+		user.setZipCode(rs.getString("zipcode"));
 		user.setAddress(rs.getString("address"));
 		user.setTelephone(rs.getString("telephone"));		
 		return user;
@@ -55,7 +58,7 @@ public class UserRepository {
 	 * @return ユーザー情報　存在しない場合はnullを返す
 	 */
 	public User findByMailAddress(String mailAddress) {
-		String sql = "select name, password, zipcode, address, telephone from users where email=:mailAddress";
+		String sql = "select  "+ All_COLUMN +" from users where email=:mailAddress";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
 		List<User> userList = template.query(sql, param, USER_ROWMAPPER);
 		if(userList.size()==0) {

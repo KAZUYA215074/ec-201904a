@@ -64,6 +64,7 @@ public class UserRegistController {
 		//メールアドレスのダブりがないかチェック
 		Boolean hasMailAddress = userService.isCheckByMailAddress(form.getMailAddress());
 		if(hasMailAddress) {
+			System.out.println("error");
 			result.rejectValue("mailAddress", null, "すでに使われているメールアドレスです");
 		}
 		//エラーチェック

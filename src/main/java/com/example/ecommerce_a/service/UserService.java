@@ -23,6 +23,10 @@ public class UserService {
 		userRepository.insert(user);
 	}
 	
+	/**
+	 * @param mailAddress
+	 * @return
+	 */
 	public Boolean isCheckByMailAddress(String mailAddress) {
 		if(userRepository.findByMailAddress(mailAddress)!= null) {
 			return true;
