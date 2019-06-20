@@ -50,7 +50,7 @@ public class OrderItem {
 	 * @return
 	 */
 	public int getSubTotal() {
-		
+		return 0;
 	}
 
 	public Integer getId() {
