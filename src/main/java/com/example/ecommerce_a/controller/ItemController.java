@@ -16,19 +16,7 @@ import com.example.ecommerce_a.service.ItemService;
 public class ItemController {
 	@Autowired
 	ItemService itemService;
-	/**表示する最大の列の数*/
-	private static final int MAX_COLS = 3;
-	/**ページネーションの最大表示数*/
-	private static final int ELEMENT_COUNT = 9;
 	
-	/**
-	 * 全件検索またはあいまい検索.
-	 * 
-	 * @param model モデル
-	 * @param name 入力した名前
-	 * @param page 押されたページ
-	 * @return　商品一覧ページ
-	 */
 	@RequestMapping("/showList")
 	public String showList(Model model,String name,Integer page) {
 		if(name==null) {
@@ -83,6 +71,5 @@ public class ItemController {
 		model.addAttribute("listList",listList);
 		model.addAttribute("pageList",pageList);
 		model.addAttribute("nameList",nameList);
-		return "item_list";
 	}
 }
