@@ -1,45 +1,46 @@
 package com.example.ecommerce_a.domain;
 
-import java.awt.List;
+import java.util.List;
 import java.sql.Timestamp;
 import java.util.Date;
 
 /**
  * 注文するドメインです.
+ * 
  * @author risa.nazato
  *
  */
 public class Order {
-	
-	/**ID*/
+
+	/** ID */
 	private Integer id;
-	/**ユーザID*/
+	/** ユーザID */
 	private Integer userId;
-	/**状態*/
+	/** 状態 */
 	private Integer status;
-	/**合計金額*/
+	/** 合計金額 */
 	private Integer totalPrice;
-	/**注文日*/
+	/** 注文日 */
 	private Date orderDate;
-	/**宛先氏名*/
+	/** 宛先氏名 */
 	private String destinationName;
-	/**宛先Eメール*/
+	/** 宛先Eメール */
 	private String destinationEmail;
-	/**宛先郵便番号*/
+	/** 宛先郵便番号 */
 	private String destinationZipcode;
-	/**宛先住所*/
+	/** 宛先住所 */
 	private String destinationAddress;
-	/**宛先TEL*/
+	/** 宛先TEL */
 	private String destinationTel;
-	/**配達時間*/
+	/** 配達時間 */
 	private Timestamp deliveryTime;
-	/**支払方法*/
+	/** 支払方法 */
 	private Integer paymentMethod;
-	/**ユーザ*/
+	/** ユーザ */
 	private User user;
-	/**商品注文リスト*/
+	/** 商品注文リスト */
 	private List<OrderItem> orderItemList;
-	
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
@@ -48,99 +49,125 @@ public class Order {
 				+ destinationAddress + ", destinationTel=" + destinationTel + ", deliveryTime=" + deliveryTime
 				+ ", paymentMethod=" + paymentMethod + ", orderItemList=" + orderItemList + "]";
 	}
-	
+
 	public int getTax() {
-		return (int)(totalPrice * 0.08);
+		return (int) (totalPrice * 0.08);
 	}
-	
+
 	public int getCalcTotalPrice() {
-		return (int)(totalPrice * 1.08);
+		return (int) (totalPrice * 1.08);
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public Integer getUserId() {
 		return userId;
 	}
+
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
 	public Integer getStatus() {
 		return status;
 	}
+
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
 	public Integer getTotalPrice() {
 		return totalPrice;
 	}
+
 	public void setTotalPrice(Integer totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+
 	public Date getOrderDate() {
 		return orderDate;
 	}
+
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
+
 	public String getDestinationName() {
 		return destinationName;
 	}
+
 	public void setDestinationName(String destinationName) {
 		this.destinationName = destinationName;
 	}
+
 	public String getDestinationEmail() {
 		return destinationEmail;
 	}
+
 	public void setDestinationEmail(String destinationEmail) {
 		this.destinationEmail = destinationEmail;
 	}
+
 	public String getDestinationZipcode() {
 		return destinationZipcode;
 	}
+
 	public void setDestinationZipcode(String destinationZipcode) {
 		this.destinationZipcode = destinationZipcode;
 	}
+
 	public String getDestinationAddress() {
 		return destinationAddress;
 	}
+
 	public void setDestinationAddress(String destinationAddress) {
 		this.destinationAddress = destinationAddress;
 	}
+
 	public String getDestinationTel() {
 		return destinationTel;
 	}
+
 	public void setDestinationTel(String destinationTel) {
 		this.destinationTel = destinationTel;
 	}
+
 	public Timestamp getDeliveryTime() {
 		return deliveryTime;
 	}
+
 	public void setDeliveryTime(Timestamp deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
+
 	public Integer getPaymentMethod() {
 		return paymentMethod;
 	}
+
 	public void setPaymentMethod(Integer paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
+
 	public User getUser() {
 		return user;
 	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public List getOrderItemList() {
+
+	public List<OrderItem> getOrderItemList() {
 		return orderItemList;
 	}
-	public void setOrderItemList(List orderItemList) {
+
+	public void setOrderItemList(List<OrderItem> orderItemList) {
 		this.orderItemList = orderItemList;
 	}
-	
 
 }
