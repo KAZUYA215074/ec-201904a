@@ -23,7 +23,7 @@ public class ItemService {
 	private ItemRepository itemRepository;
 	
 	/**
-	 * ピザを全検検索する
+	 * ピザを全検検索する.
 	 * 
 	 * @return ピザのリスト
 	 */
@@ -54,6 +54,13 @@ public class ItemService {
 		return itemRepository.load(id);
 	}
 	
+	/**
+	 * ピザ一覧をソートする.
+	 * 
+	 * @param sort ソートするカラム名
+	 * @param offset オフセット
+	 * @return 検索されたピザ
+	 */
 	public List<Item> sort(String sort,Integer offset){
 		return itemRepository.sort(sort, offset);
 	}

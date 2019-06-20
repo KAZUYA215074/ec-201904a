@@ -2,6 +2,13 @@ package com.example.ecommerce_a.domain;
 
 import java.util.List;
 
+//XXX:商品のドメイン作成者不明
+/**
+ * 商品のドメイン.
+ * 
+ * @author ?
+ *
+ */
 public class Item {
 	/**ID*/
 	private Integer id;
@@ -20,6 +27,22 @@ public class Item {
 	/**トッピングリスト*/
 	private List<Topping> toppingList;
 	
+	public Item() {
+	}
+	public Item(Integer id, String name, String description, Integer priceM, Integer priceL, String imagePath,
+			boolean deleted, List<Topping> toppingList) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.priceM = priceM;
+		this.priceL = priceL;
+		this.imagePath = imagePath;
+		this.deleted = deleted;
+		this.toppingList = toppingList;
+	}
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -68,4 +91,10 @@ public class Item {
 	public void setToppingList(List<Topping> toppingList) {
 		this.toppingList = toppingList;
 	}
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", priceM=" + priceM + ", priceL="
+				+ priceL + ", imagePath=" + imagePath + ", deleted=" + deleted + ", toppingList=" + toppingList + "]";
+	}
+	
 }

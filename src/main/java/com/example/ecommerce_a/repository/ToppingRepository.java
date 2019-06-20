@@ -9,8 +9,16 @@ import org.springframework.stereotype.Repository;
 
 import com.example.ecommerce_a.domain.Topping;
 
+//XXX:作者不明,Javadoc
+/**
+ * @author ?
+ *
+ */
 @Repository
 public class ToppingRepository {
+	
+	@Autowired
+	private NamedParameterJdbcTemplate template;
 
 	private static final RowMapper<Topping> TOPPING_ROW_MAPPER = (rs, i) -> {
 		Topping topping = new Topping();
@@ -22,8 +30,6 @@ public class ToppingRepository {
 		return topping;
 	};
 
-	@Autowired
-	private NamedParameterJdbcTemplate template;
 
 	public List<Topping> findAll() {
 		String sql = "select id, name, price_m, price_l from toppings";

@@ -43,20 +43,23 @@ public class UserRegistController {
 	}
 	
 	/**
-	 * ユーザー登録画面を出力.
+	 * ユーザー登録画面を出力する.
 	 * 
-	 * @return
+	 * @return ユーザ登録画面
 	 */
 	@RequestMapping("/")
 	public String toRegist(Model model) {
 		return "register_user";
 	}
 	
+	 //XXX:確認用パスワードは必要?
 	/**
-	 * ユーザー情報を登録.
+	 * ユーザー情報を登録する.
 	 * 
-	 * @param ユーザー情報用フォーム
-	 * @param リクエストパラメータ
+	 * @param form ユーザー情報用フォーム
+	 * @param result エラー
+	 * @param model リクエストパラメータ
+	 * @param checkedpassword 確認用パスワード
 	 * @return 商品一覧画面
 	 */
 	@RequestMapping("/regist")
@@ -64,7 +67,6 @@ public class UserRegistController {
 		//メールアドレスのダブりがないかチェック
 		Boolean hasMailAddress = userService.isCheckByMailAddress(form.getMailAddress());
 		if(hasMailAddress) {
-			System.out.println("error");
 			result.rejectValue("mailAddress", null, "すでに使われているメールアドレスです");
 		}
 		//エラーチェック

@@ -7,6 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.repository.UserRepository;
 
+
+//XXX:Javadoc書こう
+/**
+ * @author yuki.maekawa
+ *
+ */
 @Service
 @Transactional
 public class UserService {
@@ -24,8 +30,11 @@ public class UserService {
 	}
 	
 	/**
+	 * メールアドレスからアカウントの有無を調べる.
+	 * 
 	 * @param mailAddress
-	 * @return
+	 * @return アカウントの有無
+	 * 
 	 */
 	public Boolean isCheckByMailAddress(String mailAddress) {
 		if(userRepository.findByMailAddress(mailAddress)!= null) {

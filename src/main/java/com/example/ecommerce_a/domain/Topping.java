@@ -1,5 +1,12 @@
 package com.example.ecommerce_a.domain;
 
+//XXX:トッピングのドメイン作成者不明
+/**
+ * トッピングのドメイン.
+ * 
+ * @author ?
+ *
+ */
 public class Topping {
 	/**ID*/
 	private Integer id;
@@ -10,6 +17,17 @@ public class Topping {
 	/**Lサイズの値段*/
 	private Integer priceL;
 	
+	public Topping() {
+	}
+	public Topping(Integer id, String name, Integer priceM, Integer priceL) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.priceM = priceM;
+		this.priceL = priceL;
+	}
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -34,4 +52,9 @@ public class Topping {
 	public void setPriceL(Integer priceL) {
 		this.priceL = priceL;
 	}
+	@Override
+	public String toString() {
+		return "Topping [id=" + id + ", name=" + name + ", priceM=" + priceM + ", priceL=" + priceL + "]";
+	}
+	
 }
