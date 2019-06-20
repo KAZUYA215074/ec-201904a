@@ -26,13 +26,7 @@ public class ItemRepository {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
-	public List<Item> findAll(){
-		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items";
-		List<Item> itemList = template.query(sql,ITEM_ROW_MAPPER);
-		return itemList;
-	}
-	
+		
 	public List<Item> findByName(String name){
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%"+name+"%");
