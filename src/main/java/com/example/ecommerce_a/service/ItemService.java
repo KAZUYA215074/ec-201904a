@@ -36,24 +36,25 @@ public class ItemService {
 	 * @param name ピザの名前
 	 * @return ピザのリスト
 	 */
-	public List<Item> findByName(String name){
-		return itemRepository.findByName(name);
+	public List<Item> findByName(String name,Integer offset){
+		return itemRepository.findByName(name,offset);
 	}
 	
-<<<<<<< HEAD
 	public List<String> itemAllName(){
 		return itemRepository.itemAllName();
 	}
 	
-=======
 	/**
 	 * ピザの主キー検索.
 	 * 
 	 * @param id ピザのid
 	 * @return ピザ
 	 */
->>>>>>> 171da4b283c507be8ceaa7864d4b9d8a7d1fce52
 	public Item load(Integer id) {
 		return itemRepository.load(id);
+	}
+	
+	public List<Item> sort(String sort,Integer offset){
+		return itemRepository.sort(sort, offset);
 	}
 }
