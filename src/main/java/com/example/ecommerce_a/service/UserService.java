@@ -8,8 +8,10 @@ import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.repository.UserRepository;
 
 
-//XXX:Javadoc書こう
+
 /**
+ * ユーザー登録に関する操作を行う.
+ * 
  * @author yuki.maekawa
  *
  */

@@ -15,8 +15,10 @@ import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.repository.UserRepository;
 
-//XXX:Javadoc書こう
+
 /**
+ * ユーザーのテーブルを操作するサービス.
+ * 
  * @author yuki.maekawa
  *
  */
