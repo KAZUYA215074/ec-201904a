@@ -74,8 +74,8 @@
 						<form method="post" th:action="@{/item/sort}">
 							<select id="sort" name="sort">
 								<option value="null" selected>----</option>
-								<option value="price_m">価格順</option>
-								<option value="name">五十音順</option>
+								<option value="price_m" th:value="@{/item/sort?sort=price_m}">価格順</option>
+								<option value="name" th:value="@{/item/sort?sort=name}">五十音順</option>
 							</select>
 							<input type="submit" value="並び替え" class="btn btn-primary">
 						</form>
