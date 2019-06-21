@@ -24,8 +24,6 @@ public class ItemController {
 	ItemService itemService;
 	/**表示する最大の列の数*/
 	private static final int MAX_COLS = 3;
-	/**ページネーションの最大表示数*/
-	private static final int ELEMENT_COUNT = 9;
 	
 	/**
 	 * 全件検索またはあいまい検索.
@@ -36,16 +34,12 @@ public class ItemController {
 	 * @return　商品一覧ページ
 	 */
 	@RequestMapping("/showList")
-	public String showList(Model model,String name,Integer page) {
+	public String showList(Model model,String name) {
 		if(name==null) {
 			name="";
 		}
-		List<Integer> pageList = new ArrayList<>();
-		for(int i = 1;i <(itemService.findAll().size()/ELEMENT_COUNT)+1;i++) {
-			pageList.add(i);
-		}
 		List<String> nameList = itemService.itemAllName();
-		List<Item> itemList = itemService.findByName(name,page);
+		List<Item> itemList = itemService.findByName(name);
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
 		for(int i=0;i<itemList.size();i++) {
@@ -56,7 +50,6 @@ public class ItemController {
 			}
 		}
 		model.addAttribute("listList",listList);
-		model.addAttribute("pageList",pageList);
 		model.addAttribute("nameList",nameList);
 		return "item_list";
 	}
@@ -70,12 +63,8 @@ public class ItemController {
 	 * @return　商品一覧ページ
 	 */
 	@RequestMapping("/sort")
-	public String sort(Model model, String sort,Integer page) {
-		List<Integer> pageList = new ArrayList<>();
-		for(int i = 1;i <(itemService.findAll().size()/ELEMENT_COUNT)+1;i++) {
-			pageList.add(i);
-		}
-		List<Item> itemList = itemService.sort(sort,page);
+	public String sort(Model model, String sort) {
+		List<Item> itemList = itemService.sort(sort);
 		List<String> nameList = itemService.itemAllName();
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
@@ -87,7 +76,6 @@ public class ItemController {
 			}
 		}
 		model.addAttribute("listList",listList);
-		model.addAttribute("pageList",pageList);
 		model.addAttribute("nameList",nameList);
 		return "item_list";
 	}
