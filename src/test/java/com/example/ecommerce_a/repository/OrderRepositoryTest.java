@@ -1,7 +1,5 @@
 package com.example.ecommerce_a.repository;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,8 +37,8 @@ public class OrderRepositoryTest {
 
 	@Test
 	public void test() {
-		List<Order> orderList = orderRepository.findByJoinedOrder(1);
-		System.out.println(orderList);
+		Order order = new Order();//orderRepository.findByJoinedOrderByUserIdAndStatus(1.1);
+		System.out.println(order);
 	}
 
 }
