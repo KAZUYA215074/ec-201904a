@@ -44,7 +44,6 @@ public class OrderForm {
 	@NotBlank(message = "電話番号を入力してください")
 	private String destinationTel;
 	/** 配達時間 */
-	@NotBlank(message = "配達日時を入力してください")
 	private Timestamp deliveryTime;
 	/** 支払方法 */
 	@NotBlank(message = "支払方法を入力してください")
