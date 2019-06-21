@@ -54,8 +54,7 @@
 							<div class="alert alert-danger" th:if="${errorMessage}">
 							<p th:text="${errorMessage}"></p>
 							</div></div>
-							<label
-									class="control-label" style="color: red" for="inputError">メールアドレス、またはパスワードが間違っています</label>
+							<!-- <label class="control-label" style="color: red" for="inputError">メールアドレス、またはパスワードが間違っています</label> -->
 							<div class="form-group">
 								<label for="inputEmail">メールアドレス:</label>
 								<input type="text" id="inputEmail" class="form-control"
@@ -63,7 +62,7 @@
 							</div>
 							<div class="form-group">
 								<label for="inputPassword">パスワード:</label>
-								<input type="text" id="inputPassword" class="form-control"
+								<input type="password" id="inputPassword" class="form-control"
 									placeholder="Password" name="password">
 							</div>
 							<div class="form-group">
