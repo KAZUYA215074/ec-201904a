@@ -26,6 +26,7 @@ public class OrderItem {
 
 	public OrderItem() {
 	}
+
 	public OrderItem(Integer id, Integer itemId, Integer orderId, Integer quantity, Character size, Item item,
 			List<OrderTopping> orderToppingList) {
 		super();
@@ -38,19 +39,31 @@ public class OrderItem {
 		this.orderToppingList = orderToppingList;
 	}
 
-
 	@Override
 	public String toString() {
 		return "OrderItem [id=" + id + ", itemId=" + itemId + ", orderId=" + orderId + ", quantity=" + quantity
 				+ ", size=" + size + ", item=" + item + ", orderToppingList=" + orderToppingList + "]";
 	}
-	
+
 	/**
+	 * 注文された商品の合計金額を返す.
 	 * 
-	 * @return
+	 * @return 合計金額
 	 */
 	public int getSubTotal() {
-		return 0;
+		int total = 0;
+		if (size == 'L') {
+			for (OrderTopping orderTopping : orderToppingList) {
+				total += orderTopping.getTopping().getPriceL();
+			}
+			total += item.getPriceL();
+		} else if (size == 'M') {
+			for (OrderTopping orderTopping : orderToppingList) {
+				total += orderTopping.getTopping().getPriceM();
+			}
+			total += item.getPriceM();
+		}
+		return total = total * quantity;
 	}
 
 	public Integer getId() {
