@@ -80,7 +80,8 @@ public class OrderService {
 	 * @return 結合されて検索された注文情報
 	 */
 	public Order showShoppingCart(int userId) {
-		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,1);
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,0);
+		System.out.println(orderList);
 		if(orderList.size()!=0) {
 			return orderList.get(0);
 		}else {
@@ -99,9 +100,9 @@ public class OrderService {
 //	}
 
 	/**
-	 * 主キーを使って1件の注文された商品情報を削除する.
+	 * 主キーを使って1件の注文商品情報と注文トッピング情報を削除する.
 	 * 
-	 * @param id ID
+	 * @param id 削除するID
 	 */
 	public void deleteById(Integer id) {
 		orderItemRepository.deleteById(id);
