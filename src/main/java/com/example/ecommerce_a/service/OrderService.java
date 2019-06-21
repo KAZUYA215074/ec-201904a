@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderTopping;

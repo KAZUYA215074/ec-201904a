@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.ecommerce_a.domain.Topping;
 import com.example.ecommerce_a.repository.ToppingRepository;
 
-//XXX:作者不明
 /**
- * @author ?
+ * トッピングを操作するサービス.
+ * 
+ * @author Makoto
  *
  */
 @Service
@@ -20,7 +21,7 @@ public class ToppingService {
 
 	@Autowired
 	private ToppingRepository toppingRepository;
-	
+
 	/**
 	 * 全トッピング情報を検索する.
 	 * 
@@ -28,6 +29,16 @@ public class ToppingService {
 	 */
 	public List<Topping> findAll() {
 		return toppingRepository.findAll();
+	}
+
+	/**
+	 * トッピングの主キー検索.
+	 * @param id トッピングのid
+	 * @return トッピング
+	 */
+	public Topping load(Integer id) {
+		Topping topping = toppingRepository.load(id);
+		return topping;
 	}
 
 }

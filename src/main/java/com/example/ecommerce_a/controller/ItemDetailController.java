@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.domain.OrderItem;
+import com.example.ecommerce_a.domain.OrderTopping;
 import com.example.ecommerce_a.domain.Topping;
 import com.example.ecommerce_a.form.OrderItemForm;
+import com.example.ecommerce_a.repository.ItemRepository;
 import com.example.ecommerce_a.service.ItemService;
 import com.example.ecommerce_a.service.OrderService;
 import com.example.ecommerce_a.service.ToppingService;
@@ -37,6 +40,9 @@ public class ItemDetailController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private ItemRepository itemRepository;
 
 	@Autowired
 	private ToppingService toppingService;
@@ -77,15 +83,41 @@ public class ItemDetailController {
 		return "item_detail";
 	}
 
+	/**
+	 * カートに追加する.
+	 * @param form フォーム
+	 * @return 商品一覧
+	 */
 	@RequestMapping("/addItem")
 	public String addItemToCart(OrderItemForm form) {
 		System.out.println(form);
 		Order order = new Order();
+		OrderItem orderItem = new OrderItem();
+		List<OrderTopping> orderToppingList = new ArrayList<>();
+		
+		for (Integer id: form.getToppingIdList()) {
+			Topping topping = toppingService.load(id);
+			OrderTopping orderTopping = new OrderTopping();
+			orderTopping.setTopping(topping);
+			orderTopping.setToppingId(topping.getId());;
+			orderToppingList.add(orderTopping);
+		}
+		
+		orderItem.setOrderToppingList(orderToppingList);
+		orderItem.setQuantity(form.getQuantity());
+		orderItem.setSize(form.getSize());
+		orderItem.setItem(itemRepository.load(form.getItemId()));
+		orderItem.setItemId(form.getItemId());
+		List<OrderItem> orderItemList = new ArrayList<>();
+		orderItemList.add(orderItem);
+		order.setOrderItemList(orderItemList);
+		
 		order.setUserId(1);
 		order.setStatus(0);
+		order.setTotalPrice(orderItem.getSubTotal());
+		System.out.println(order);
 		
 		orderService.addItemToCart(order);
-		
-		return "item_list";
+		return "redirect:/item/showList";
 	}
 }
