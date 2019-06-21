@@ -9,7 +9,7 @@ var toppingMappingPrice = {
 };
 
 let calcSumPrice = () => {
-    var size = $("input[name=responsibleCompany]:checked").val()
+    var size = $("input[name=size]:checked").val()
     var selectedToppingNum = $("input[class=toppingCheckbox]:checked").length;
     var quantitiy = $(".form-control").val()
     var price = (toppingMappingPrice[size]
@@ -22,7 +22,7 @@ let calcSumPrice = () => {
 $(function () {
     calcSumPrice()
 
-    $("input[name=responsibleCompany]:radio").click(function () {
+    $("input[name=size]:radio").click(function () {
         calcSumPrice()
     })
 

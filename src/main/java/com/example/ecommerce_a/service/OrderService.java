@@ -1,12 +1,15 @@
 package com.example.ecommerce_a.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.Order;
-import com.example.ecommerce_a.domain.Topping;
+import com.example.ecommerce_a.domain.OrderItem;
+import com.example.ecommerce_a.domain.OrderTopping;
 import com.example.ecommerce_a.repository.OrderItemRepository;
 import com.example.ecommerce_a.repository.OrderRepository;
 import com.example.ecommerce_a.repository.OrderToppingRepository;
@@ -20,10 +23,13 @@ import com.example.ecommerce_a.repository.OrderToppingRepository;
 @Service
 @Transactional
 public class OrderService {
+	
 	@Autowired
 	private OrderRepository orderRepository;
+	
 	@Autowired
 	private OrderToppingRepository orderToppingRepository;
+	
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 
@@ -33,8 +39,18 @@ public class OrderService {
 	 * 
 	 * @param order
 	 */
-	public void insert(Order order) {
-
+	public Order addItemToCart(Order order) {
+		
+		order = orderRepository.insert(order);
+		OrderItem orderItem = order.getOrderItemList().get(0);
+		orderItem.setOrderId(order.getId());
+		orderItem = orderItemRepository.insertItem(orderItem);
+		List<OrderTopping> orderToppingList = orderItem.getOrderToppingList();
+		for(OrderTopping orderTopping: orderToppingList) {
+			orderTopping.setOrderItemId(orderItem.getId());
+			orderToppingRepository.insertTopping(orderTopping);
+		}
+		return order;
 	}
 
 	/**
@@ -69,22 +85,13 @@ public class OrderService {
 
 
 	/**
-	 * 注文されたトッピングを追加する.
-	 * 
-	 * @param topping トッピング
-	 */
-	public void insertTopping(Topping topping) {
-		orderToppingRepository.insertTopping(topping);
-	}
-
-	/**
 	 * 注文された商品情報を追加する.
 	 * 
 	 * @param item 商品
 	 */
-	public void insertItem(Item item) {
-		orderItemRepository.insertItem(item);
-	}
+//	public void insertItem(Item item) {
+//		orderItemRepository.insertItem(item);
+//	}
 
 	/**
 	 * 主キーを使って1件の注文された商品情報を削除する.

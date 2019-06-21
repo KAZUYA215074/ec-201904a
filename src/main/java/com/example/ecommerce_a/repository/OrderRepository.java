@@ -3,13 +3,17 @@ package com.example.ecommerce_a.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import com.example.ecommerce_a.domain.Item;
@@ -30,6 +34,16 @@ public class OrderRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
+	
+	/* 追加時に主キー取得 */
+	private SimpleJdbcInsert insert;
+	
+	@PostConstruct
+	public void init() {
+		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert((JdbcTemplate)template.getJdbcOperations());
+		SimpleJdbcInsert withTableName = simpleJdbcInsert.withTableName(TABLE_NAME_ORDER);
+		insert = withTableName.usingGeneratedKeyColumns("id");
+	}
 
 	/** 注文情報のテーブル名前 */
 	private static final String TABLE_NAME_ORDER = "orders";
@@ -132,7 +146,17 @@ public class OrderRepository {
 	 * @return 追加された注文情報
 	 */
 	public Order insert(Order order) {
-		return null;
+//		String sql = "insert into orders(user_id, status, total_price, "
+//				+ "order_date, destination_name, destination_email, destination_zipcode, "
+//				+ "destination_address, destination_tel, delivery_time, payment_method) "
+//				+ "values(:userId, :status. :totalPrice, :orderDate, "
+//				+ ":destinationName, :destinationEmail, :destinationZipcode, :destinationAddress, "
+//				+ ":destinationTel, :deliveryTime, :paymentMethod)";
+		
+		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+		Number key = insert.executeAndReturnKey(param);
+		order.setId(key.intValue());
+		return order;
 	}
 	
 	/**

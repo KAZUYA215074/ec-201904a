@@ -1,8 +1,8 @@
 package com.example.ecommerce_a.domain;
 
-import java.util.List;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 注文するドメインです.
@@ -43,6 +43,7 @@ public class Order {
 
 	public Order() {
 	}
+
 	public Order(Integer id, Integer userId, Integer status, Integer totalPrice, Date orderDate, String destinationName,
 			String destinationEmail, String destinationZipcode, String destinationAddress, String destinationTel,
 			Timestamp deliveryTime, Integer paymentMethod, User user, List<OrderItem> orderItemList) {
@@ -62,7 +63,6 @@ public class Order {
 		this.user = user;
 		this.orderItemList = orderItemList;
 	}
-
 
 	@Override
 	public String toString() {
