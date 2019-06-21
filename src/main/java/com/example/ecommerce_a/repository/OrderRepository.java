@@ -54,17 +54,17 @@ public class OrderRepository {
 	private static final RowMapper<Order> ORDER_ROW_MAPPER = (rs, i) -> {
 		Order order = new Order();
 		order.setId(rs.getInt("id"));
-		order.setUserId(rs.getInt("userId"));
+		order.setUserId(rs.getInt("user_id"));
 		order.setStatus(rs.getInt("status"));
-		order.setTotalPrice(rs.getInt("totalPrice"));
-		order.setOrderDate(rs.getDate("orderDate"));
-		order.setDestinationName(rs.getString("destinationName"));
-		order.setDestinationEmail(rs.getString("destinationEmail"));
-		order.setDestinationZipcode(rs.getString("destinationZipcode"));
-		order.setDestinationAddress(rs.getString("destinationAddress"));
-		order.setDestinationTel(rs.getString("destinationTel"));
-		order.setDeliveryTime(rs.getTimestamp("deliveryTime"));
-		order.setPaymentMethod(rs.getInt("paymentMethod"));
+		order.setTotalPrice(rs.getInt("total_price"));
+		order.setOrderDate(rs.getDate("order_date"));
+		order.setDestinationName(rs.getString("destination_name"));
+		order.setDestinationEmail(rs.getString("destination_email"));
+		order.setDestinationZipcode(rs.getString("destination_zipcode"));
+		order.setDestinationAddress(rs.getString("destination_address"));
+		order.setDestinationTel(rs.getString("destination_tel"));
+		order.setDeliveryTime(rs.getTimestamp("delivery_time"));
+		order.setPaymentMethod(rs.getInt("payment_method"));
 		return order;
 	};
 
@@ -176,13 +176,15 @@ public class OrderRepository {
 	/**
 	 * 注文情報の主キー検索.
 	 * 
-	 * @param OrderId : 注文情報のID
+	 * @param orderId : 注文情報のID
 	 * @return 検索された注文情報
 	 */
-	public Order load(int OrderId) {
-		String sql = "SELECT " + ALL_COLUMN_ORDER + " WHERE id = :id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("orderID", OrderId);
+	public Order load(int orderId) {
+		System.out.println(orderId);
+		String sql = "SELECT " + ALL_COLUMN_ORDER + " FROM "+ TABLE_NAME_ORDER +" WHERE id = :id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", orderId);
 		Order order = template.queryForObject(sql, param, ORDER_ROW_MAPPER);
+		System.out.println(order);
 		return order;
 	}
 
