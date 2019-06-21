@@ -22,6 +22,7 @@ public class CartController {
 	@Autowired
 	private OrderService orderService;
 	
+	//TODO:テスト必要ショッピングカート表示
 	/**
 	 * カートの中身を表示する.
 	 * 
@@ -34,15 +35,20 @@ public class CartController {
 		User user = new User();
 		user.setId(1);
 		Order order = orderService.showShoppingCart(user.getId());
-		System.out.println(order);
 		model.addAttribute("order", order);
 		return "cart_list";
 	}
 	
-	//TODO:未実装ショッピンカート削除Cont
+	//TODO:テスト必要ショッピングカート削除
+	/**
+	 * 商品を削除する.
+	 * 
+	 * @param id 削除するのID
+	 * @returna ショッピングカートリスト表示
+	 */
 	@RequestMapping("/delete")
-	public String delete(Integer id) {
-		
+	public String deleteItem(Integer id) {
+		orderService.deleteById(id);
 		return "redirect:/cart/showCart";
 	}
 }

@@ -31,15 +31,18 @@ public class OrderItemRepository {
 		template.update(sql, param);
 	}
 
+	
 	/**
-	 * 主キーを使って1件の注文された商品情報を削除する.
+	 * 注文商品のIDを指定して注文商品と注文トッピングを削除する.
 	 * 
-	 * @param id ID
+	 * @param id 削除するID
 	 */
 	public void deleteById(Integer id) {
-		String sql = "DELETE FROM order_item WHERE id = :id";
+		StringBuffer sql = new StringBuffer();
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-		template.update(sql, param);
+		sql.append(" WITH deleted AS (DELETE FROM order_items WHERE id=:id RETURNING id)");
+		sql.append(" DELETE FROM order_toppings WHERE order_item_id IN (SELECT id FROM deleted)");
+		template.update(sql.toString(), param);
 
 	}
 }
