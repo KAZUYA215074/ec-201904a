@@ -1,5 +1,7 @@
 package com.example.ecommerce_a.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,15 +58,20 @@ public class OrderService {
 		return orderRepository.load(OrderId);
 	}
 
-	//TODO:注文情報を結合して検索未実装
+
 	/**
 	 * 注文情報を結合して検索.
 	 * 
-	 * @param OrderId : 注文情報のID
+	 * @param userId : ログイン中ユーザーのID
 	 * @return 結合されて検索された注文情報
 	 */
-	public Order findByJoinedOrder(int OrderId) {
-		return null;
+	public Order showShoppingCart(int userId) {
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,1);
+		if(orderList.size()!=0) {
+			return orderList.get(0);
+		}else {
+			return null;
+		}
 	}
 
 
