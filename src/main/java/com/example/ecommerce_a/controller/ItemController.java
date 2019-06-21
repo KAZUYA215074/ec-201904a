@@ -50,11 +50,11 @@ public class ItemController {
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
 		for(int i=0;i<itemList.size();i++) {
-			list.add(itemList.get(i));
-			if((i+1)%MAX_COLS==0) {
+			if( i%MAX_COLS==0 ) {
+				list = new ArrayList<>();
 				listList.add(list);
-				list = new ArrayList<>();				
 			}
+			list.add(itemList.get(i));
 		}
 		model.addAttribute("listList",listList);
 		model.addAttribute("nameList",nameList);
