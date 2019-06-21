@@ -92,11 +92,11 @@
 					<tbody class="pizzas">
 						<tr th:each="list:${listList}" class="pizza">
 							<th th:each="item:${list}">
-								<a href="item_detail.html" th:href="@{'/item/showDetail?id='+${item.id}}">
+								<a href="item_detail.html" th:href="@{'/item/detail?id='+${item.id}}">
 									<img src="img/1.jpg" th:src="@{/img/}+${item.imagePath}"
 										class="img-responsive img-rounded" width="200" height="600">
 								</a><br>
-								<a href="item_detail.html" th:href="@{'/item/showDetail?id='+${item.id}}" th:text="${item.name}">じゃがバターベーコン</a><br>
+								<a href="item_detail.html" th:href="@{'/item/detail?id='+${item.id}}" th:text="${item.name}">じゃがバターベーコン</a><br>
 								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${item.priceM}">1,380</span>円(税抜)<br>
 								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${item.priceM}">2,380</span>円(税抜)<br>
 							</th>
