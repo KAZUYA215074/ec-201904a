@@ -37,24 +37,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//		        .antMatchers("/toLogin/", "/regist/", "/regist/regist", "/item/showList").permitAll()
-//		        .anyRequest().authenticated();
-//        
-//        http.formLogin()
-//        		.loginPage("/toLogin/")
-//        		.loginProcessingUrl("/login")
-//        		.failureUrl("/?error=true")
-//        		.defaultSuccessUrl("/item/showList", true)
-//        		.usernameParameter("mailAddress")
-//        		.passwordParameter("password");
-//        
-//        http.logout()
-//        		.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-//        		.logoutSuccessUrl("/item/showList")
-//        		.deleteCookies("JSESSIONID")
-//        		.invalidateHttpSession(true);
-		http.formLogin().disable();
+        http.authorizeRequests()
+		        .antMatchers("/toLogin/", "/regist/", "/regist/regist", "/item/showList").permitAll()
+		        .anyRequest().authenticated();
+        
+        http.formLogin()
+        		.loginPage("/toLogin/")
+        		.loginProcessingUrl("/login")
+        		.failureUrl("/?error=true")
+        		.defaultSuccessUrl("/item/showList", true)
+        		.usernameParameter("mailAddress")
+        		.passwordParameter("password");
+        
+        http.logout()
+        		.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
+        		.logoutSuccessUrl("/item/showList")
+        		.deleteCookies("JSESSIONID")
+        		.invalidateHttpSession(true);
+//		http.formLogin().disable();
 
 	}
 
