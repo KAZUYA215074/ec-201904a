@@ -4,8 +4,9 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 
-//XXX:javadoc書きましょう
 /**
+ * ログインユーザーを表すドメイン.
+ * 
  * @author yuki.maekawa
  *
  */

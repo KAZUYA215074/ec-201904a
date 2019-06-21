@@ -52,7 +52,6 @@ public class UserRegistController {
 		return "register_user";
 	}
 	
-	 //XXX:確認用パスワードは必要?
 	/**
 	 * ユーザー情報を登録する.
 	 * 
@@ -63,7 +62,7 @@ public class UserRegistController {
 	 * @return 商品一覧画面
 	 */
 	@RequestMapping("/regist")
-	public String regist(@Validated InsertUserForm form, BindingResult result, Model model, String checkedpassword) {
+	public String regist(@Validated InsertUserForm form, BindingResult result, Model model) {
 		//メールアドレスのダブりがないかチェック
 		Boolean hasMailAddress = userService.isCheckByMailAddress(form.getMailAddress());
 		if(hasMailAddress) {
@@ -76,7 +75,7 @@ public class UserRegistController {
 		User user = new User();
 		BeanUtils.copyProperties(form, user);
 		//確認用パスワードチェック
-		if(!user.getPassword().equals(checkedpassword)) {
+		if(!user.getPassword().equals(form.getCheckedpassword())) {
 			result.reject("password", null, "パスワードが一致しません");
 			return toRegist(model);
 		}
