@@ -11,6 +11,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script>
 	$(function() {
 	  // ［検索］ボタンクリックで検索開始
@@ -120,7 +121,7 @@
 		</div>
 
 		<!-- table -->
-		<form method="post" th:action="@{/order/orderlist}" th:object="${orderForm}">
+		<form method="post" th:action="@{/order/ordercomp}" th:object="${orderForm}">
 			<div class="row">
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
@@ -132,7 +133,7 @@
 							      名前
 							    </th>
 							    <td>
-									<label th:if="${#fields.hasErrors('destinationName')}" th:errors="*{destinationName}" class="error-messages">
+									<label th:if="${#fields.hasErrors('destinationName')}" th:errors="*{destinationName}" style="color: red" class="error-messages">
 										名前を入力してください
 									</label>
 									<input type="text" name="name" id="destinationName" class="form-control" placeholder="名前を入力してください"
@@ -144,7 +145,7 @@
 							      メールアドレス
 							    </th>
 							    <td>
-									<label th:if="${#fields.hasErrors('destinationEmail')}" th:errors="*{destinationEmail}" class="error-messages">
+									<label th:if="${#fields.hasErrors('destinationEmail')}" th:errors="*{destinationEmail}"  style="color: red" class="error-messages">
 										メールアドレスを入力してください
 									</label>
 									<input type="text" name="mailAddress" id="destinationEmail" class="form-control" placeholder="yamada@mail.com">
@@ -155,14 +156,14 @@
 							      郵便番号
 							    </th>
 							    <td>
-									<label th:if="${#fields.hasErrors('destinationZipcode')}" th:errors="*{destinationZipcode}" class="error-messages">
+									<label th:if="${#fields.hasErrors('destinationZipcode')}" th:errors="*{destinationZipcode}" style="color: red" class="error-messages">
 										郵便番号を入力してください
 									</label>
 									<div class="input-group">
-										<input type="text" name="zipCode" id="destinationZipcode" class="form-control" placeholder="111-1111" size="7">
-										<span class="input-group-btn">
-										    <button id="search" type="button" class="btn btn-primary">住所検索</button>
-										</span>
+										<script src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
+								<input type="text" id="destinationZipcode" class="form-control"
+									placeholder="郵便番号" name="destinationZipcode" th:field="*{destinationZipcode}"
+									onKeyUp="AjaxZip3.zip2addr(this,'','address','address');">
 									</div>
 							    </td>
 							  </tr>
@@ -171,7 +172,7 @@
 							      住所
 							    </th>
 							    <td>
-							    <label th:if="${#fields.hasErrors('destinationAddress')}" th:errors="*{destinationAddress}" class="error-messages">
+							    <label th:if="${#fields.hasErrors('destinationAddress')}" th:errors="*{destinationAddress}"  style="color: red" class="error-messages">
 										住所を入力してください
 									</label>
 									<input type="text" name="address" id="destinationAddress" class="form-control" placeholder="東京都新宿区新宿１−１−１">
@@ -182,7 +183,7 @@
 							      電話番号
 							    </th>
 							    <td>
-									<label th:if="${#fields.hasErrors('destinationTel')}" th:errors="*{destinationTel}" class="error-messages">
+									<label th:if="${#fields.hasErrors('destinationTel')}" th:errors="*{destinationTel}" style="color: red" class="error-messages">
 										電話番号を入力してください
 									</label>
 									<input type="text" name="telephone" id="destinationTel" class="form-control" placeholder="000-0000-0000"
