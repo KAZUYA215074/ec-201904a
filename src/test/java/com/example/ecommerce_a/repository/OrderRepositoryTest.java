@@ -37,7 +37,7 @@ public class OrderRepositoryTest {
 
 	@Test
 	public void test() {
-		Order order = orderRepository.findByJoinedOrderByUserIdAndStatus(1);
+		Order order = new Order();//orderRepository.findByJoinedOrderByUserIdAndStatus(1.1);
 		System.out.println(order);
 	}
 
