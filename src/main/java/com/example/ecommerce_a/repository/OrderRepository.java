@@ -166,9 +166,9 @@ public class OrderRepository {
 	 * 注文情報を結合して検索.
 	 * 
 	 * @param orderId : 注文情報のID
-	 * @return 結合されて検索された注文情報
+	 * @return 結合されて検索された注文情報 or null
 	 */
-	public List<Order> findByJoinedOrder(int orderId) {
+	public List<Order> findByJoinedOrderByUserIdAndStatus(int orderId,int status) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
 		sql.append(" FROM ");		sql.append(TABLE_NAME_ORDER);			sql.append(" AS o ");
@@ -180,9 +180,10 @@ public class OrderRepository {
 		sql.append(" ON oi.item_id = i.id ");
 		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_TOPPING);			sql.append(" AS t ");
 		sql.append(" ON ot.topping_id = t.id ");
-		sql.append(" WHERE o.id=:orderId ORDER BY o.id" );
+		sql.append(" WHERE o.id=:orderId AND o.status=:status ORDER BY o.id" );
 		
-		SqlParameterSource param =  new MapSqlParameterSource().addValue("orderId", orderId);
+		SqlParameterSource param =  new MapSqlParameterSource().addValue("orderId", orderId).addValue("status", status);
+		
 		return template.query(sql.toString(), param,ORDER_RESULT_SET);
 	}
 
