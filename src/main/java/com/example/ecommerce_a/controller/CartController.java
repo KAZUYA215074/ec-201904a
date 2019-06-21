@@ -44,7 +44,7 @@ public class CartController {
 	 * 商品を削除する.
 	 * 
 	 * @param id 削除するのID
-	 * @returna ショッピングカートリスト表示
+	 * @return ショッピングカートリスト表示
 	 */
 	@RequestMapping("/delete")
 	public String deleteItem(Integer id) {
