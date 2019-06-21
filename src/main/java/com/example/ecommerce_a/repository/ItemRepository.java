@@ -39,9 +39,6 @@ public class ItemRepository {
 		return item;
 	};
 	
-	/** 1ページに表示する最大商品数 */
-	private static final int ELEMENT_COUNT = 9;
-
 	/**
 	 * ピザを全検検索する.
 	 * 
@@ -62,10 +59,9 @@ public class ItemRepository {
 	 * 
 	 * @return 任意の件数の商品一覧
 	 */
-	public List<Item> findByName(String name, Integer offset) {
-		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name limit :limit offset :offset";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%")
-				.addValue("limit", ELEMENT_COUNT).addValue("offset", offset);
+	public List<Item> findByName(String name) {
+		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where name like :name";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
 	}
@@ -104,17 +100,14 @@ public class ItemRepository {
 	 * @param offset ページネーション
 	 * @return 商品一覧
 	 */
-	public List<Item> sort(String sort, Integer offset) {
+	public List<Item> sort(String sort) {
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items ";
 		if ("price_m".equals(sort)) {
 			sql += " order by price_m asc ";
 		} else if ("name".equals(sort)) {
 			sql += " order by name asc ";
 		}
-		sql += " limit :limit offset :offset";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("limit", ELEMENT_COUNT).addValue("offset",
-				offset);
-		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
 	}
 }

@@ -73,9 +73,9 @@
 						</form>
 						<form method="post" th:action="@{/item/sort}">
 							<select id="sort" name="sort">
-								<option value="null" selected>----</option>
-								<option value="price_m" th:value="@{/item/sort?sort=price_m}">価格順</option>
-								<option value="name" th:value="@{/item/sort?sort=name}">五十音順</option>
+								<option value="null">----</option>
+								<option value="price_m">価格順</option>
+								<option value="name">五十音順</option>
 							</select>
 							<input type="submit" value="並び替え" class="btn btn-primary">
 						</form>
@@ -89,8 +89,8 @@
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<table class="table table-striped">
-					<tbody>
-						<tr th:each="list:${listList}">
+					<tbody class="pizzas">
+						<tr th:each="list:${listList}" class="pizza">
 							<th th:each="item:${list}">
 								<a href="item_detail.html" th:href="@{'/item/showDetail?id='+${item.id}}">
 									<img src="img/1.jpg" th:src="@{/img/}+${item.imagePath}"
@@ -103,9 +103,9 @@
 						</tr>
 					</tbody>
 				</table>
-				<span th:each="page:${pageList}">
+				<!--<span th:each="page:${pageList}">
 					<a th:href="@{'/item/showList?page='+${page}}"><button th:text="${page}" th:value="${page}"></button></a>
-				</span>
+				</span>-->
 			</div>
 		</div>
 	</div>
@@ -113,5 +113,7 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script th:src="@{/js/jquery.pagination.js}"></script>
+	<script th:src="@{/js/pagenation.js}"></script>
 </body>
 </html>

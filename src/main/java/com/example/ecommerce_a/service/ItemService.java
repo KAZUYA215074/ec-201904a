@@ -37,12 +37,8 @@ public class ItemService {
 	 * @param offset　データの開始位置
 	 * @return　商品リスト
 	 */
-	public List<Item> findByName(String name,Integer offset){
-		if(offset == null) {
-			offset = 1;
-		}
-		offset = offset *10 - 9;
-		return itemRepository.findByName(name,offset);
+	public List<Item> findByName(String name){
+		return itemRepository.findByName(name);
 	}
 	
 	/**
@@ -71,11 +67,7 @@ public class ItemService {
 	 * @param offset　データの開始位置
 	 * @return　ソートされた商品一覧
 	 */
-	public List<Item> sort(String sort,Integer offset){
-		if(offset == null) {
-			offset = 1;
-		}
-		offset = offset *10 - 9;
-		return itemRepository.sort(sort,offset);
+	public List<Item> sort(String sort){
+		return itemRepository.sort(sort);
 	}
 }
