@@ -59,12 +59,12 @@ public class ItemController {
 		List<Item> itemList = itemService.findByName(name);
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
-		for (int i = 0; i < itemList.size(); i++) {
-			list.add(itemList.get(i));
-			if ((i + 1) % MAX_COLS == 0) {
-				listList.add(list);
+		for(int i=0;i<itemList.size();i++) {
+			if( i%MAX_COLS==0 ) {
 				list = new ArrayList<>();
+				listList.add(list);
 			}
+			list.add(itemList.get(i));
 		}
 		model.addAttribute("listList", listList);
 		model.addAttribute("nameList", nameList);
