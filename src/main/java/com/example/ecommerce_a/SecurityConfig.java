@@ -10,11 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * SpringSecurityの設定を行う.
  * 
- * @author yuki
+ * @author yuki.maekawa
  *
  */
 @EnableWebSecurity
@@ -37,7 +38,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests()
-//		        .antMatchers("/").permitAll();
+//		        .antMatchers("/toLogin/", "/regist/", "/regist/regist", "/item/showList").permitAll()
+//		        .anyRequest().authenticated();
+//        
+//        http.formLogin()
+//        		.loginPage("/toLogin/")
+//        		.loginProcessingUrl("/login")
+//        		.failureUrl("/?error=true")
+//        		.defaultSuccessUrl("/item/showList", true)
+//        		.usernameParameter("mailAddress")
+//        		.passwordParameter("password");
+//        
+//        http.logout()
+//        		.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
+//        		.logoutSuccessUrl("/item/showList")
+//        		.deleteCookies("JSESSIONID")
+//        		.invalidateHttpSession(true);
 		http.formLogin().disable();
 
 	}
