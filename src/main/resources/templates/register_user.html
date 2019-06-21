@@ -63,9 +63,10 @@
 							<div class="form-group">
 								<label for="inputZipcode">郵便番号:</label>
 								<span th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" style="color:red"></span>
-									<input id="searchAddress" type="button" value="住所検索">
+								<script src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
 								<input type="text" id="inputZipcode" class="form-control"
-									placeholder="Zipcode" name="zipCode" th:field="*{zipCode}">
+									placeholder="Zipcode" name="zipCode" th:field="*{zipCode}"
+									onKeyUp="AjaxZip3.zip2addr(this,'','address','address');">
 								
 							</div>
 							<div class="form-group">
