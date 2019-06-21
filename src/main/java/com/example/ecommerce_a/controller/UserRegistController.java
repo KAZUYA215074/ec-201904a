@@ -85,7 +85,7 @@ public class UserRegistController {
 		
 		userService.insert(user);
 		
-		return "redirect:/item/showList";
+		return "redirect:/toLogin/";
 	}
 	
 
