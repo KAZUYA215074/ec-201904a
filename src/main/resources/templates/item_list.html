@@ -71,8 +71,8 @@
 								<button type="reset" value="クリア" class="btn btn-default">クリア</button><br>
 							</div>
 						</form>
-						<form method="post" th:action="@{/item/sort}">
-							<select id="sort" name="sort">
+						<form method="post" th:action="@{/item/sort}" th:object=${sortForm}>
+							<select id="sort" name="sortName" th:field="*{sortName}">
 								<option value="null">----</option>
 								<option value="price_m">価格順</option>
 								<option value="name">五十音順</option>
