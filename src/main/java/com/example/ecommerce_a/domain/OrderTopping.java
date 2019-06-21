@@ -7,31 +7,31 @@ package com.example.ecommerce_a.domain;
  *
  */
 public class OrderTopping {
-	
-	/**ID*/
+
+	/** ID */
 	private Integer id;
-	/**トッピングID*/
+	/** トッピングID */
 	private Integer toppingId;
-	/**注文ID*/
-	private Integer orderId;
-	/**トッピング*/
+	/** 注文ID */
+	private Integer orderItemId;
+	/** トッピング */
 	private Topping topping;
 
 	public OrderTopping() {
 	}
+
 	public OrderTopping(Integer id, Integer toppingId, Integer orderId, Topping topping) {
 		super();
 		this.id = id;
 		this.toppingId = toppingId;
-		this.orderId = orderId;
+		this.orderItemId = orderId;
 		this.topping = topping;
 	}
 
-
 	@Override
 	public String toString() {
-		return "OrderTopping [id=" + id + ", toppingId=" + toppingId + ", orderId=" + orderId + ", topping=" + topping
-				+ "]";
+		return "OrderTopping [id=" + id + ", toppingId=" + toppingId + ", orderId=" + orderItemId + ", topping="
+				+ topping + "]";
 	}
 
 	public Integer getId() {
@@ -50,12 +50,12 @@ public class OrderTopping {
 		this.toppingId = toppingId;
 	}
 
-	public Integer getOrderId() {
-		return orderId;
+	public Integer getOrderItemId() {
+		return orderItemId;
 	}
 
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
+	public void setOrderItemId(Integer orderItemId) {
+		this.orderItemId = orderItemId;
 	}
 
 	public Topping getTopping() {

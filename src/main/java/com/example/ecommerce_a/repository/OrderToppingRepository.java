@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import com.example.ecommerce_a.domain.Topping;
+import com.example.ecommerce_a.domain.OrderTopping;
 
 /**
  * order_toppingテーブルを操作するリポジトリ.
@@ -16,6 +16,7 @@ import com.example.ecommerce_a.domain.Topping;
  */
 @Repository
 public class OrderToppingRepository {
+	
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
@@ -24,9 +25,9 @@ public class OrderToppingRepository {
 	 * 
 	 * @param topping トッピング
 	 */
-	public void insertTopping(Topping topping) {
-		SqlParameterSource param = new BeanPropertySqlParameterSource(topping);
-		String sql = "INSERT INTO order_toppings(id,topping_id,order_id)values(:id,:toppingId,:orderId);";
+	public void insertTopping(OrderTopping orderTopping) {
+		String sql = "INSERT INTO order_toppings(topping_id, order_item_id) values(:toppingId,:orderItemId);";
+		SqlParameterSource param = new BeanPropertySqlParameterSource(orderTopping);
 		template.update(sql, param);
 	}
 }
