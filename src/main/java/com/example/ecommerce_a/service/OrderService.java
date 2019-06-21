@@ -39,8 +39,14 @@ public class OrderService {
 	 * @param order
 	 */
 	public Order addItemToCart(Order order) {
-		
-		order = orderRepository.insert(order);
+		// 注文に追加する
+		Order serchOrder = orderRepository.findByUserIdAndStatus(order.getUserId(), order.getStatus());
+		if(serchOrder == null) {
+			order = orderRepository.insert(order);
+		}else {
+			order.setId(serchOrder.getId());
+		}
+		// 
 		OrderItem orderItem = order.getOrderItemList().get(0);
 		orderItem.setOrderId(order.getId());
 		orderItem = orderItemRepository.insertItem(orderItem);

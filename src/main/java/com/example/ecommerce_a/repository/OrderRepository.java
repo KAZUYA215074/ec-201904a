@@ -212,5 +212,27 @@ public class OrderRepository {
 		
 		return template.query(sql.toString(), param,ORDER_RESULT_SET);
 	}
+	
+	
+	
+	/**
+	 * 注文状態をユーザーIDと注文状態を検索する.
+	 * 
+	 * @param userId ユーザーID
+	 * @param status 注文状態
+	 * @return 注文情報
+	 */
+	public Order findByUserIdAndStatus(int userId,int status) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT ");	sql.append(ALL_COLUMN_ORDER); sql.append(" FROM ");
+		sql.append(TABLE_NAME_ORDER);	sql.append(" WHERE user_id=:userId AND status=:status");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("user_id", userId).addValue("status", status);
+		List<Order> orderList = template.query(sql.toString(), param, ORDER_ROW_MAPPER);
+		if(orderList.size()!=0) {
+			return orderList.get(0);
+		}else {
+			return null;
+		}
+	}
 
 }
