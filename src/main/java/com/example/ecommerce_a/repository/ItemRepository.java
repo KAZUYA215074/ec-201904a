@@ -38,9 +38,7 @@ public class ItemRepository {
 		item.setDeleted(rs.getBoolean("deleted"));
 		return item;
 	};
-
-	/** 表示する最大の列数 */
-	private static final int MAX_COLS = 3;
+	
 	/** 1ページに表示する最大商品数 */
 	private static final int ELEMENT_COUNT = 9;
 

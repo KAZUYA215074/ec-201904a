@@ -10,58 +10,72 @@ import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.repository.ItemRepository;
 
 /**
- * アイテムを操作するサービス.
+ * Itemを操作するサービスクラス.
  * 
- * @author Makoto
+ * @author sho.ikehara
  *
  */
 @Service
 @Transactional
 public class ItemService {
-	
 	@Autowired
 	private ItemRepository itemRepository;
 	
 	/**
-	 * ピザを全検検索する.
+	 * 全件検索.
 	 * 
-	 * @return ピザのリスト
+	 * @return　商品リスト
 	 */
 	public List<Item> findAll(){
 		return itemRepository.findAll();
 	}
 	
 	/**
-	 * ピザをあいまい検索する.
-	 * @param name ピザの名前
-	 * @return ピザのリスト
+	 * あいまい検索.
+	 * 
+	 * @param name 入力された文字列
+	 * @param offset　データの開始位置
+	 * @return　商品リスト
 	 */
 	public List<Item> findByName(String name,Integer offset){
+		if(offset == null) {
+			offset = 1;
+		}
+		offset = offset *10 - 9;
 		return itemRepository.findByName(name,offset);
 	}
 	
+	/**
+	 * 商品の名前一覧.
+	 * 
+	 * @return 商品の名前一覧
+	 */
 	public List<String> itemAllName(){
 		return itemRepository.itemAllName();
 	}
 	
 	/**
-	 * ピザの主キー検索.
+	 * id検索を行う.
 	 * 
-	 * @param id ピザのid
-	 * @return ピザ
+	 * @param id　商品ID
+	 * @return　商品詳細
 	 */
 	public Item load(Integer id) {
 		return itemRepository.load(id);
 	}
 	
 	/**
-	 * ピザ一覧をソートする.
+	 * 任意の順にソートを行う
 	 * 
-	 * @param sort ソートするカラム名
-	 * @param offset オフセット
-	 * @return 検索されたピザ
+	 * @param sort　ソートするテーブルのカラム名
+	 * @param offset　データの開始位置
+	 * @return　ソートされた商品一覧
 	 */
 	public List<Item> sort(String sort,Integer offset){
-		return itemRepository.sort(sort, offset);
+		if(offset == null) {
+			offset = 1;
+		}
+		offset = offset *10 - 9;
+		return itemRepository.sort(sort,offset);
 	}
 }
