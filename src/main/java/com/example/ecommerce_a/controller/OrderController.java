@@ -65,6 +65,7 @@ public class OrderController {
 	@RequestMapping("/ordercomp")
 	public String order(@Validated OrderForm form, BindingResult result,Model model) {
 		if(result.hasErrors()) {
+			System.out.println("error");
 			return toOrder(model);
 		}
 	
