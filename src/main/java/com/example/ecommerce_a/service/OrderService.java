@@ -33,7 +33,6 @@ public class OrderService {
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 
-	//TODO:注文情報の挿入未実装
 	/**
 	 * 注文情報を挿入
 	 * 
@@ -88,7 +87,7 @@ public class OrderService {
 	 * @return 結合されて検索された注文情報
 	 */
 	public Order showShoppingCart(int userId) {
-		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,0);
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,Order.Status.BEFORE_ORDER.getCode());
 		if(orderList.size()!=0) {
 			Order order = orderList.get(0);
 			return order;

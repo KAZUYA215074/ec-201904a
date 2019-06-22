@@ -147,7 +147,7 @@ public class ItemDetailController {
 		
 		order.setOrderItemList(orderItemList);
 		orderItemList.add(orderItem);
-		order.setStatus(0);		// 発注前
+		order.setStatus(Order.Status.BEFORE_ORDER.getCode());
 		int totalPrice = 0;
 		for(OrderItem localOrderItem:orderItemList) {
 			totalPrice += localOrderItem.getSubTotal();

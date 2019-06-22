@@ -64,6 +64,58 @@ public class Order {
 		this.orderItemList = orderItemList;
 	}
 
+	/** 注文状況のEnum */
+	public enum Status{
+		BEFORE_ORDER(0,"未発注"),
+		NOT_PAYMENT(1,"未入金"),
+		DONE_PAYMENT(2,"入金済"),
+		DONE_DELIVELY(3,"発送済"),
+		CANCEL(9,"キャンセル"),
+		;
+		
+		/** コード */
+		private final int code;
+		/** テキスト */
+		private final String text;
+		
+		private Status(final int code,final String text) {
+			this.code = code;
+			this.text = text;
+		}
+		
+		public int getCode() {
+			return code;
+		}
+		
+		public String getText() {
+			return text;
+		}
+	}
+	
+	/** 支払方法のEnum */
+	public enum PaymentMethod {
+		CASH_ON_DELIVERY(1,"代金引換"),
+		CREDIT(2,"クレジット"),
+		;
+		/** コード */
+		private final int code;
+		/** テキスト */
+		private final String text;
+		
+		private PaymentMethod(final int code,final String text) {
+			this.code = code;
+			this.text = text;
+		}
+		
+		public int getCode() {
+			return code;
+		}
+		
+		public String getText() {
+			return text;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
