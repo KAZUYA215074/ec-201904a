@@ -6,16 +6,19 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Item;
+import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderTopping;
 import com.example.ecommerce_a.domain.Topping;
+import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderItemForm;
 import com.example.ecommerce_a.repository.ItemRepository;
 import com.example.ecommerce_a.service.ItemService;
@@ -89,37 +92,71 @@ public class ItemDetailController {
 	 * @return 商品一覧
 	 */
 	@RequestMapping("/addItem")
-	public String addItemToCart(OrderItemForm form) {
-		System.out.println(form);
-		Order order = new Order();
-		OrderItem orderItem = new OrderItem();
-		List<OrderTopping> orderToppingList = null;
-		if(form.getToppingIdList().length!=0) {			
-			orderToppingList = new ArrayList<>();
+	public String addItemToCart(
+			OrderItemForm form,
+			@AuthenticationPrincipal LoginUser loginUser
+			) {
+		
+		User user = null;
+		try {
+			user = loginUser.getUser();
+		} catch (NullPointerException e) {
+			user = null;
+		}
+		
+		// 注文トッピングリスト
+		List<OrderTopping> orderToppingList = new ArrayList<>();
+		if(form.getToppingIdList()!=null) {
 			for (Integer id: form.getToppingIdList()) {
-				Topping topping = toppingService.load(id);
 				OrderTopping orderTopping = new OrderTopping();
+				Topping topping = toppingService.load(id);
 				orderTopping.setTopping(topping);
 				orderTopping.setToppingId(topping.getId());;
 				orderToppingList.add(orderTopping);
 			}
 		}
 		
+		// 注文商品
+		OrderItem orderItem = new OrderItem();
 		orderItem.setOrderToppingList(orderToppingList);
 		orderItem.setQuantity(form.getQuantity());
 		orderItem.setSize(form.getSize());
 		orderItem.setItem(itemRepository.load(form.getItemId()));
 		orderItem.setItemId(form.getItemId());
-		List<OrderItem> orderItemList = new ArrayList<>();
-		orderItemList.add(orderItem);
+		
+		// 注文
+		Order order = null;
+		List<OrderItem> orderItemList = null;
+		
+		if(user!=null) {
+			order = new Order();
+			order.setUserId(user.getId());
+			orderItemList = new ArrayList<>();
+		}else {
+			order = (Order) session.getAttribute("order");
+			
+			if(order==null) {
+				order = new Order();
+				session.setAttribute("order", order);
+				orderItemList = new  ArrayList<>();
+			}else {
+				orderItemList = order.getOrderItemList();
+			}
+			
+		}
+		
 		order.setOrderItemList(orderItemList);
+		orderItemList.add(orderItem);
+		order.setStatus(0);		// 発注前
+		int totalPrice = 0;
+		for(OrderItem localOrderItem:orderItemList) {
+			totalPrice += localOrderItem.getSubTotal();
+		}
+		order.setTotalPrice(totalPrice);
 		
-		order.setUserId(1);
-		order.setStatus(0);
-		order.setTotalPrice(orderItem.getSubTotal());
-		System.out.println(order);
-		
-		orderService.addItemToCart(order);
+		if(user!=null) {
+			orderService.addItemToCart(order);
+		}
 		return "redirect:/item/showList";
 	}
 }
