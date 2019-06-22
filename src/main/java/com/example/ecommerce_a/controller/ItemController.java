@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.LoginUser;
-import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.form.SortForm;
 import com.example.ecommerce_a.service.ItemService;
 

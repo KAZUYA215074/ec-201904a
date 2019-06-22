@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.OrderItem;
 
 /**
@@ -29,8 +28,8 @@ public class OrderItemRepository {
 	/* 追加時に主キー取得 */
 	private SimpleJdbcInsert insert;
 	
-	/** テーブル名 */
-	private static final String TABLE_NAME = "order_items";
+	/** 注文商品テーブル名 */
+	public static final String TABLE_NAME = "order_items";
 	/** すべてのカラム名 */
 	private static final String ALL_COLUMN = "id,item_id,order_id,quantity,size";
 	

@@ -19,6 +19,9 @@ public class OrderToppingRepository {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate template;
+	
+	/** 注文トッピングのテーブル名 */
+	public static final String TABLE_NAME = "order_toppings";
 
 	/**
 	 * 注文されたトッピングを追加する.

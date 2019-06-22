@@ -41,12 +41,12 @@ public class OrderRepository {
 	@PostConstruct
 	public void init() {
 		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert((JdbcTemplate)template.getJdbcOperations());
-		SimpleJdbcInsert withTableName = simpleJdbcInsert.withTableName(TABLE_NAME_ORDER);
+		SimpleJdbcInsert withTableName = simpleJdbcInsert.withTableName(TABLE_NAME);
 		insert = withTableName.usingGeneratedKeyColumns("id");
 	}
 
 	/** 注文情報のテーブル名前 */
-	private static final String TABLE_NAME_ORDER = "orders";
+	private static final String TABLE_NAME = "orders";
 	/** 注文情報のすべてのカラム名 */
 	private static final String ALL_COLUMN_ORDER = "id,user_id,status,total_price,order_date,destination_name,destination_email,destination_zipcode,destination_address,destination_tel,delivery_time,payment_method";
 
@@ -69,14 +69,6 @@ public class OrderRepository {
 	};
 
 	
-	/** 注文商品テーブル名 */
-	private static final String TABLE_NAME_ORDERITEM = "order_items";
-	/** 注文トッピングテーブル名 */
-	private static final String TABLE_NAME_ORDERTOPPING = "order_toppings";
-	/** アイテムテーブル名 */
-	private static final String TABLE_NAME_ITEM = "items";
-	/** トッピングテーブル名 */
-	private static final String TABLE_NAME_TOPPING = "toppings";
 	/** 注文,注文商品,注文トッピングのすべてのカラム名 */
 	private static final String ALL_COLUMN_JOIN
 	= " o.id AS order_id, o.user_id AS order_user_id, o.status AS order_status, o.total_price AS order_total_price, o.order_date AS order_date, o.destination_name AS order_destination_name, "
@@ -152,13 +144,6 @@ public class OrderRepository {
 	 * @return 追加された注文情報
 	 */
 	public Order insert(Order order) {
-//		String sql = "insert into orders(user_id, status, total_price, "
-//				+ "order_date, destination_name, destination_email, destination_zipcode, "
-//				+ "destination_address, destination_tel, delivery_time, payment_method) "
-//				+ "values(:userId, :status. :totalPrice, :orderDate, "
-//				+ ":destinationName, :destinationEmail, :destinationZipcode, :destinationAddress, "
-//				+ ":destinationTel, :deliveryTime, :paymentMethod)";
-		
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		Number key = insert.executeAndReturnKey(param);
 		order.setId(key.intValue());
@@ -172,7 +157,7 @@ public class OrderRepository {
 	 */
 	public void update(Order order) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
-		String sql = "UPDATE " + TABLE_NAME_ORDER + " SET id=:id,user_id=:userId,status=:status,total_price=:totalPrice,"
+		String sql = "UPDATE " + TABLE_NAME + " SET id=:id,user_id=:userId,status=:status,total_price=:totalPrice,"
 				+ "order_date=:orderDate,destination_name=:destinationName,destination_email=:destinationEmail,"
 				+ "destination_zipcode=:destinationZipcode,destination_address=:destinationAddress,destination_tel=:destinationTel,"
 				+ "delivery_time=:deliveryTime,payment_method=:paymentMethod  WHERE id=:id";
@@ -187,7 +172,7 @@ public class OrderRepository {
 	 */
 	public Order load(int orderId) {
 		System.out.println(orderId);
-		String sql = "SELECT " + ALL_COLUMN_ORDER + " FROM "+ TABLE_NAME_ORDER +" WHERE id = :id";
+		String sql = "SELECT " + ALL_COLUMN_ORDER + " FROM "+ TABLE_NAME +" WHERE id = :id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", orderId);
 		Order order = template.queryForObject(sql, param, ORDER_ROW_MAPPER);
 		System.out.println(order);
@@ -195,25 +180,25 @@ public class OrderRepository {
 	}
 
 	/**
-	 * 注文情報を結合して検索.
-	 * 
-	 * @param orderId : 注文情報のID
-	 * @return 結合されて検索された注文情報 or null
+	 * 注文情報一覧を結合して検索.
+	 
+	 * @param userId : 検索するユーザーID
+	 * @param status : 検索する注文状況
+	 * @return 結合されて検索された注文情報一覧
 	 */
 	public List<Order> findByJoinedOrderByUserIdAndStatus(int userId,int status) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
-		sql.append(" FROM ");		sql.append(TABLE_NAME_ORDER);			sql.append(" AS o ");
-		sql.append(" FULL OUTER JOIN ");	sql.append(TABLE_NAME_ORDERITEM);		sql.append(" AS oi ");
+		sql.append(" FROM ");		sql.append(TABLE_NAME);			sql.append(" AS o ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(OrderItemRepository.TABLE_NAME);		sql.append(" AS oi ");
 		sql.append(" ON o.id = oi.order_id ");
-		sql.append(" FULL OUTER JOIN ");	sql.append(TABLE_NAME_ORDERTOPPING);	sql.append(" AS ot ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(OrderToppingRepository.TABLE_NAME);	sql.append(" AS ot ");
 		sql.append(" ON oi.id = ot.order_item_id ");
-		sql.append(" FULL OUTER JOIN ");	sql.append(TABLE_NAME_ITEM);			sql.append(" AS i ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(ItemRepository.TABLE_NAME);			sql.append(" AS i ");
 		sql.append(" ON oi.item_id = i.id ");
-		sql.append(" FULL OUTER JOIN ");	sql.append(TABLE_NAME_TOPPING);			sql.append(" AS t ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(ToppingRepository.TABLE_NAME);		sql.append(" AS t ");
 		sql.append(" ON ot.topping_id = t.id ");
 		sql.append(" WHERE o.user_id=:userId AND o.status=:status ORDER BY o.id" );
-		
 		SqlParameterSource param =  new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		
 		return template.query(sql.toString(), param,ORDER_RESULT_SET);
@@ -231,7 +216,7 @@ public class OrderRepository {
 	public Order findByUserIdAndStatus(int userId,int status) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");	sql.append(ALL_COLUMN_ORDER); sql.append(" FROM ");
-		sql.append(TABLE_NAME_ORDER);	sql.append(" WHERE user_id=:userId AND status=:status");
+		sql.append(TABLE_NAME);	sql.append(" WHERE user_id=:userId AND status=:status");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		List<Order> orderList = template.query(sql.toString(), param, ORDER_ROW_MAPPER);
 		if(orderList.size()!=0) {

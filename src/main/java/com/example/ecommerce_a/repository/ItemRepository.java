@@ -26,6 +26,10 @@ public class ItemRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
+	
+	/** 商品のテーブル名 */
+	public static final String TABLE_NAME = "items";
+	
 	/** ItemのRowMapper */
 	private static final RowMapper<Item> ITEM_ROW_MAPPER = (rs, i) -> {
 		Item item = new Item();

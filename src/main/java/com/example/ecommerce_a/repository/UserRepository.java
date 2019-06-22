@@ -24,9 +24,11 @@ public class UserRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	/** ユーザーのテーブル名 */
 	private static final String All_COLUMN
 	= "id,name, email, password, zipcode, address, telephone";
 	
+	/** ユーザーのRowMapper */
 	private static final RowMapper<User> USER_ROWMAPPER = (rs, i) -> {
 		User user = new User();
 		user.setId(rs.getInt("id"));
