@@ -2,6 +2,7 @@ package com.example.ecommerce_a.form;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -30,13 +31,16 @@ public class InsertUserForm {
 	@Size(min = 6, max = 12, message="パスワードは６〜１２文字で入力してください")
 	private String checkedpassword;
 	/** 郵便番号 */
-	@NotBlank(message="郵便番号を入力してください")
+	//@NotBlank(message="郵便番号を入力してください")
+	@Pattern(regexp = "^\\d{3}\\-?\\d{4}$", message = "郵便番号を入力したください")
 	private String zipCode;
 	/** 住所 */
 	@NotBlank(message="住所を入力してください")
 	private String address;
 	/** 電話番号 */
 	@NotBlank(message="電話番号を入力してください")
+	@Pattern(regexp = "[0-9]*", message = "電話番号を入力してください")
+	@Size(max=11,message = "電話番号を入力してください")
 	private String telephone;
 	
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.InsertUserForm;
 import com.example.ecommerce_a.service.UserService;
+import com.example.ecommerce_a.utils.ConvertUtils;
 
 /**
  * ユーザー情報を操作する.
@@ -68,17 +69,18 @@ public class UserRegistController {
 		if(hasMailAddress) {
 			result.rejectValue("mailAddress", null, "すでに使われているメールアドレスです");
 		}
+		//確認用パスワードチェック
+		if(!form.getPassword().equals(form.getCheckedpassword())) {
+			result.reject("password", null, "パスワードが一致しません");
+		}
 		//エラーチェック
 		if(result.hasErrors()) {
 			return toRegist(model);
 		}
 		User user = new User();
 		BeanUtils.copyProperties(form, user);
-		//確認用パスワードチェック
-		if(!user.getPassword().equals(form.getCheckedpassword())) {
-			result.reject("password", null, "パスワードが一致しません");
-			return toRegist(model);
-		}
+		user.setZipCode(ConvertUtils.getDelHyphenZipCode(form.getZipCode()));
+		user.setTelephone(ConvertUtils.getHypehnTelephone(form.getTelephone()));
 		//パスワードハッシュ化
 		String hash = encoder.encode(user.getPassword());
 		user.setPassword(hash);
