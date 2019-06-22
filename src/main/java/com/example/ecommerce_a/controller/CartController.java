@@ -49,7 +49,7 @@ public class CartController {
 			order = (Order) session.getAttribute("order");
 		}
 		
-		if(order==null || order.getOrderItemList().get(0).getId()==0) {
+		if(order==null) {
 			return "cart_list_not";
 		}
 		model.addAttribute("order", order);
@@ -78,6 +78,9 @@ public class CartController {
 				}
 			}
 			order.setTotalPrice(order.getTotalPrice()-totalPrice);
+			if(order.getOrderItemList().size() == 0) {
+				session.removeAttribute("order");
+			}
 		}
 		
 		return "redirect:/cart/showCart";

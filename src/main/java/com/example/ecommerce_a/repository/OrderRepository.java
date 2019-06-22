@@ -190,7 +190,7 @@ public class OrderRepository {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
 		sql.append(" FROM ");		sql.append(TABLE_NAME);			sql.append(" AS o ");
-		sql.append(" FULL OUTER JOIN ");	sql.append(OrderItemRepository.TABLE_NAME);		sql.append(" AS oi ");
+		sql.append(" INNER JOIN ");	sql.append(OrderItemRepository.TABLE_NAME);		sql.append(" AS oi ");
 		sql.append(" ON o.id = oi.order_id ");
 		sql.append(" FULL OUTER JOIN ");	sql.append(OrderToppingRepository.TABLE_NAME);	sql.append(" AS ot ");
 		sql.append(" ON oi.id = ot.order_item_id ");
