@@ -86,7 +86,10 @@ public class OrderService {
 	 * @return 結合されて検索された注文情報
 	 */
 	public Order showShoppingCart(int userId) {
-		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,Order.Status.BEFORE_ORDER.getCode());
+		int[] userIds = {userId};
+		int[] statuses = {Order.Status.BEFORE_ORDER.getCode()};
+		
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userIds,statuses);
 		if(orderList.size()!=0) {
 			Order order = orderList.get(0);
 			return order;
@@ -106,6 +109,23 @@ public class OrderService {
 		order.setTotalPrice(order.getTotalPrice()-totalPrice);
 		orderRepository.update(order);
 		orderItemRepository.deleteById(orderItemId);
+	}
+	
+	/**
+	 * 購入履歴を検索する.
+	 * 
+	 * @param userId 検索するユーザー
+	 * @return 購入履歴一覧
+	 */
+	public List<Order> showShoppingHistory(int userId) {
+		int[] userIds = {userId,userId,userId};
+		int[] statuses = {Order.Status.NOT_PAYMENT.getCode(),Order.Status.DONE_PAYMENT.getCode(),Order.Status.DONE_DELIVELY.getCode()};
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userIds,statuses);
+		if(orderList.size()!=0) {
+			return orderList;
+		}else {
+			return null;
+		}
 	}
 
 }

@@ -85,4 +85,32 @@ public class CartController {
 		
 		return "redirect:/cart/showCart";
 	}
+	
+	/**
+	 * 購入履歴を表示する.
+	 * 
+	 * @param model 購入履歴
+	 * @param loginUser ログイン情報
+	 * @return 購入履歴表示
+	 */
+	@RequestMapping("/showHistory")
+	public String showHistory(Model model,@AuthenticationPrincipal LoginUser loginUser) {
+		
+		if(loginUser == null) {
+			return "redirect:/toLogin/";
+		}
+		User user = loginUser.getUser();
+		
+		List<Order> orderList = orderService.showShoppingHistory(user.getId());
+		model.addAttribute("orderList",orderList);
+		return "order-history";
+		
+	}
+	
+	@RequestMapping("/repurchase")
+	public String showRepurchase(Integer orderItemId,Model model) {
+		System.out.println(orderItemId);
+		
+		return "redirect:/cart/showCart";
+	}
 }

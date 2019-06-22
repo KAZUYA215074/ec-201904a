@@ -182,11 +182,11 @@ public class OrderRepository {
 	/**
 	 * 注文情報一覧を結合して検索.
 	 
-	 * @param userId : 検索するユーザーID
-	 * @param status : 検索する注文状況
+	 * @param userIds : 検索するユーザーIDの配列
+	 * @param statuses : 検索する注文状況の配列
 	 * @return 結合されて検索された注文情報一覧
 	 */
-	public List<Order> findByJoinedOrderByUserIdAndStatus(int userId,int status) {
+	public List<Order> findByJoinedOrderByUserIdAndStatus(int[] userIds,int[] statuses) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
 		sql.append(" FROM ");		sql.append(TABLE_NAME);			sql.append(" AS o ");
@@ -198,10 +198,26 @@ public class OrderRepository {
 		sql.append(" ON oi.item_id = i.id ");
 		sql.append(" FULL OUTER JOIN ");	sql.append(ToppingRepository.TABLE_NAME);		sql.append(" AS t ");
 		sql.append(" ON ot.topping_id = t.id ");
-		sql.append(" WHERE o.user_id=:userId AND o.status=:status ORDER BY o.id" );
-		SqlParameterSource param =  new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
+		sql.append(" WHERE (o.user_id,o.status) IN( ");
+		int times = userIds.length ;
+		for(int i=0;i<times;i++) {
+			sql.append("(:userId");
+			sql.append(i+1);
+			sql.append(",:status");
+			sql.append(i+1);
+			sql.append("),");
+		}
+		sql.deleteCharAt(sql.lastIndexOf(","));
+		sql.append(" ) ORDER BY o.id" );
+		MapSqlParameterSource mapParam = new MapSqlParameterSource();
 		
-		return template.query(sql.toString(), param,ORDER_RESULT_SET);
+		for(int i=0;i<times;i++) {
+			mapParam.addValue("userId"+(i+1), userIds[i]);
+			mapParam.addValue("status"+(i+1), statuses[i]);
+		}
+		//SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
+		
+		return template.query(sql.toString(), mapParam,ORDER_RESULT_SET);
 	}
 	
 	

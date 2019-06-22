@@ -1,9 +1,13 @@
 package com.example.ecommerce_a.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -39,6 +43,20 @@ public class OrderItemRepository {
 		SimpleJdbcInsert withTableName = simpleJdbcInsert.withTableName("order_items");
 		insert = withTableName.usingGeneratedKeyColumns("id");
 	}
+	
+	//TODO:カラム名
+	/** 注文商品,注文トッピング,商品,トッピングの結合テーブルの全カラム名 */
+	private static final String ALL_COLUMN_JOIN
+	= "";
+	//TODO:未実装
+	private static final ResultSetExtractor<List<OrderItem>> ORDER_ITEM_RESULT_SET
+	= (rs) -> {
+		List<OrderItem> orderItemList = new ArrayList<>();
+		
+		return orderItemList;
+	};
+	
+	
 
 	/**
 	 * 注文された商品情報を追加する.
@@ -60,10 +78,29 @@ public class OrderItemRepository {
 	 */
 	public void deleteById(Integer id) {
 		StringBuffer sql = new StringBuffer();
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		sql.append(" WITH deleted AS (DELETE FROM order_items WHERE id=:id RETURNING id)");
 		sql.append(" DELETE FROM order_toppings WHERE order_item_id IN (SELECT id FROM deleted)");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql.toString(), param);
-
+	}
+	
+	//TODO;未実装
+	/**
+	 * 注文商品をテーブル結合して注文商品IDで検索する.
+	 * 
+	 * @param id 検索する注文商品ID
+	 * @return 結合された注文商品
+	 */
+	public OrderItem findById(Integer id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT "); sql.append(ALL_COLUMN_JOIN);
+		sql.append(" FROM ");	sql.append(TABLE_NAME);	sql.append(" AS oi ");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		List<OrderItem> orderItemList = template.query(sql.toString(), param,ORDER_ITEM_RESULT_SET);
+		if(orderItemList.size()!=0) {
+			return orderItemList.get(0);
+		}else {
+			return null;
+		}
 	}
 }
