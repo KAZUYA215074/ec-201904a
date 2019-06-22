@@ -84,7 +84,9 @@
 								<div class="text-center">
 									<form th:action="@{/cart/delete}">
 										<button type="submit" class="btn btn-primary">削除</button>
-										<input type="hidden" name="id" th:value="${orderItem.id}">
+										<input type="hidden" name="orderItemId" th:value="${orderItem.id}">
+										<input type="hidden" name="totalPrice" th:value="${orderItem.subTotal}">
+										<input type="hidden" name="orderId" th:value="${order.id}">
 									</form>
 								</div>
 							</td>

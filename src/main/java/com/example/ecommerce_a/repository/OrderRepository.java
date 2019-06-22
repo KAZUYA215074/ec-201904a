@@ -96,13 +96,12 @@ public class OrderRepository {
 		List<Topping> toppingList = null;
 		OrderItem orderItem = null;
 		
-		int beforeOrderId = 0;
-		int beforeOrderItemId = 0;
+		Integer beforeOrderId = null;
+		Integer beforeOrderItemId = null;
 		
 		while(rs.next()) {
-			
 			// オーダー情報を取得
-			int orderId = rs.getInt("order_id");
+			Integer orderId = rs.getInt("order_id");
 			if( orderId != beforeOrderId ) {
 				orderItemList = new ArrayList<>();
 				User user = new User();
@@ -114,7 +113,7 @@ public class OrderRepository {
 			}
 			
 			// アイテムリストを取得
-			int orderItemId = rs.getInt("oi_id");
+			Integer orderItemId = rs.getInt("oi_id");
 			if( orderItemId != beforeOrderItemId ) {
 				int itemId = rs.getInt("oi_item_id");
 				
@@ -122,12 +121,19 @@ public class OrderRepository {
 				Item item = new Item(itemId,rs.getString("i_name"),rs.getString("i_description"),rs.getInt("i_price_m"),rs.getInt("i_price_l"),rs.getString("i_image_path"),rs.getBoolean("i_deleted"),toppingList);
 				
 				orderToppingList = new ArrayList<>();
-				orderItem = new OrderItem(orderItemId,itemId,orderId,rs.getInt("oi_quantity"),rs.getString("oi_size").charAt(0),item,orderToppingList);
+				String strSize = rs.getString("oi_size");
+				char size;
+				if(strSize!=null) {
+					size = strSize.charAt(0);
+				}else {
+					size = 0;
+				}
+				orderItem = new OrderItem(orderItemId,itemId,orderId,rs.getInt("oi_quantity"),size,item,orderToppingList);
 				orderItemList.add(orderItem);
 			}
 			
 			// トッピングリストを取得
-			int toppingId = rs.getInt("ot_topping_id");
+			Integer toppingId = rs.getInt("ot_topping_id");
 			Topping topping = new Topping(toppingId,rs.getString("t_name"),rs.getInt("t_price_m"),rs.getInt("t_price_L"));
 			OrderTopping orderTopping = new OrderTopping(rs.getInt("ot_id"),toppingId,orderId,topping);
 			orderToppingList.add(orderTopping);
@@ -166,7 +172,7 @@ public class OrderRepository {
 	 */
 	public void update(Order order) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
-		String sql = "UPDATE " + TABLE_NAME_ORDER + "SET id=:id,user_id=:userId,status=:status,total_price=:totalPrice,"
+		String sql = "UPDATE " + TABLE_NAME_ORDER + " SET id=:id,user_id=:userId,status=:status,total_price=:totalPrice,"
 				+ "order_date=:orderDate,destination_name=:destinationName,destination_email=:destinationEmail,"
 				+ "destination_zipcode=:destinationZipcode,destination_address=:destinationAddress,destination_tel=:destinationTel,"
 				+ "delivery_time=:deliveryTime,payment_method=:paymentMethod  WHERE id=:id";
@@ -198,13 +204,13 @@ public class OrderRepository {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
 		sql.append(" FROM ");		sql.append(TABLE_NAME_ORDER);			sql.append(" AS o ");
-		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_ORDERITEM);		sql.append(" AS oi ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(TABLE_NAME_ORDERITEM);		sql.append(" AS oi ");
 		sql.append(" ON o.id = oi.order_id ");
-		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_ORDERTOPPING);	sql.append(" AS ot ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(TABLE_NAME_ORDERTOPPING);	sql.append(" AS ot ");
 		sql.append(" ON oi.id = ot.order_item_id ");
-		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_ITEM);			sql.append(" AS i ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(TABLE_NAME_ITEM);			sql.append(" AS i ");
 		sql.append(" ON oi.item_id = i.id ");
-		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_TOPPING);			sql.append(" AS t ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(TABLE_NAME_TOPPING);			sql.append(" AS t ");
 		sql.append(" ON ot.topping_id = t.id ");
 		sql.append(" WHERE o.user_id=:userId AND o.status=:status ORDER BY o.id" );
 		

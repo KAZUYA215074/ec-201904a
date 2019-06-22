@@ -29,6 +29,11 @@ public class OrderItemRepository {
 	/* 追加時に主キー取得 */
 	private SimpleJdbcInsert insert;
 	
+	/** テーブル名 */
+	private static final String TABLE_NAME = "order_items";
+	/** すべてのカラム名 */
+	private static final String ALL_COLUMN = "id,item_id,order_id,quantity,size";
+	
 	@PostConstruct
 	public void init() {
 		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert((JdbcTemplate)template.getJdbcOperations());
@@ -42,13 +47,9 @@ public class OrderItemRepository {
 	 * @param item 商品
 	 */
 	public OrderItem insertItem(OrderItem orderItem) {
-//		String sql = "INSERT INTO order_items(item_id, order_id, quantity, size) "
-//					+ "values(:item_id,:order_id,:quantity,:size);";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
 		Number key = insert.executeAndReturnKey(param);
-		orderItem.setId(key.intValue());
-//		template.update(sql, param);
-		
+		orderItem.setId(key.intValue());		
 		return orderItem;
 	}
 

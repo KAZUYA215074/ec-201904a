@@ -1,5 +1,6 @@
 package com.example.ecommerce_a.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,9 @@ public class OrderService {
 		if(serchOrder == null) {
 			order = orderRepository.insert(order);
 		}else {
-			System.out.println(serchOrder.getId());
 			order.setId(serchOrder.getId());
+			order.setTotalPrice(order.getTotalPrice()+serchOrder.getTotalPrice());
+			orderRepository.update(order);
 		}
 		// 
 		OrderItem orderItem = order.getOrderItemList().get(0);
@@ -87,31 +89,25 @@ public class OrderService {
 	 */
 	public Order showShoppingCart(int userId) {
 		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,0);
-		System.out.println(orderList);
 		if(orderList.size()!=0) {
-			return orderList.get(0);
+			Order order = orderList.get(0);
+			return order;
+			
 		}else {
 			return null;
 		}
 	}
 
-
-	/**
-	 * 注文された商品情報を追加する.
-	 * 
-	 * @param item 商品
-	 */
-//	public void insertItem(Item item) {
-//		orderItemRepository.insertItem(item);
-//	}
-
 	/**
 	 * 主キーを使って1件の注文商品情報と注文トッピング情報を削除する.
 	 * 
-	 * @param id 削除するID
+	 * @param orderItemId 削除するID
 	 */
-	public void deleteById(Integer id) {
-		orderItemRepository.deleteById(id);
+	public void deleteByOrderItem(Integer orderItemId,Integer totalPrice,Integer orderId) {
+		Order order = orderRepository.load(orderId);
+		order.setTotalPrice(order.getTotalPrice()-totalPrice);
+		orderRepository.update(order);
+		orderItemRepository.deleteById(orderItemId);
 	}
 
 }
