@@ -51,9 +51,10 @@
 								ログイン
 							</legend>
 							<div class="form-group">
-							<div class="alert alert-danger" th:if="${errorMessage}">
-							<p th:text="${errorMessage}"></p>
-							</div></div>
+								<div class="alert alert-danger" th:if="${errorMessage}">
+									<span th:text="${errorMessage}"></span>
+								</div>
+							</div>
 							<!-- <label class="control-label" style="color: red" for="inputError">メールアドレス、またはパスワードが間違っています</label> -->
 							<div class="form-group">
 								<label for="inputEmail">メールアドレス:</label>

@@ -30,7 +30,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String mailAddress) throws UsernameNotFoundException {
-		
+		if(mailAddress==null || mailAddress.isEmpty()) {
+			throw new UsernameNotFoundException("not mailaddress");
+		}
 		User user = userRepository.findByMailAddress(mailAddress);
 		if(user==null) {
 			throw new UsernameNotFoundException("そのメールアドレスは登録されていません");

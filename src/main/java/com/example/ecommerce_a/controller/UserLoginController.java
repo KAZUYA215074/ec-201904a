@@ -23,9 +23,10 @@ public class UserLoginController {
 	 * @return ログイン画面
 	 */
 	@RequestMapping("/")
-	public String toLogin(Model model, @RequestParam(required=false) String error) {
-		System.err.println("login error "+ error);
+	public String toLogin(Model model, @RequestParam(required = false) String error) {
+		//System.err.println("login error "+ error);
 		if (error != null) {
+			System.err.println(error);
 			System.err.println("login failed");
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 		}
