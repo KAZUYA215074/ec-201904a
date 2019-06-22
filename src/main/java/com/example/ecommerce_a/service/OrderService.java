@@ -44,6 +44,7 @@ public class OrderService {
 		if(serchOrder == null) {
 			order = orderRepository.insert(order);
 		}else {
+			System.out.println(serchOrder.getId());
 			order.setId(serchOrder.getId());
 		}
 		// 

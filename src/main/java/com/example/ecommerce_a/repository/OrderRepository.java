@@ -138,7 +138,7 @@ public class OrderRepository {
 		return orderList;
 	};
 	
-	//TODO:注文情報の追加レポジトリ未実装
+	
 	/**
 	 * 注文情報を追加する.
 	 * 
@@ -194,7 +194,7 @@ public class OrderRepository {
 	 * @param orderId : 注文情報のID
 	 * @return 結合されて検索された注文情報 or null
 	 */
-	public List<Order> findByJoinedOrderByUserIdAndStatus(int orderId,int status) {
+	public List<Order> findByJoinedOrderByUserIdAndStatus(int userId,int status) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
 		sql.append(" FROM ");		sql.append(TABLE_NAME_ORDER);			sql.append(" AS o ");
@@ -206,9 +206,9 @@ public class OrderRepository {
 		sql.append(" ON oi.item_id = i.id ");
 		sql.append(" INNER JOIN ");	sql.append(TABLE_NAME_TOPPING);			sql.append(" AS t ");
 		sql.append(" ON ot.topping_id = t.id ");
-		sql.append(" WHERE o.id=:orderId AND o.status=:status ORDER BY o.id" );
+		sql.append(" WHERE o.user_id=:userId AND o.status=:status ORDER BY o.id" );
 		
-		SqlParameterSource param =  new MapSqlParameterSource().addValue("orderId", orderId).addValue("status", status);
+		SqlParameterSource param =  new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		
 		return template.query(sql.toString(), param,ORDER_RESULT_SET);
 	}
@@ -226,7 +226,7 @@ public class OrderRepository {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");	sql.append(ALL_COLUMN_ORDER); sql.append(" FROM ");
 		sql.append(TABLE_NAME_ORDER);	sql.append(" WHERE user_id=:userId AND status=:status");
-		SqlParameterSource param = new MapSqlParameterSource().addValue("user_id", userId).addValue("status", status);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		List<Order> orderList = template.query(sql.toString(), param, ORDER_ROW_MAPPER);
 		if(orderList.size()!=0) {
 			return orderList.get(0);
