@@ -48,13 +48,15 @@ public class OrderService {
 			orderRepository.update(order);
 		}
 		// 
-		OrderItem orderItem = order.getOrderItemList().get(0);
-		orderItem.setOrderId(order.getId());
-		orderItem = orderItemRepository.insertItem(orderItem);
-		List<OrderTopping> orderToppingList = orderItem.getOrderToppingList();
-		for(OrderTopping orderTopping: orderToppingList) {
-			orderTopping.setOrderItemId(orderItem.getId());
-			orderToppingRepository.insertTopping(orderTopping);
+		for(OrderItem orderItem:order.getOrderItemList()) {			
+			orderItem.setOrderId(order.getId());
+			orderItem = orderItemRepository.insertItem(orderItem);
+			List<OrderTopping> orderToppingList = orderItem.getOrderToppingList();
+			for(OrderTopping orderTopping: orderToppingList) {
+				orderTopping.setOrderItemId(orderItem.getId());
+//				orderToppingRepository.insertOrderTopping(orderTopping);
+			}
+			orderToppingRepository.insertOrderTopping(orderToppingList);
 		}
 		return order;
 	}

@@ -199,22 +199,20 @@ public class OrderRepository {
 		sql.append(" FULL OUTER JOIN ");	sql.append(ToppingRepository.TABLE_NAME);		sql.append(" AS t ");
 		sql.append(" ON ot.topping_id = t.id ");
 		sql.append(" WHERE (o.user_id,o.status) IN( ");
+		MapSqlParameterSource mapParam = new MapSqlParameterSource();
 		int times = userIds.length ;
 		for(int i=0;i<times;i++) {
 			sql.append("(:userId");
-			sql.append(i+1);
+			sql.append(i);
 			sql.append(",:status");
-			sql.append(i+1);
+			sql.append(i);
 			sql.append("),");
+			mapParam.addValue("userId"+i, userIds[i]);
+			mapParam.addValue("status"+i, statuses[i]);
 		}
 		sql.deleteCharAt(sql.lastIndexOf(","));
 		sql.append(" ) ORDER BY o.id" );
-		MapSqlParameterSource mapParam = new MapSqlParameterSource();
 		
-		for(int i=0;i<times;i++) {
-			mapParam.addValue("userId"+(i+1), userIds[i]);
-			mapParam.addValue("status"+(i+1), statuses[i]);
-		}
 		//SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
 		
 		return template.query(sql.toString(), mapParam,ORDER_RESULT_SET);
