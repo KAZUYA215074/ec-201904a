@@ -93,14 +93,16 @@ public class ItemDetailController {
 		System.out.println(form);
 		Order order = new Order();
 		OrderItem orderItem = new OrderItem();
-		List<OrderTopping> orderToppingList = new ArrayList<>();
-		
-		for (Integer id: form.getToppingIdList()) {
-			Topping topping = toppingService.load(id);
-			OrderTopping orderTopping = new OrderTopping();
-			orderTopping.setTopping(topping);
-			orderTopping.setToppingId(topping.getId());;
-			orderToppingList.add(orderTopping);
+		List<OrderTopping> orderToppingList = null;
+		if(form.getToppingIdList().length!=0) {			
+			orderToppingList = new ArrayList<>();
+			for (Integer id: form.getToppingIdList()) {
+				Topping topping = toppingService.load(id);
+				OrderTopping orderTopping = new OrderTopping();
+				orderTopping.setTopping(topping);
+				orderTopping.setToppingId(topping.getId());;
+				orderToppingList.add(orderTopping);
+			}
 		}
 		
 		orderItem.setOrderToppingList(orderToppingList);
