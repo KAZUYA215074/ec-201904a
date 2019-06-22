@@ -3,6 +3,8 @@ package com.example.ecommerce_a.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.LoginUser;
+import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.SortForm;
 import com.example.ecommerce_a.service.ItemService;
+import com.example.ecommerce_a.service.OrderService;
 
 /**
  * Itemを操作するコントローラクラス.
@@ -24,8 +29,14 @@ import com.example.ecommerce_a.service.ItemService;
 @Controller
 @RequestMapping("/item")
 public class ItemController {
+	
 	@Autowired
-	ItemService itemService;
+	private ItemService itemService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private HttpSession session;
+	
 	/** 表示する最大の列の数 */
 	private static final int MAX_COLS = 3;
 	
@@ -46,7 +57,15 @@ public class ItemController {
 	public String showList(Model model, String name, @AuthenticationPrincipal LoginUser loginUser) {
 		// ログイン情報をコントローラで取得するサンプル
 		try {
-			System.out.println(loginUser.getUser().getName() + "さんがログイン中");
+			User user = loginUser.getUser();
+			System.out.println(user.getName() + "さんがログイン中");
+			Order order = (Order) session.getAttribute("order");
+			if(order != null) {
+				order.setUser(user);
+				order.setUserId(user.getId());
+				orderService.addItemToCart(order);
+			}
+			session.removeAttribute("order");
 		} catch (NullPointerException e) {
 			System.err.println("誰もログインしていません");
 		}
