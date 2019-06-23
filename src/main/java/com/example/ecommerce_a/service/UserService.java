@@ -46,7 +46,7 @@ public class UserService {
 		}
 	}
 	
-	
+	//XXX:未テスト
 	/**
 	 * ユーザー情報を更新する.
 	 * 
@@ -56,6 +56,7 @@ public class UserService {
 		userRepository.update(user);
 	}
 	
+	//XXX:未テスト
 	/**
 	 * ユーザー情報を削除する.
 	 * 
