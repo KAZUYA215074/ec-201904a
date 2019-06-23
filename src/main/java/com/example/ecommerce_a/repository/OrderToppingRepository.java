@@ -38,6 +38,11 @@ public class OrderToppingRepository {
 	}
 	
 	
+	/**
+	 * 注文されたトッピングをまとめて追加する.
+	 * 
+	 * @param orderToppingList 注文トッピングのリスト
+	 */
 	public void insertOrderTopping(List<OrderTopping> orderToppingList) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" INSERT INTO ");	sql.append(TABLE_NAME);
@@ -53,5 +58,19 @@ public class OrderToppingRepository {
 		}
 		sql.deleteCharAt(sql.lastIndexOf(","));
 		template.update(sql.toString(), mapParam);
+	}
+	
+	//XXX:未テスト
+	/**
+	 * IDを指定して注文トッピング情報を削除する.
+	 * 
+	 * @param Id 削除するID
+	 */
+	public void deleteById(Integer id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" DELETE FROM ");	sql.append(TABLE_NAME);
+		sql.append(" WHERE id=:id ");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql.toString(), param);
 	}
 }

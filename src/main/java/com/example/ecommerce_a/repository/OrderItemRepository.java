@@ -103,4 +103,18 @@ public class OrderItemRepository {
 			return null;
 		}
 	}
+	
+	//XXX:未テスト
+	/**
+	 * 注文商品を更新する.
+	 * 
+	 * @param orderItem 更新する注文商品
+	 */
+	public void update(OrderItem orderItem) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" UPDATE ");	sql.append(TABLE_NAME);
+		sql.append(" SET item_id=:itemId,order_id=:orderId,quantity=:quantity,size=:size WHERE id=:id ");
+		SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
+		template.update(sql.toString(), param);
+	}
 }
