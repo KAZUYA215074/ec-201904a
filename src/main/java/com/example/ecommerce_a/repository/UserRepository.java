@@ -25,6 +25,8 @@ public class UserRepository {
 	private NamedParameterJdbcTemplate template;
 	
 	/** ユーザーのテーブル名 */
+	public static final String TABLE_NAME = "users";
+	/** ユーザーのカラム名 */
 	private static final String All_COLUMN
 	= "id,name, email, password, zipcode, address, telephone";
 	
@@ -56,7 +58,7 @@ public class UserRepository {
 	/**
 	 * メールアドレスからユーザー情報を取得.
 	 * 
-	 * @param メールアドレス
+	 * @param mailAddress メールアドレス
 	 * @return ユーザー情報　存在しない場合はnullを返す
 	 */
 	public User findByMailAddress(String mailAddress) {
@@ -67,6 +69,35 @@ public class UserRepository {
 			return null;
 		}
 		return userList.get(0);
+	}
+	
+	
+	/**
+	 * ユーザー情報を更新する.
+	 * 
+	 * @param user ユーザー情報
+	 */
+	public void update(User user) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+		StringBuffer sql = new StringBuffer();
+		sql.append(" UPDATE ");	sql.append(TABLE_NAME);
+		sql.append(" SET name=:name,email=:mailAddress,password=:password,zipcode=:zipCode,");
+		sql.append(" address=:address,telephone=:telephone WHERE id=:id");
+		template.update(sql.toString(), param);
+	}
+	
+	
+	/**
+	 * ユーザー情報を削除する.
+	 * 
+	 * @param id 削除するユーザーID
+	 */
+	public void delete(Integer id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" DELETE FORM ");	sql.append(TABLE_NAME);
+		sql.append(" WHERE id=:id ");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql.toString(), param);
 	}
 
 }

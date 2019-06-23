@@ -45,5 +45,24 @@ public class UserService {
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * ユーザー情報を更新する.
+	 * 
+	 * @param user ユーザー情報
+	 */
+	public void update(User user) {
+		userRepository.update(user);
+	}
+	
+	/**
+	 * ユーザー情報を削除する.
+	 * 
+	 * @param id ユーザーID
+	 */
+	public void delete(Integer id) {
+		userRepository.delete(id);
+	}
 
 }
