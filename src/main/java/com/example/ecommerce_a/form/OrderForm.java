@@ -1,12 +1,13 @@
 package com.example.ecommerce_a.form;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.example.ecommerce_a.domain.User;
 
@@ -19,16 +20,15 @@ import com.example.ecommerce_a.domain.User;
 public class OrderForm {
 	/** ID */
 	private Integer id;
+	//TODO:不要
 	/** ユーザID */
 	private String userId;
 	/** 状態 */
 	private String status;
 	/** 合計金額 */
 	private String totalPrice;
-	/** 注文日 */
-	private String orderDate;
 	/** 宛先氏名 */
-	@NotBlank(message = "氏名を入力してください")
+	@NotBlank(message = "お名前を入力してください")
 	private String destinationName;
 	/** 宛先Eメール */
 	@Email(message = "メールアドレスの形式ではありません")
@@ -43,22 +43,16 @@ public class OrderForm {
 	/** 宛先TEL */
 	@NotBlank(message = "電話番号を入力してください")
 	private String destinationTel;
+	/** 配達日 */
+	@NotNull(message = "配達日時を入力してください")
+	private String deliveryDate;
 	/** 配達時間 */
-	private Timestamp deliveryTime;
+	@NotNull(message = "配達日時を入力してください")
+	private String deliveryTime;
 	/** 支払方法 */
-	@NotBlank(message = "支払方法を入力してください")
 	private String paymentMethod;
 	/** ユーザ */
 	private User user;
-
-	@Override
-	public String toString() {
-		return "OrderForm [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
-				+ ", orderDate=" + orderDate + ", destinationName=" + destinationName + ", destinationEmail="
-				+ destinationEmail + ", destinationZipcode=" + destinationZipcode + ", destinationAddress="
-				+ destinationAddress + ", destinationTel=" + destinationTel + ", deliveryTime=" + deliveryTime
-				+ ", paymentMethod=" + paymentMethod + ", user=" + user + "]";
-	}
 
 	/**
 	 * ユーザIDをInteger型で返す.
@@ -94,7 +88,7 @@ public class OrderForm {
 	 */
 	public Date getDateOrderDate() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date formatDate = sdf.parse(orderDate);
+		Date formatDate = sdf.parse(this.deliveryDate);
 		return formatDate;
 	}
 
@@ -139,14 +133,6 @@ public class OrderForm {
 		this.totalPrice = totalPrice;
 	}
 
-	public String getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(String orderDate) {
-		this.orderDate = orderDate;
-	}
-
 	public String getDestinationName() {
 		return destinationName;
 	}
@@ -187,11 +173,19 @@ public class OrderForm {
 		this.destinationTel = destinationTel;
 	}
 
-	public Timestamp getDeliveryTime() {
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public String getDeliveryTime() {
 		return deliveryTime;
 	}
 
-	public void setDeliveryTime(Timestamp deliveryTime) {
+	public void setDeliveryTime(String deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 
@@ -209,6 +203,15 @@ public class OrderForm {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderForm [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
+				+ ", destinationName=" + destinationName + ", destinationEmail=" + destinationEmail
+				+ ", destinationZipcode=" + destinationZipcode + ", destinationAddress=" + destinationAddress
+				+ ", destinationTel=" + destinationTel + ", deliveryDate=" + deliveryDate + ", deliveryTime="
+				+ deliveryTime + ", paymentMethod=" + paymentMethod + ", user=" + user + "]";
 	}
 
 }

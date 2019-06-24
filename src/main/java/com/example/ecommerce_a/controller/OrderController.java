@@ -1,6 +1,7 @@
 package com.example.ecommerce_a.controller;
 
-
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.service.OrderService;
 import com.example.ecommerce_a.utils.SendMail;
@@ -55,7 +57,6 @@ public class OrderController {
 	@RequestMapping("/orderlist")
 	public String toOrder(Model model) {
 		int orderId = 1;
-		System.out.println(orderId);
 		Order order = orderService.load(orderId);
 		model.addAttribute("order", order);
 		return "order_confirm";
@@ -63,30 +64,24 @@ public class OrderController {
 
 	/**
 	 * 注文情報を更新する.
+	 * 
 	 * @param form
 	 * @return 注文完了ページ
 	 */
 	@RequestMapping("/ordercomp")
-	public String order(@Validated OrderForm form, BindingResult result, Model model, 
-			@AuthenticationPrincipal LoginUser loginUser) {
-		System.out.println(form);
-		if(result.hasErrors()) {
-			System.out.println("error");
+	public String order(@Validated OrderForm form, BindingResult result, Model model,@AuthenticationPrincipal LoginUser loginUser) {
+		if (result.hasErrors()) {
 			return toOrder(model);
 		}
-		
-		Order order = orderService.showShoppingCart(loginUser.getUser().getId());
-		order.setId(form.getId());
-		order.setUserId(form.getIntuserId());
-		order.setStatus(form.getIntStatus());
-		order.setTotalPrice(form.getIntTotalPrice());
-		order.setOrderDate(Date.valueOf(form.getOrderDate()));
+		User user = loginUser.getUser();
+		Order order = orderService.showShoppingCart(user.getId());
+		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		order.setDestinationName(form.getDestinationName());
 		order.setDestinationEmail(form.getDestinationEmail());
 		order.setDestinationZipcode(form.getDestinationZipcode());
 		order.setDestinationAddress(form.getDestinationAddress());
 		order.setDestinationTel(form.getDestinationTel());
-		order.setDeliveryTime(form.getDeliveryTime());
+		order.setDeliveryTime(Timestamp.valueOf(form.getDeliveryDate() + " " + form.getDeliveryTime()+":00:00"));
 		order.setPaymentMethod(form.getIntPaymentMethod());
 		orderService.update(order);
 		
