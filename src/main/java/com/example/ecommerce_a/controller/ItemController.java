@@ -54,7 +54,7 @@ public class ItemController {
 	 * @return 商品一覧ページ
 	 */
 	@RequestMapping("/showList")
-	public String showList(Model model, String name, @AuthenticationPrincipal LoginUser loginUser) {
+	public String showList(SortForm form,Model model, @AuthenticationPrincipal LoginUser loginUser) {
 		// ログイン情報をコントローラで取得するサンプル
 		try {
 			User user = loginUser.getUser();
@@ -70,11 +70,14 @@ public class ItemController {
 			System.err.println("誰もログインしていません");
 		}
 
-		if (name == null) {
-			name = "";
+		if (form.getName() == null) {
+			 form.setName("");
 		}
 		List<String> nameList = itemService.itemAllName();
-		List<Item> itemList = itemService.findByName(name);
+		List<Item> itemList = itemService.findByName(form.getName(),form.getSortName());
+		if(itemList.size() == 0) {
+			model.addAttribute("notFound",form.getName()+" に一致する商品が見つかりませんでした");
+		}
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
 		for(int i=0;i<itemList.size();i++) {
@@ -83,32 +86,6 @@ public class ItemController {
 				listList.add(list);
 			}
 			list.add(itemList.get(i));
-		}
-		model.addAttribute("listList", listList);
-		model.addAttribute("nameList", nameList);
-		return "item_list";
-	}
-
-	/**
-	 * 指定した並び順に表示内容を変更.
-	 * 
-	 * @param model モデル
-	 * @param sort  ソートする順番の指定
-	 * @param page  押されたページ
-	 * @return 商品一覧ページ
-	 */
-	@RequestMapping("/sort")
-	public String sort(SortForm form,Model model) {
-		List<Item> itemList = itemService.sort(form.getSortName());
-		List<String> nameList = itemService.itemAllName();
-		List<Item> list = new ArrayList<>();
-		List<List<Item>> listList = new ArrayList<>();
-		for (int i = 0; i < itemList.size(); i++) {
-			list.add(itemList.get(i));
-			if ((i + 1) % MAX_COLS == 0) {
-				listList.add(list);
-				list = new ArrayList<>();
-			}
 		}
 		model.addAttribute("listList", listList);
 		model.addAttribute("nameList", nameList);

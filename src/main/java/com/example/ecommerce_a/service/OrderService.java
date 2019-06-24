@@ -50,15 +50,28 @@ public class OrderService {
 		// 
 		for(OrderItem orderItem:order.getOrderItemList()) {			
 			orderItem.setOrderId(order.getId());
-			orderItem = orderItemRepository.insertItem(orderItem);
-			List<OrderTopping> orderToppingList = orderItem.getOrderToppingList();
-			for(OrderTopping orderTopping: orderToppingList) {
-				orderTopping.setOrderItemId(orderItem.getId());
-//				orderToppingRepository.insertOrderTopping(orderTopping);
-			}
-			orderToppingRepository.insertOrderTopping(orderToppingList);
+			addOrderItemToCart(orderItem);
 		}
 		return order;
+	}
+	
+	
+	/**
+	 * 注文商品と注文トッピング
+	 * 
+	 * @param orderItem 追加する注文商品
+	 */
+	public void addOrderItemToCart(OrderItem orderItem) {
+		orderItem = orderItemRepository.insertItem(orderItem);
+		List<OrderTopping> orderToppingList = orderItem.getOrderToppingList();
+		
+		for(OrderTopping orderTopping: orderToppingList) {
+			orderTopping.setOrderItemId(orderItem.getId());
+//			orderToppingRepository.insertOrderTopping(orderTopping);
+		}
+		if(orderToppingList.size() != 0) {
+			orderToppingRepository.insertOrderTopping(orderToppingList);
+		}
 	}
 
 	/**
@@ -128,6 +141,17 @@ public class OrderService {
 		}else {
 			return null;
 		}
+	}
+	
+	
+	/**
+	 * 注文商品情報を検索する.
+	 * 
+	 * @param orderItemId : 注文商品ID
+	 * @return 注文詳細情報
+	 */
+	public OrderItem showOrderItem(int orderItemId) {
+		return orderItemRepository.findById(orderItemId);
 	}
 
 }

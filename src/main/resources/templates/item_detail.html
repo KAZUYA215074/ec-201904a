@@ -7,12 +7,20 @@
 <title>ピザ屋のネット注文</title>
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/piza.css" rel="stylesheet">
+<link th:href="@{/css/style.css}" rel="stylesheet">
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+function allcheck(tf) {
+	 $('input[name=toppingIdList]').prop('checked',tf);
+	}
+</script>
+
 </head>
-<body>
+<body class="body">
 	<div class="container">
 		<!-- fragment-header.htmlからヘッダーを引っ張る処理 -->
 		<span th:include="/fragment-header::frag-header"></span>
@@ -67,6 +75,9 @@
 										<span>&nbsp;М&nbsp;</span>&nbsp;&nbsp;200円(税抜)
 										<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
 									</label>
+									<br>
+									 <input type="button" value="全選択" onclick="allcheck(true);">
+  									 <input type="button" value="選択解除" onclick="allcheck(false);">
 								</div>
 								<div>
 									<div class="col-sm-12" th:each="splitedToppingList: ${splitedToppingListInList}">

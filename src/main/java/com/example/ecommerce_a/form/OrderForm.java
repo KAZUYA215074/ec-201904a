@@ -7,6 +7,8 @@ import java.util.Date;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.example.ecommerce_a.domain.CreditcardInfo;
 import com.example.ecommerce_a.domain.User;
@@ -33,13 +35,16 @@ public class OrderForm {
 	@NotBlank(message = "メールアドレスを入力してください")
 	private String destinationEmail;
 	/** 宛先郵便番号 */
-	@NotBlank(message = "郵便番号を入力してください")
+	//@NotBlank(message = "郵便番号を入力してください")
+	@Pattern(regexp = "^\\d{3}\\-?\\d{4}$", message = "郵便番号を入力したください")
 	private String destinationZipcode;
 	/** 宛先住所 */
 	@NotBlank(message = "住所を入力してください")
 	private String destinationAddress;
 	/** 宛先TEL */
 	@NotBlank(message = "電話番号を入力してください")
+	@Pattern(regexp = "[0-9]*", message = "電話番号を入力してください")
+	@Size(max=11,message = "電話番号を入力してください")
 	private String destinationTel;
 	/** 配達日 */
 	@NotNull(message = "配達日時を入力してください")

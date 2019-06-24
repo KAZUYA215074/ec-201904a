@@ -20,6 +20,7 @@ import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.service.OrderService;
+import com.example.ecommerce_a.utils.ConvertUtils;
 import com.example.ecommerce_a.utils.SendMail;
 
 /**
@@ -63,11 +64,15 @@ public class OrderController {
 		List<Integer> years = new ArrayList<>();
 		int minYear = LocalDate.now().getYear();
 		int maxYear = LocalDate.now().plusYears(10).getYear();
-		for(int i = 1;i <=12;i++) {months.add(i);}
-		for(int i = minYear;i <= maxYear;i++) {years.add(i);}
+		for (int i = 1; i <= 12; i++) {
+			months.add(i);
+		}
+		for (int i = minYear; i <= maxYear; i++) {
+			years.add(i);
+		}
 		model.addAttribute("order", order);
-		model.addAttribute("years",years);
-		model.addAttribute("months",months);
+		model.addAttribute("years", years);
+		model.addAttribute("months", months);
 		return "order_confirm";
 	}
 
@@ -88,12 +93,18 @@ public class OrderController {
 		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		order.setDestinationName(form.getDestinationName());
 		order.setDestinationEmail(form.getDestinationEmail());
-		order.setDestinationZipcode(form.getDestinationZipcode());
+		order.setDestinationZipcode(ConvertUtils.getDelHyphenZipCode(form.getDestinationZipcode()));
 		order.setDestinationAddress(form.getDestinationAddress());
-		order.setDestinationTel(form.getDestinationTel());
+
+		order.setDestinationTel(ConvertUtils.getHypehnTelephone(form.getDestinationTel()));
 		order.setDeliveryTime(Timestamp.valueOf(form.getDeliveryDate() + " " + form.getDeliveryTime() + ":00:00"));
 		order.setPaymentMethod(form.getIntPaymentMethod());
-		System.out.println(form);
+		if (order.getPaymentMethod() == Order.PaymentMethod.CASH_ON_DELIVERY.getCode()) {
+			order.setStatus(Order.Status.NOT_PAYMENT.getCode());
+		} else if (order.getPaymentMethod() == Order.PaymentMethod.CREDIT.getCode()) {
+			order.setStatus(Order.Status.DONE_PAYMENT.getCode());
+		}
+
 		orderService.update(order);
 
 //		sendMail.sendMainForOrderConfirmation(order);

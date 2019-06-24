@@ -12,6 +12,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>ec-201904a</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>ec-201904a</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -68,6 +69,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -77,6 +83,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>ec-201904a</finalName>
 	</build>
 
 </project>

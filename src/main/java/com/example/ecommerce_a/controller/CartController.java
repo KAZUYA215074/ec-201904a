@@ -1,5 +1,7 @@
 package com.example.ecommerce_a.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -102,14 +104,39 @@ public class CartController {
 		User user = loginUser.getUser();
 		
 		List<Order> orderList = orderService.showShoppingHistory(user.getId());
+		if(orderList!=null) {
+			Collections.reverse(orderList);
+		}else {
+			orderList = new ArrayList<>();
+		}
 		model.addAttribute("orderList",orderList);
 		return "order-history";
 		
 	}
 	
+	/**
+	 * 再注文する.
+	 * 
+	 * @param orderItemId : 注文商品ID
+	 * @param loginUser : ログイン情報
+	 * @return ショッピングカートページ
+	 */
 	@RequestMapping("/repurchase")
-	public String showRepurchase(Integer orderItemId,Model model) {
-		System.out.println(orderItemId);
+	public String showRepurchase(Integer orderItemId,@AuthenticationPrincipal LoginUser loginUser) {
+		User user = loginUser.getUser();
+		OrderItem orderItem = orderService.showOrderItem(orderItemId);
+		Order order = orderService.showShoppingCart(user.getId());
+		if(order == null) {
+			order = new Order();
+			order.setTotalPrice(orderItem.getSubTotal());
+			order.setUser(user);
+			order.setUserId(user.getId());
+		}
+		order.setStatus(Order.Status.BEFORE_ORDER.getCode());
+		List<OrderItem> orderItemList = new ArrayList<>();
+		orderItemList.add(orderItem);
+		order.setOrderItemList( orderItemList ); 
+		orderService.addItemToCart(order);
 		
 		return "redirect:/cart/showCart";
 	}
