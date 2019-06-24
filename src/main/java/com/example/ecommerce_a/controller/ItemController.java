@@ -75,6 +75,9 @@ public class ItemController {
 		}
 		List<String> nameList = itemService.itemAllName();
 		List<Item> itemList = itemService.findByName(form.getName(),form.getSortName());
+		if(itemList.size() == 0) {
+			model.addAttribute("notFound",form.getName()+" に一致する商品が見つかりませんでした");
+		}
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
 		for(int i=0;i<itemList.size();i++) {
