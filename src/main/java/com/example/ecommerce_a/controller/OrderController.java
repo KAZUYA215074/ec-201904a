@@ -1,8 +1,8 @@
 package com.example.ecommerce_a.controller;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -82,6 +82,11 @@ public class OrderController {
 		order.setDestinationTel(form.getDestinationTel());
 		order.setDeliveryTime(Timestamp.valueOf(form.getDeliveryDate() + " " + form.getDeliveryTime()+":00:00"));
 		order.setPaymentMethod(form.getIntPaymentMethod());
+		if(order.getPaymentMethod()==Order.PaymentMethod.CASH_ON_DELIVERY.getCode()) {
+			order.setStatus(Order.Status.NOT_PAYMENT.getCode());
+		}else if(order.getPaymentMethod()==Order.PaymentMethod.CREDIT.getCode() ) {
+			order.setStatus(Order.Status.DONE_PAYMENT.getCode());
+		}
 		orderService.update(order);
 		
 		//sendMail.sendMainForOrderConfirmation(order);
