@@ -106,6 +106,8 @@ public class CartController {
 		List<Order> orderList = orderService.showShoppingHistory(user.getId());
 		if(orderList!=null) {
 			Collections.reverse(orderList);
+		}else {
+			orderList = new ArrayList<>();
 		}
 		model.addAttribute("orderList",orderList);
 		return "order-history";
