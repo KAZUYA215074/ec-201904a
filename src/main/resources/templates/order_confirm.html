@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
@@ -300,6 +300,45 @@
 								</td>
 							</tr>
 						</tbody>
+					</table>
+						<h3 align="center">支払い情報</h3>
+						<div align="center">
+							<label class="radio-inline">
+								<input type="radio" name="test">銀行振込
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="test">クレジットカード
+							</label>
+						</div>
+						<br>
+					<table class="table table-striped">
+						<tr>
+							<th><label>クレジットカード番号:</label></th>
+							<td colspan="2"><input class="form-control" name="cardNumber" th:field="*{cardNumber}" placeholder="CardNumber"></td>
+						</tr>
+						<tr>
+							<th><label>有効期限</label></th>
+							<td>
+								<select class="form-control" name="cardExpMonth" th:field="*{cardExpMonth}">
+									<option value="null" selected>---</option>
+									<option th:each="month:${months}" th:text="${month}" th:value="${month}"></option>
+								</select>
+							</td>
+							<td>
+								<select class="form-control" name="cardExpYear" th:field="*{cardExpYear}">
+									<option value="null" selected>---</option>
+									<option th:each="year:${years}" th:text="${year}" th:value="${year}"></option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th><label>カード名義人</label></th>
+							<td colspan="2"><input class="form-control" name="cardName" th:field="*{cardName}" placeholder="OwnerName"></td>
+						</tr>
+						<tr>
+							<th><label>セキュリティコード</label></th>
+							<td colspan="2"><input class="form-control" name="cardCVV" th:field="*{cardCVV}" placeholder="SecurityCode"></td>
+						</tr>
 					</table>
 				</div>
 			</div>
