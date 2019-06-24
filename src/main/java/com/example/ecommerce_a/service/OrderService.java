@@ -1,5 +1,6 @@
 package com.example.ecommerce_a.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,10 +102,10 @@ public class OrderService {
 	 * @return 結合されて検索された注文情報
 	 */
 	public Order showShoppingCart(int userId) {
-		int[] userIds = {userId};
-		int[] statuses = {Order.Status.BEFORE_ORDER.getCode()};
+		List<Integer> statusList = new ArrayList<>();
+		statusList.add(Order.Status.BEFORE_ORDER.getCode());
 		
-		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userIds,statuses);
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,statusList);
 		if(orderList.size()!=0) {
 			Order order = orderList.get(0);
 			return order;
@@ -130,12 +131,33 @@ public class OrderService {
 	 * 購入履歴を検索する.
 	 * 
 	 * @param userId 検索するユーザー
-	 * @return 購入履歴一覧
+	 * @return 購入履歴一覧 or null
 	 */
 	public List<Order> showShoppingHistory(int userId) {
-		int[] userIds = {userId,userId,userId};
-		int[] statuses = {Order.Status.NOT_PAYMENT.getCode(),Order.Status.DONE_PAYMENT.getCode(),Order.Status.DONE_DELIVELY.getCode()};
-		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userIds,statuses);
+		List<Integer> statusList = new ArrayList<>();
+		statusList.add(Order.Status.NOT_PAYMENT.getCode());
+		statusList.add(Order.Status.DONE_PAYMENT.getCode());
+		statusList.add(Order.Status.DONE_DELIVELY.getCode());
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,statusList);
+		if(orderList.size()!=0) {
+			return orderList;
+		}else {
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * すべての注文状況を検索する.
+	 * 
+	 * @return 注文状況一覧
+	 */
+	public List<Order> showOrderByStatus() {
+		List<Integer> statusList = new ArrayList<>();
+		statusList.add(Order.Status.NOT_PAYMENT.getCode());
+		statusList.add(Order.Status.DONE_PAYMENT.getCode());
+		statusList.add(Order.Status.DONE_DELIVELY.getCode());
+		List<Order> orderList = orderRepository.findByJoinedOrderByStatus(statusList);
 		if(orderList.size()!=0) {
 			return orderList;
 		}else {
@@ -153,5 +175,6 @@ public class OrderService {
 	public OrderItem showOrderItem(int orderItemId) {
 		return orderItemRepository.findById(orderItemId);
 	}
+	
 
 }
