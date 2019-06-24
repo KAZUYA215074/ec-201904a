@@ -55,9 +55,8 @@ public class OrderController {
 	 * @return 注文確認ページ
 	 */
 	@RequestMapping("/orderlist")
-	public String toOrder(Model model) {
-		int orderId = 1;
-		Order order = orderService.load(orderId);
+	public String toOrder(Model model,@AuthenticationPrincipal LoginUser loginUser) {
+		Order order = orderService.showShoppingCart((loginUser.getUser().getId()));
 		model.addAttribute("order", order);
 		return "order_confirm";
 	}
@@ -71,7 +70,7 @@ public class OrderController {
 	@RequestMapping("/ordercomp")
 	public String order(@Validated OrderForm form, BindingResult result, Model model,@AuthenticationPrincipal LoginUser loginUser) {
 		if (result.hasErrors()) {
-			return toOrder(model);
+			return toOrder(model,loginUser);
 		}
 		User user = loginUser.getUser();
 		Order order = orderService.showShoppingCart(user.getId());
@@ -85,7 +84,7 @@ public class OrderController {
 		order.setPaymentMethod(form.getIntPaymentMethod());
 		orderService.update(order);
 		
-		sendMail.sendMainForOrderConfirmation(order);
+		//sendMail.sendMainForOrderConfirmation(order);
 		
 		return "order_finished";
 	}
