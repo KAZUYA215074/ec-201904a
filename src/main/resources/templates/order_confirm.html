@@ -13,29 +13,29 @@
     <![endif]-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script>
-	$(function() {
-	  // ［検索］ボタンクリックで検索開始
-	  $('#search').click(function() {
-	    $.ajax({
-	        url: "http://zipcoda.net/api",
-	        dataType: "jsonp",
-	        data: { 
-	          zipcode: $('#zipCode').val() 
-	        },
-	      }
-	    )
-	    // 検索成功時にはページに結果を反映
-	    .done(function(data) {
-	      // コンソールに取得データを表示
-	      console.log(data);
-	      $("#address").val(data.items[0].address);
-	    })
-	    // 検索失敗時には、その旨をダイアログ表示
-	    .fail(function() {
-	      window.alert('正しい結果を得られませんでした。');
-	    });
-	  });
-	});
+// 	$(function() {
+// 	  // ［検索］ボタンクリックで検索開始
+// 	  $('#search').click(function() {
+// 	    $.ajax({
+// 	        url: "http://zipcoda.net/api",
+// 	        dataType: "jsonp",
+// 	        data: { 
+// 	          zipcode: $('#zipCode').val() 
+// 	        },
+// 	      }
+// 	    )
+// 	    // 検索成功時にはページに結果を反映
+// 	    .done(function(data) {
+// 	      // コンソールに取得データを表示
+// 	      console.log(data);
+// 	      $("#address").val(data.items[0].address);
+// 	    })
+// 	    // 検索失敗時には、その旨をダイアログ表示
+// 	    .fail(function() {
+// 	      window.alert('正しい結果を得られませんでした。');
+// 	    });
+// 	  });
+// 	});
 	</script>
 </head>
 <body>
@@ -148,7 +148,8 @@
 									<label th:if="${#fields.hasErrors('destinationEmail')}" th:errors="*{destinationEmail}"  style="color: red" class="error-messages">
 										メールアドレスを入力してください
 									</label>
-									<input type="text" name="mailAddress" id="destinationEmail" class="form-control" placeholder="yamada@mail.com">
+									<input type="text" name="name" id="destinationEmail" class="form-control" placeholder="メールアドレスを入力してください"
+										 th:field="*{destinationEmail}" th:errorclass="error-input">
 							    </td>
 							  </tr>
 							<tr>
@@ -175,7 +176,8 @@
 							    <label th:if="${#fields.hasErrors('destinationAddress')}" th:errors="*{destinationAddress}"  style="color: red" class="error-messages">
 										住所を入力してください
 									</label>
-									<input type="text" name="address" id="destinationAddress" class="form-control" placeholder="東京都新宿区新宿１−１−１">
+									<input type="text" id="destinationAddress" class="form-control"
+									placeholder="住所" name="address" th:field="*{destinationAddress}">
 							    </td>
 							  </tr>
 							<tr>
@@ -186,8 +188,7 @@
 									<label th:if="${#fields.hasErrors('destinationTel')}" th:errors="*{destinationTel}" style="color: red" class="error-messages">
 										電話番号を入力してください
 									</label>
-									<input type="text" name="telephone" id="destinationTel" class="form-control" placeholder="000-0000-0000"
-										  >
+									<input type="text" name="telephone" id="destinationTel" class="form-control" placeholder="000-0000-0000" th:field="*{destinationTel}">
 							    </td>
 							  </tr>
 							<tr>
@@ -198,60 +199,52 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-12">
-												<label
-													class="control-label" style="color: red" for="inputPeriod">配達日時を入力してください</label>
+												<label th:if="${#fields.hasErrors('deliveryTime')}" th:errors="*{deliveryTime}"  style="color: red" class="error-messages">
+												配達日時を入力してください
+												</label>
 											</div>
 											<div class="col-sm-5">
-												<input type="date" name="name" id="name"
-													class="form-control input-sm" />
+											<input type="date" name="deliveryDate" id="deliveryDate" class="form-control" placeholder="1979-7-27"
+										 th:field="*{deliveryDate}" th:errorclass="error-input">
 											</div>
 
 										</div>
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany" checked="checked">
+													<input type="radio" name="deliveryTime" value="10" checked="checked">
 													10時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany" >
+													<input type="radio" name="deliveryTime" value="11">
 													11時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
+													<input type="radio" name="deliveryTime" value="12">
 													12時
 												</label><br>
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
+													<input type="radio" name="deliveryTime" value="13">
 													13時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
+													<input type="radio" name="deliveryTime" value="14">
 													14時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
+													<input type="radio" name="deliveryTime" value="15">
 													15時
 												</label><br>
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
+													<input type="radio" name="deliveryTime" value="16">
 													16時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
+													<input type="radio" name="deliveryTime" value="17">
 													17時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
+													<input type="radio" name="deliveryTime" value="18">
 													18時
 												</label><br>
 											</div>
@@ -281,8 +274,7 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio"
-													name="responsibleCompany" checked="checked">
+												<input type="radio" name="paymentMethod" value="1" >
 												代金引換
 											</label>
 										</div>
@@ -299,8 +291,7 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio"
-													name="responsibleCompany" checked="checked">
+												<input type="radio" name="paymentMethod" value="2" checked>
 												クレジットカード
 											</label><br><br>
 										</div>
