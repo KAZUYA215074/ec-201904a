@@ -1,6 +1,7 @@
 package com.example.ecommerce_a.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -103,6 +104,7 @@ public class CartController {
 		User user = loginUser.getUser();
 		
 		List<Order> orderList = orderService.showShoppingHistory(user.getId());
+		Collections.reverse(orderList);
 		model.addAttribute("orderList",orderList);
 		return "order-history";
 		
