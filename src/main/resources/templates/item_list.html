@@ -25,11 +25,11 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/item/showList}" class="form-horizontal">
+						<form method="post" th:action="@{/item/showList}" class="form-horizontal" th:object="${sortForm}">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
-									<input type="text" name="name" id="code"
+									<input type="text" th:field="*{name}"
 										class="form-control input-sm" autocomplete="on" list="nameList">
 										<datalist id="nameList">
 										<option th:each="name:${nameList}" th:value="${name}"></option>
@@ -40,8 +40,6 @@
 								<button type="submit" value="検索" class="btn btn-primary">検索</button>
 								<button type="reset" value="クリア" class="btn btn-default">クリア</button><br>
 							</div>
-						</form>
-						<form method="post" th:action="@{/item/sort}" th:object=${sortForm}>
 							<select id="sort" name="sortName" th:field="*{sortName}" onchange="submit(this.form)">
 								<option value="null">----</option>
 								<option value="price_m">価格順</option>

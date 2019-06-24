@@ -37,8 +37,8 @@ public class ItemService {
 	 * @param offset　データの開始位置
 	 * @return　商品リスト
 	 */
-	public List<Item> findByName(String name){
-		return itemRepository.findByName(name);
+	public List<Item> findByName(String name,String sort){
+		return itemRepository.findByName(name,sort);
 	}
 	
 	/**
@@ -58,16 +58,5 @@ public class ItemService {
 	 */
 	public Item load(Integer id) {
 		return itemRepository.load(id);
-	}
-	
-	/**
-	 * 任意の順にソートを行う
-	 * 
-	 * @param sort　ソートするテーブルのカラム名
-	 * @param offset　データの開始位置
-	 * @return　ソートされた商品一覧
-	 */
-	public List<Item> sort(String sort){
-		return itemRepository.sort(sort);
 	}
 }
