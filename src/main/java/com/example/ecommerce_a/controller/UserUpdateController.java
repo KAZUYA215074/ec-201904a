@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.User;
@@ -45,13 +46,14 @@ public class UserUpdateController {
 	}
 	
 	@RequestMapping("/update")
-	public String update(@Validated UpdateUserForm form,BindingResult result,Model model,@AuthenticationPrincipal LoginUser loginUser) {
+	public String update(@Validated UpdateUserForm form,BindingResult result,Model model,@AuthenticationPrincipal LoginUser loginUser, RedirectAttributes flash) {
 		if(result.hasErrors()) {
 			return edit(form,model,loginUser);
 		}
 		User user = loginUser.getUser();
 		BeanUtils.copyProperties(form, user);
 		userService.update(user);
-		return "redirect:/item/showList";
+		flash.addFlashAttribute("message", "ユーザー情報を更新しました");
+		return "redirect:/user/info";
 	}
 }
