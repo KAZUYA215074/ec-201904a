@@ -1,6 +1,8 @@
 package com.example.ecommerce_a.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,7 @@ import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.service.OrderService;
+import com.example.ecommerce_a.utils.SendMail;
 
 /**
  * 
@@ -27,11 +30,12 @@ import com.example.ecommerce_a.service.OrderService;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+	
 	@Autowired
-	OrderService orderService;
-
-//	@Autowired
-//	private HttpSession session;
+	private OrderService orderService;
+	
+	@Autowired
+	private SendMail sendMail;
 
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
@@ -67,22 +71,22 @@ public class OrderController {
 	@RequestMapping("/ordercomp")
 	public String order(@Validated OrderForm form, BindingResult result, Model model,@AuthenticationPrincipal LoginUser loginUser) {
 		if (result.hasErrors()) {
-			System.out.println(result.getAllErrors().get(0).getDefaultMessage());
-			System.out.println("error");
 			return toOrder(model);
 		}
 		User user = loginUser.getUser();
 		Order order = orderService.showShoppingCart(user.getId());
-		if(order==null) order = new Order();
+		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		order.setDestinationName(form.getDestinationName());
 		order.setDestinationEmail(form.getDestinationEmail());
 		order.setDestinationZipcode(form.getDestinationZipcode());
 		order.setDestinationAddress(form.getDestinationAddress());
 		order.setDestinationTel(form.getDestinationTel());
-		System.out.println(form.getDeliveryDate() + " " + form.getDeliveryTime()+":00:00");
 		order.setDeliveryTime(Timestamp.valueOf(form.getDeliveryDate() + " " + form.getDeliveryTime()+":00:00"));
 		order.setPaymentMethod(form.getIntPaymentMethod());
 		orderService.update(order);
+		
+		sendMail.sendMainForOrderConfirmation(order);
+		
 		return "order_finished";
 	}
 
