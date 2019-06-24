@@ -47,14 +47,12 @@ public class OrderItemRepository {
 		insert = withTableName.usingGeneratedKeyColumns("id");
 	}
 
-	// TODO:カラム名
 	/** 注文商品,注文トッピング,商品,トッピングの結合テーブルの全カラム名 */
 	private static final String ALL_COLUMN_JOIN = " oi.id AS oi_id, oi.item_id AS oi_item_id, oi.order_id AS oi_order_id, oi.quantity AS oi_quantity, oi.size AS oi_size, "
 			+ " ot.id AS ot_id,	ot.topping_id AS ot_topping_id, "
 			+ " i.name AS i_name, i.description AS i_description, i.price_m AS i_price_m, i.price_l AS i_price_l, i.image_path AS i_image_path, i.deleted AS i_deleted,"
 			+ " t.name AS t_name, t.price_m AS t_price_m, t.price_l AS t_price_l";
 	
-	// TODO:未実装
 	/** 注文詳細のExtractor */
 	private static final ResultSetExtractor<List<OrderItem>> ORDER_ITEM_RESULT_SET = (rs) -> {
 		List<OrderItem> orderItemList = new ArrayList<>();
@@ -125,7 +123,6 @@ public class OrderItemRepository {
 		template.update(sql.toString(), param);
 	}
 
-	// TODO;未実装
 	/**
 	 * 注文商品をテーブル結合して注文商品IDで検索する.
 	 * 
