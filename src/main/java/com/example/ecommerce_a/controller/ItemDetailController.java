@@ -132,7 +132,7 @@ public class ItemDetailController {
 			order = new Order();
 			order.setUserId(user.getId());
 			orderItemList = new ArrayList<>();
-		}else {
+		} else {
 			order = (Order) session.getAttribute("order");
 			
 			if(order==null) {
