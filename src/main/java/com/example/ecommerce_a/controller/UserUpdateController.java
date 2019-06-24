@@ -1,5 +1,7 @@
 package com.example.ecommerce_a.controller;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.UpdateUserForm;
+import com.example.ecommerce_a.service.UserService;
 
 @Controller
 @RequestMapping("/user")
 public class UserUpdateController {
+	@Autowired
+	private UserService userService;
 	
 	@ModelAttribute
 	public UpdateUserForm setUpUserForm() {
@@ -35,17 +40,20 @@ public class UserUpdateController {
 	
 	@RequestMapping("/edit")
 	public String edit(UpdateUserForm form,Model model, @AuthenticationPrincipal LoginUser loginUser) {
-		form.setName(loginUser.getUser().getName());
-		form.setMailAddress(loginUser.getUser().getMailAddress());
-		form.setZipCode(loginUser.getUser().getZipCode());
-		form.setAddress(loginUser.getUser().getAddress());
-		form.setTelephone(loginUser.getUser().getTelephone());
+		BeanUtils.copyProperties(loginUser.getUser(), form);
 		return "user_edit";
 	}
 	
 	@RequestMapping("/update")
-	public String update(@Validated UpdateUserForm form,BindingResult result,Model model) {
-		
-		return "";
+	public String update(@Validated UpdateUserForm form,BindingResult result,Model model,@AuthenticationPrincipal LoginUser loginUser) {
+		if(result.hasErrors()) {
+			System.out.println(result.getAllErrors().get(0).getDefaultMessage());
+			return edit(form,model,loginUser);
+		}
+		User user = loginUser.getUser();
+		BeanUtils.copyProperties(form, user);
+		System.out.println(user);
+		userService.update(user);
+		return "redirect:/item/showList";
 	}
 }
