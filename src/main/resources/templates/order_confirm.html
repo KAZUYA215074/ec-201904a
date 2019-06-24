@@ -162,10 +162,9 @@
 									</label>
 									<div class="input-group">
 										<script src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
-
-									<input type="text" id="destinationZipcode" class="form-control"
+								<input type="text" id="destinationZipcode" class="form-control"
 									placeholder="郵便番号" name="destinationZipcode" th:field="*{destinationZipcode}"
-									onKeyUp="AjaxZip3.zip2addr(this,'','address','address');">
+									onKeyUp="AjaxZip3.zip2addr(this,'','destinationAddress','destinationAddress');">
 									</div>
 							    </td>
 							  </tr>
@@ -178,7 +177,7 @@
 										住所を入力してください
 									</label>
 									<input type="text" id="destinationAddress" class="form-control"
-									placeholder="住所" name="address" th:field="*{destinationAddress}">
+									placeholder="住所" name="destinationAddress" th:field="*{destinationAddress}">
 							    </td>
 							  </tr>
 							<tr>
