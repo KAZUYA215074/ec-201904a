@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.example.ecommerce_a.domain.User;
@@ -20,7 +19,7 @@ import com.example.ecommerce_a.domain.User;
 public class OrderForm {
 	/** ID */
 	private Integer id;
-	//TODO:不要
+	// TODO:不要
 	/** ユーザID */
 	private String userId;
 	/** 状態 */
@@ -53,6 +52,20 @@ public class OrderForm {
 	private String paymentMethod;
 	/** ユーザ */
 	private User user;
+	/** 注文番号 */
+	private String orderNumber;
+	/** 合計金額 */
+	private String amount;
+	/** カード番号 */
+	private String cardNumber;
+	/** カード有効期限(年) */
+	private String cardExpYear;
+	/** カード有効期限(月) */
+	private String cardExpMonth;
+	/** カード名義人 */
+	private String cardName;
+	/** セキュリティコード */
+	private String cardCVV;
 
 	/**
 	 * ユーザIDをInteger型で返す.
@@ -205,13 +218,71 @@ public class OrderForm {
 		this.user = user;
 	}
 
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public String getCardExpYear() {
+		return cardExpYear;
+	}
+
+	public void setCardExpYear(String cardExpYear) {
+		this.cardExpYear = cardExpYear;
+	}
+
+	public String getCardExpMonth() {
+		return cardExpMonth;
+	}
+
+	public void setCardExpMonth(String cardExpMonth) {
+		this.cardExpMonth = cardExpMonth;
+	}
+
+	public String getCardName() {
+		return cardName;
+	}
+
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
+	}
+
+	public String getCardCVV() {
+		return cardCVV;
+	}
+
+	public void setCardCVV(String cardCVV) {
+		this.cardCVV = cardCVV;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderForm [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
 				+ ", destinationName=" + destinationName + ", destinationEmail=" + destinationEmail
 				+ ", destinationZipcode=" + destinationZipcode + ", destinationAddress=" + destinationAddress
 				+ ", destinationTel=" + destinationTel + ", deliveryDate=" + deliveryDate + ", deliveryTime="
-				+ deliveryTime + ", paymentMethod=" + paymentMethod + ", user=" + user + "]";
+				+ deliveryTime + ", paymentMethod=" + paymentMethod + ", user=" + user + ", orderNumber=" + orderNumber
+				+ ", amount=" + amount + ", cardNumber=" + cardNumber + ", cardExpYear=" + cardExpYear
+				+ ", cardExpMonth=" + cardExpMonth + ", cardName=" + cardName + ", cardCVV=" + cardCVV + "]";
 	}
 
 }
