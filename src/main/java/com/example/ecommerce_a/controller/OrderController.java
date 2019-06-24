@@ -18,6 +18,7 @@ import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.service.OrderService;
+import com.example.ecommerce_a.utils.ConvertUtils;
 import com.example.ecommerce_a.utils.SendMail;
 
 /**
@@ -77,9 +78,9 @@ public class OrderController {
 		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		order.setDestinationName(form.getDestinationName());
 		order.setDestinationEmail(form.getDestinationEmail());
-		order.setDestinationZipcode(form.getDestinationZipcode());
+		order.setDestinationZipcode(ConvertUtils.getDelHyphenZipCode(form.getDestinationZipcode()));
 		order.setDestinationAddress(form.getDestinationAddress());
-		order.setDestinationTel(form.getDestinationTel());
+		order.setDestinationTel(ConvertUtils.getHypehnTelephone(form.getDestinationTel()));
 		order.setDeliveryTime(Timestamp.valueOf(form.getDeliveryDate() + " " + form.getDeliveryTime()+":00:00"));
 		order.setPaymentMethod(form.getIntPaymentMethod());
 		if(order.getPaymentMethod()==Order.PaymentMethod.CASH_ON_DELIVERY.getCode()) {
