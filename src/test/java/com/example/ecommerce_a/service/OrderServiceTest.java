@@ -19,10 +19,10 @@ public class OrderServiceTest {
 	
 	@Test
 	public void test() {
-		List<Order> orderList = orderService.showShoppingHistory(2);
-		for(Order order:orderList) {
-			System.out.println(order);
-		}
+//		List<Order> orderList = orderService.showShoppingHistory(2);
+//		for(Order order:orderList) {
+//			System.out.println(order);
+//		}
 	}
 
 }
