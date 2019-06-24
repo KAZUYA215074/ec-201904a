@@ -4,7 +4,30 @@ spring:
     url: jdbc:postgresql://localhost:5432/student
     username: postgres
     password: postgres
-    
+  mail:
+    default-encoding: UTF-8
+    protocol: smtp
+    #host: localhost
+    #port: 2525
+    host: smtp.gmail.com
+    port: 587
+    jndi-name: mail/Session
+    password: PASSWORD # Google App password
+    username: YOUR_MAIL_ADDRESS # Google account mail address
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            #enable: false
+            enable: true
+          socketFactory:
+            #port: 2525
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+        debug: true
+    test-connection: false
 server:
   servlet:
     context-path: /ec-201904a

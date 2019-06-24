@@ -4,6 +4,7 @@ package com.example.ecommerce_a.controller;
 import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,9 +12,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.service.OrderService;
+import com.example.ecommerce_a.utils.SendMail;
 
 /**
  * 
@@ -25,11 +28,12 @@ import com.example.ecommerce_a.service.OrderService;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+	
 	@Autowired
-	OrderService orderService;
-
-//	@Autowired
-//	private HttpSession session;
+	private OrderService orderService;
+	
+	@Autowired
+	private SendMail sendMail;
 
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
@@ -63,13 +67,15 @@ public class OrderController {
 	 * @return 注文完了ページ
 	 */
 	@RequestMapping("/ordercomp")
-	public String order(@Validated OrderForm form, BindingResult result,Model model) {
+	public String order(@Validated OrderForm form, BindingResult result, Model model, 
+			@AuthenticationPrincipal LoginUser loginUser) {
+		System.out.println(form);
 		if(result.hasErrors()) {
 			System.out.println("error");
 			return toOrder(model);
 		}
-	
-		Order order = new Order();
+		
+		Order order = orderService.showShoppingCart(loginUser.getUser().getId());
 		order.setId(form.getId());
 		order.setUserId(form.getIntuserId());
 		order.setStatus(form.getIntStatus());
@@ -83,6 +89,9 @@ public class OrderController {
 		order.setDeliveryTime(form.getDeliveryTime());
 		order.setPaymentMethod(form.getIntPaymentMethod());
 		orderService.update(order);
+		
+		sendMail.sendMainForOrderConfirmation(order);
+		
 		return "order_finished";
 	}
 

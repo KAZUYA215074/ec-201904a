@@ -96,7 +96,7 @@ public class OrderService {
 			Order order = orderList.get(0);
 			return order;
 			
-		}else {
+		} else {
 			return null;
 		}
 	}
