@@ -22,8 +22,8 @@ public class SendMail {
 
     try {
         mailMessage.setTo(order.getDestinationEmail());
-        mailMessage.setReplyTo("YOUR_MAIL_ADDRESS");
-        mailMessage.setFrom("YOUR_MAIL_ADDRESS");
+        mailMessage.setReplyTo("maecan30o0@gmail.com");
+        mailMessage.setFrom("maecan30o0@gmail.com");
         mailMessage.setSubject("卍ラクラクピザ卍　注文完了のお知らせ");
         mailMessage.setText(order.toString());
         javaMailSender.send(mailMessage);

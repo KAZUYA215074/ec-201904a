@@ -90,7 +90,7 @@ public class OrderController {
 		}
 		orderService.update(order);
 		
-		//sendMail.sendMainForOrderConfirmation(order);
+		sendMail.sendMainForOrderConfirmation(order);
 		
 		return "order_finished";
 	}
