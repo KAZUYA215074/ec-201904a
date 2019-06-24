@@ -65,7 +65,7 @@ public class Order {
 	}
 
 	/** 注文状況のEnum */
-	public enum Status{
+	public enum Status {
 		BEFORE_ORDER(0,"未発注"),
 		NOT_PAYMENT(1,"未入金"),
 		DONE_PAYMENT(2,"入金済"),
@@ -89,6 +89,15 @@ public class Order {
 		
 		public String getText() {
 			return text;
+		}
+		
+		public static Status getTypeByCode(Integer code) {
+			for(Status s:values()) {
+				if(s.getCode()==code) {
+					return s;
+				}
+			}
+			return null;
 		}
 	}
 	
@@ -114,6 +123,23 @@ public class Order {
 		public String getText() {
 			return text;
 		}
+		
+		public static PaymentMethod getTypeByCode(Integer code) {
+			for(PaymentMethod p:values()) {
+				if(p.getCode()==code) {
+					return p;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public String getTextStatus() {
+		return Status.getTypeByCode(this.status).getText();
+	}
+	
+	public String getTextPaymentMethod() {
+		return PaymentMethod.getTypeByCode(this.paymentMethod).getText();
 	}
 	
 	@Override

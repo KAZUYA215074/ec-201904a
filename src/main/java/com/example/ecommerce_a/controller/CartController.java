@@ -120,6 +120,13 @@ public class CartController {
 		User user = loginUser.getUser();
 		OrderItem orderItem = orderService.showOrderItem(orderItemId);
 		Order order = orderService.showShoppingCart(user.getId());
+		if(order == null) {
+			order = new Order();
+			order.setTotalPrice(orderItem.getSubTotal());
+			order.setUser(user);
+			order.setUserId(user.getId());
+		}
+		order.setStatus(Order.Status.BEFORE_ORDER.getCode());
 		List<OrderItem> orderItemList = new ArrayList<>();
 		orderItemList.add(orderItem);
 		order.setOrderItemList( orderItemList ); 
