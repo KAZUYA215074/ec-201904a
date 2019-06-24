@@ -2,7 +2,6 @@ package com.example.ecommerce_a.form;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  * ユーザー情報登録時に使うフォーム.
@@ -21,14 +20,6 @@ public class UpdateUserForm {
 	@NotBlank(message="メールアドレスを入力してください")
 	@Email(message="メールアドレスの形式ではありません")
 	private String mailAddress;
-//	/** パスワード */
-//	@NotBlank(message="パスワードを入力してください")
-//	@Size(min = 6, max = 12, message="パスワードは６〜１２文字で入力してください")
-//	private String password;
-//	/** 確認用パスワード */
-//	@NotBlank(message="パスワードを入力してください")
-//	@Size(min = 6, max = 12, message="パスワードは６〜１２文字で入力してください")
-//	private String checkedpassword;
 	/** 郵便番号 */
 	@NotBlank(message="郵便番号を入力してください")
 	private String zipCode;
@@ -39,8 +30,6 @@ public class UpdateUserForm {
 	@NotBlank(message="電話番号を入力してください")
 	private String telephone;
 	
-
-
 	@Override
 	public String toString() {
 		return "UpdateUserForm [id=" + id + ", name=" + name + ", mailAddress=" + mailAddress + ", zipCode=" + zipCode
@@ -70,15 +59,7 @@ public class UpdateUserForm {
 	public void setMailAddress(String mailAddress) {
 		this.mailAddress = mailAddress;
 	}
-
-//	public String getPassword() {
-//		return password;
-//	}
-//
-//	public void setPassword(String password) {
-//		this.password = password;
-//	}
-
+	
 	public String getZipCode() {
 		return zipCode;
 	}
@@ -102,12 +83,4 @@ public class UpdateUserForm {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-
-//	public String getCheckedpassword() {
-//		return checkedpassword;
-//	}
-//
-//	public void setCheckedpassword(String checkedpassword) {
-//		this.checkedpassword = checkedpassword;
-//	}
 }

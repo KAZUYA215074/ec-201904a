@@ -47,12 +47,10 @@ public class UserUpdateController {
 	@RequestMapping("/update")
 	public String update(@Validated UpdateUserForm form,BindingResult result,Model model,@AuthenticationPrincipal LoginUser loginUser) {
 		if(result.hasErrors()) {
-			System.out.println(result.getAllErrors().get(0).getDefaultMessage());
 			return edit(form,model,loginUser);
 		}
 		User user = loginUser.getUser();
 		BeanUtils.copyProperties(form, user);
-		System.out.println(user);
 		userService.update(user);
 		return "redirect:/item/showList";
 	}
