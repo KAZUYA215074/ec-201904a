@@ -329,6 +329,8 @@ $(function(){
 							</label>
 						</div>
 						<br>
+						<label th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}" style="color: red" class="error-messages"></label>
+						<br>
 					<table class="table table-striped" id="credit">
 						<tr>
 							<th><label>クレジットカード番号:</label></th>

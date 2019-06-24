@@ -77,9 +77,8 @@ public class OrderForm {
 	 * @param orderNumber オーダーID
 	 * @return クレジットカード情報
 	 */
-	public CreditcardInfo createCreditcardInfo(String orderNumber) {
+	public CreditcardInfo createCreditcardInfo() {
 		CreditcardInfo creditCardInfo = new CreditcardInfo();
-		creditCardInfo.setUser_id(Integer.parseInt(userId));
 		creditCardInfo.setOrder_number(orderNumber);
 		creditCardInfo.setAmount(amount);
 		creditCardInfo.setCard_number(cardNumber);

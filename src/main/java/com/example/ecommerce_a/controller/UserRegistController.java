@@ -12,10 +12,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.ecommerce_a.domain.CreditcardInfo;
+import com.example.ecommerce_a.domain.ResponceCreditcardServerInfo;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.InsertUserForm;
+import com.example.ecommerce_a.service.PostWebAPIService;
 import com.example.ecommerce_a.service.UserService;
 import com.example.ecommerce_a.utils.ConvertUtils;
+import com.fasterxml.jackson.databind.deser.impl.CreatorCollector;
 
 /**
  * ユーザー情報を操作する.

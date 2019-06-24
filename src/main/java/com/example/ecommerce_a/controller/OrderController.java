@@ -15,11 +15,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.ecommerce_a.domain.CreditcardInfo;
 import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.domain.ResponceCreditcardServerInfo;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.service.OrderService;
+import com.example.ecommerce_a.service.PostWebAPIService;
 import com.example.ecommerce_a.utils.ConvertUtils;
 import com.example.ecommerce_a.utils.SendMail;
 
@@ -39,6 +42,9 @@ public class OrderController {
 
 	@Autowired
 	private SendMail sendMail;
+
+	@Autowired
+	PostWebAPIService postWebAPIService;
 
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
@@ -85,11 +91,24 @@ public class OrderController {
 	@RequestMapping("/ordercomp")
 	public String order(@Validated OrderForm form, BindingResult result, Model model,
 			@AuthenticationPrincipal LoginUser loginUser) {
+		User user = loginUser.getUser();
+		Order order = orderService.showShoppingCart(user.getId());
+
+		CreditcardInfo creditcardInfo = form.createCreditcardInfo();
+		creditcardInfo.setUser_id(user.getId());
+		creditcardInfo.setOrder_number(String.valueOf(order.getId()));
+		creditcardInfo.setAmount(String.valueOf(order.getTotalPrice()));
+		// if cvv is 123, return error.
+		ResponceCreditcardServerInfo response = postWebAPIService.postCreditcardServer(creditcardInfo);
+
+		if (response.getStatus().equals("error")) {
+			result.rejectValue("cardNumber", null, "クレジットカード情報が不正です");
+		}
+
 		if (result.hasErrors()) {
 			return toOrder(model, loginUser);
 		}
-		User user = loginUser.getUser();
-		Order order = orderService.showShoppingCart(user.getId());
+
 		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		order.setDestinationName(form.getDestinationName());
 		order.setDestinationEmail(form.getDestinationEmail());
