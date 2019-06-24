@@ -1,5 +1,6 @@
 package com.example.ecommerce_a.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -107,9 +108,22 @@ public class CartController {
 		
 	}
 	
+	/**
+	 * 再注文する.
+	 * 
+	 * @param orderItemId : 注文商品ID
+	 * @param loginUser : ログイン情報
+	 * @return ショッピングカートページ
+	 */
 	@RequestMapping("/repurchase")
-	public String showRepurchase(Integer orderItemId,Model model) {
-		System.out.println(orderItemId);
+	public String showRepurchase(Integer orderItemId,@AuthenticationPrincipal LoginUser loginUser) {
+		User user = loginUser.getUser();
+		OrderItem orderItem = orderService.showOrderItem(orderItemId);
+		Order order = orderService.showShoppingCart(user.getId());
+		List<OrderItem> orderItemList = new ArrayList<>();
+		orderItemList.add(orderItem);
+		order.setOrderItemList( orderItemList ); 
+		orderService.addItemToCart(order);
 		
 		return "redirect:/cart/showCart";
 	}
