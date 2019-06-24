@@ -301,29 +301,45 @@
 							</tr>
 						</tbody>
 					</table>
-					<h3 align="center">支払い情報</h3>
-					<div align="center">
-						<label class="radio-inline">
-							<input type="radio">銀行振込
-						</label>
-						<label class="radio-inline">
-							<input type="radio">クレジットカード
-						</label>
-					</div>
-					<br>
-					<div>
-						<label>クレジットカード番号:</label><input class="form-control">
-					</div><br><br>
-					<div>
-						有効期限
-					</div>
-					<div>
-						カード名義人
-					</div>
-					<div>
-						セキュリティコード
-					</div>
-					</div>
+						<h3 align="center">支払い情報</h3>
+						<div align="center">
+							<label class="radio-inline">
+								<input type="radio" name="test">銀行振込
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="test">クレジットカード
+							</label>
+						</div>
+						<br>
+					<table class="table table-striped">
+						<tr>
+							<th><label>クレジットカード番号:</label></th>
+							<td colspan="2"><input class="form-control" name="cardNumber" placeholder="CardNumber"></td>
+						</tr>
+						<tr>
+							<th><label>有効期限</label></th>
+							<td>
+								<select class="form-control" name="cardExpMonth">
+									<option value="null" selected>---</option>
+									<option th:each="month:${months}" th:text="${month}" th:value="${month}"></option>
+								</select>
+							</td>
+							<td>
+								<select class="form-control" name="cardExpYear">
+									<option value="null" selected>---</option>
+									<option th:each="year:${years}" th:text="${year}" th:value="${year}"></option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th><label>カード名義人</label></th>
+							<td colspan="2"><input class="form-control" name="cardName" placeholder="OwnerName"></td>
+						</tr>
+						<tr>
+							<th><label>セキュリティコード</label></th>
+							<td colspan="2"><input class="form-control" name="cardCVV" placeholder="SecurityCode"></td>
+						</tr>
+					</table>
 			</div>
 			<div class="row">
 				<div class="col-xs-offset-4 col-xs-4">

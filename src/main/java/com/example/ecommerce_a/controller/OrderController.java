@@ -2,6 +2,8 @@ package com.example.ecommerce_a.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +59,15 @@ public class OrderController {
 	@RequestMapping("/orderlist")
 	public String toOrder(Model model,@AuthenticationPrincipal LoginUser loginUser) {
 		Order order = orderService.showShoppingCart((loginUser.getUser().getId()));
+		List<Integer> months = new ArrayList<>();
+		List<Integer> years = new ArrayList<>();
+		int minYear = LocalDate.now().getYear();
+		int maxYear = LocalDate.now().plusYears(10).getYear();
+		for(int i = 1;i <=12;i++) {months.add(i);}
+		for(int i = minYear;i <= maxYear;i++) {years.add(i);}
 		model.addAttribute("order", order);
+		model.addAttribute("years",years);
+		model.addAttribute("months",months);
 		return "order_confirm";
 	}
 
