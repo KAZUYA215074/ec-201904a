@@ -10,6 +10,8 @@ public class FooterController {
 	public String company() {
 		return "company_profile";
 	}
-	
-
+	@RequestMapping("/jobOffer")
+	public String jobOffer() {
+		return "job_offer";
+	}
 }
