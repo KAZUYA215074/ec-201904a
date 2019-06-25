@@ -66,7 +66,10 @@ public class OrderController {
 	 * @return 注文確認ページ
 	 */
 	@RequestMapping("/orderlist")
-	public String toOrder(Model model,OrderForm form, @AuthenticationPrincipal LoginUser loginUser) {
+	public String toOrder(Model model, OrderForm form, @AuthenticationPrincipal LoginUser loginUser) {
+		if (loginUser == null) {
+			return "forward:/toLogin/";
+		}
 		Order order = orderService.showShoppingCart((loginUser.getUser().getId()));
 		List<Integer> months = new ArrayList<>();
 		List<Integer> years = new ArrayList<>();
@@ -87,7 +90,7 @@ public class OrderController {
 		form.setDestinationZipcode(user.getZipCode());
 		form.setDestinationName(user.getName());
 		form.setDeliveryDate(Date.valueOf(LocalDate.now()).toString());
-		
+
 		return "order_confirm";
 	}
 
@@ -119,7 +122,7 @@ public class OrderController {
 
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors().get(0).getDefaultMessage());
-			return toOrder(model,form,loginUser);
+			return toOrder(model, form, loginUser);
 		}
 
 		BeanUtils.copyProperties(form, order);
@@ -135,10 +138,10 @@ public class OrderController {
 		}
 
 		orderService.update(order);
-		
+
 		sendMail.sendMainForOrderConfirmation(order);
-		
-		//sendMail.sendMailHTML(order);
+
+		// sendMail.sendMailHTML(order);
 		return "order_finished";
 	}
 

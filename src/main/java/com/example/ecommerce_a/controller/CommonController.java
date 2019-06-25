@@ -44,6 +44,13 @@ public class CommonController {
 			orderService.addItemToCart(order);
 		}
 		session.removeAttribute("order");
+		
+		String referer = (String) session.getAttribute("referer");
+		String path = referer.replaceAll("(http.?:\\/\\/[a-zA-Z0-9.:]*)", "");
+		if (path.equals("/ec-201904a/cart/showCart")) {
+			return "redirect:/order/orderlist";
+		}
+		
 		return "redirect:/";
 	}
 
