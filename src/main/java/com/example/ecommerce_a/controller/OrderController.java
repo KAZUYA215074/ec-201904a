@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.ecommerce_a.domain.CreditcardInfo;
 import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.domain.Order.PaymentMethod;
 import com.example.ecommerce_a.domain.ResponceCreditcardServerInfo;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderForm;
@@ -93,31 +95,31 @@ public class OrderController {
 			@AuthenticationPrincipal LoginUser loginUser) {
 		User user = loginUser.getUser();
 		Order order = orderService.showShoppingCart(user.getId());
+		order.setPaymentMethod(form.getIntPaymentMethod());
 
-		CreditcardInfo creditcardInfo = form.createCreditcardInfo();
-		creditcardInfo.setUser_id(user.getId());
-		creditcardInfo.setOrder_number(String.valueOf(order.getId()));
-		creditcardInfo.setAmount(String.valueOf(order.getTotalPrice()));
-		// if cvv is 123, return error.
-		ResponceCreditcardServerInfo response = postWebAPIService.postCreditcardServer(creditcardInfo);
+		if (order.getPaymentMethod() == PaymentMethod.CREDIT.getCode()) {
+			CreditcardInfo creditcardInfo = form.createCreditcardInfo();
+			creditcardInfo.setUser_id(user.getId());
+			creditcardInfo.setOrder_number(String.valueOf(order.getId()));
+			creditcardInfo.setAmount(String.valueOf(order.getTotalPrice()));
+			// if cvv is 123, return error.
+			ResponceCreditcardServerInfo response = postWebAPIService.postCreditcardServer(creditcardInfo);
 
-		if (response.getStatus().equals("error")) {
-			result.rejectValue("cardNumber", null, "クレジットカード情報が不正です");
+			if (response.getStatus().equals("error")) {
+				result.rejectValue("cardNumber", null, "クレジットカード情報が不正です");
+			}
 		}
 
 		if (result.hasErrors()) {
 			return toOrder(model, loginUser);
 		}
 
+		BeanUtils.copyProperties(form, order);
 		order.setOrderDate(Date.valueOf(LocalDate.now()));
-		order.setDestinationName(form.getDestinationName());
-		order.setDestinationEmail(form.getDestinationEmail());
 		order.setDestinationZipcode(ConvertUtils.getDelHyphenZipCode(form.getDestinationZipcode()));
-		order.setDestinationAddress(form.getDestinationAddress());
-
 		order.setDestinationTel(ConvertUtils.getHypehnTelephone(form.getDestinationTel()));
 		order.setDeliveryTime(Timestamp.valueOf(form.getDeliveryDate() + " " + form.getDeliveryTime() + ":00:00"));
-		order.setPaymentMethod(form.getIntPaymentMethod());
+
 		if (order.getPaymentMethod() == Order.PaymentMethod.CASH_ON_DELIVERY.getCode()) {
 			order.setStatus(Order.Status.NOT_PAYMENT.getCode());
 		} else if (order.getPaymentMethod() == Order.PaymentMethod.CREDIT.getCode()) {
