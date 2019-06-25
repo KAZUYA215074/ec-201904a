@@ -28,20 +28,20 @@
 								<label for="inputName">名前:</label>
 								<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span>
 								<input name="name" type="text" id="inputName" class="form-control"
-									placeholder="Name" th:field="*{name}">
+									placeholder="楽楽太郎" th:field="*{name}">
 							</div>
 							<div class="form-group">
 								<label for="inputEmail">メールアドレス:</label>
 								<span th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" style="color:red"></span>
 								<input type="text" id="inputEmail" class="form-control"
-									placeholder="Email" name="mailAddress" th:field="*{mailAddress}">
+									placeholder="rakuspiza@gmail.com" name="mailAddress" th:field="*{mailAddress}">
 							</div>
 							<div class="form-group">
-								<label for="inputZipcode">郵便番号:</label>
+								<label for="inputZipcode">郵便番号:  (半角数字)</label>
 								<span th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" style="color:red"></span>
 								<script src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
 								<input type="text" id="inputZipcode" class="form-control"
-									placeholder="Zipcode" name="zipCode" th:field="*{zipCode}"
+									placeholder="例)  1240024" name="zipCode" th:field="*{zipCode}"
 									onKeyUp="AjaxZip3.zip2addr(this,'','address','address');">
 								
 							</div>
@@ -49,25 +49,25 @@
 								<label for="inputAddress">住所:</label>
 								<span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color:red"></span>
 								<input type="text" id="inputAddress" class="form-control"
-									placeholder="Address" name="address" th:field="*{address}">
+									placeholder="東京都葛飾区新小岩" name="address" th:field="*{address}">
 							</div>
 							<div class="form-group">
-								<label for="inputTel">電話番号:</label>
+								<label for="inputTel">電話番号:  (半角数字)</label>
 								<span th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" style="color:red"></span>
 								<input type="text" id="inputTel" class="form-control"
-									placeholder="Tel" name="telephone" th:field="*{telephone}">
+									placeholder="例)  0120345678" name="telephone" th:field="*{telephone}">
 							</div>
 							<div class="form-group">
 								<label for="inputPassword">パスワード:</label>
 								<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></span>
 								<input type="password" id="inputPassword" class="form-control"
-									placeholder="Password" name="password" th:field="*{password}">
+									placeholder="パズワード（半角英数字6〜12文字）" name="password" th:field="*{password}">
 							</div>
 							<div class="form-group">
 								<label for="inputConfirmationPassword">確認用パスワード:</label>
 								<span th:if="${#fields.hasErrors('checkedpassword')}" th:errors="*{checkedpassword}" style="color:red"></span>
 								<input type="password" id="inputConfirmationPassword" class="form-control"
-									placeholder="Confirmation Password" name="checkedpassword">
+									placeholder="確認用パスワード" name="checkedpassword">
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary">登録</button>
