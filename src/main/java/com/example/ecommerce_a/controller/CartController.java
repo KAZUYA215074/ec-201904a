@@ -125,10 +125,11 @@ public class CartController {
 	public String showRepurchase(Integer orderItemId,@AuthenticationPrincipal LoginUser loginUser) {
 		User user = loginUser.getUser();
 		OrderItem orderItem = orderService.showOrderItem(orderItemId);
+		orderItem.setId(null);
 		Order order = orderService.showShoppingCart(user.getId());
 		if(order == null) {
 			order = new Order();
-			order.setTotalPrice(orderItem.getSubTotal());
+			order.setTotalPrice(0);
 			order.setUser(user);
 			order.setUserId(user.getId());
 		}
@@ -136,6 +137,7 @@ public class CartController {
 		List<OrderItem> orderItemList = new ArrayList<>();
 		orderItemList.add(orderItem);
 		order.setOrderItemList( orderItemList ); 
+		order.setTotalPrice(orderItem.getSubTotal());
 		orderService.addItemToCart(order);
 		
 		return "redirect:/cart/showCart";
