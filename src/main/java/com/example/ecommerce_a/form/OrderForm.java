@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -21,12 +22,6 @@ import com.example.ecommerce_a.domain.User;
  */
 public class OrderForm {
 
-	/** ユーザID */
-	private String userId;
-	/** 状態 */
-	private String status;
-	/** 合計金額 */
-	private String totalPrice;
 	/** 宛先氏名 */
 	@NotBlank(message = "お名前を入力してください")
 	private String destinationName;
@@ -47,10 +42,10 @@ public class OrderForm {
 	@Size(max=11,message = "電話番号を入力してください")
 	private String destinationTel;
 	/** 配達日 */
-	@NotNull(message = "配達日時を入力してください")
+	@NotEmpty(message = "配達日時を入力してください")
 	private String deliveryDate;
 	/** 配達時間 */
-	@NotNull(message = "配達日時を入力してください")
+	@NotEmpty(message = "配達日時を入力してください")
 	private String deliveryTime;
 	/** 支払方法 */
 	private String paymentMethod;
@@ -91,33 +86,6 @@ public class OrderForm {
 	}
 
 	/**
-	 * ユーザIDをInteger型で返す.
-	 * 
-	 * @return ユーザID
-	 */
-	public Integer getIntuserId() {
-		return Integer.parseInt(userId);
-	}
-
-	/**
-	 * 状態をInteger型で返す.
-	 * 
-	 * @return 状態
-	 */
-	public Integer getIntStatus() {
-		return Integer.parseInt(status);
-	}
-
-	/**
-	 * 合計金額をInteger型で返す.
-	 * 
-	 * @return 合計金額
-	 */
-	public Integer getIntTotalPrice() {
-		return Integer.parseInt(totalPrice);
-	}
-
-	/**
 	 * 注文日をDate型で返す.
 	 * 
 	 * @return 注文年月日
@@ -135,30 +103,6 @@ public class OrderForm {
 	 */
 	public Integer getIntPaymentMethod() {
 		return Integer.parseInt(paymentMethod);
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(String totalPrice) {
-		this.totalPrice = totalPrice;
 	}
 
 	public String getDestinationName() {
@@ -291,13 +235,14 @@ public class OrderForm {
 
 	@Override
 	public String toString() {
-		return "OrderForm [userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
-				+ ", destinationName=" + destinationName + ", destinationEmail=" + destinationEmail
+		return "OrderForm [destinationName=" + destinationName + ", destinationEmail=" + destinationEmail
 				+ ", destinationZipcode=" + destinationZipcode + ", destinationAddress=" + destinationAddress
 				+ ", destinationTel=" + destinationTel + ", deliveryDate=" + deliveryDate + ", deliveryTime="
 				+ deliveryTime + ", paymentMethod=" + paymentMethod + ", user=" + user + ", orderNumber=" + orderNumber
 				+ ", amount=" + amount + ", cardNumber=" + cardNumber + ", cardExpYear=" + cardExpYear
 				+ ", cardExpMonth=" + cardExpMonth + ", cardName=" + cardName + ", cardCVV=" + cardCVV + "]";
 	}
+
+	
 
 }

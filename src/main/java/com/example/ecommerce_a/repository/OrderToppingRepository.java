@@ -60,7 +60,6 @@ public class OrderToppingRepository {
 		template.update(sql.toString(), mapParam);
 	}
 	
-	//XXX:未テスト
 	/**
 	 * IDを指定して注文トッピング情報を削除する.
 	 * 
@@ -71,6 +70,19 @@ public class OrderToppingRepository {
 		sql.append(" DELETE FROM ");	sql.append(TABLE_NAME);
 		sql.append(" WHERE id=:id ");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql.toString(), param);
+	}
+	
+	/**
+	 * 注文商品IDを指定して注文トッピングを削除する.
+	 * 
+	 * @param orderItemId 削除する注文商品ID
+	 */
+	public void deleteByOrderItemId(Integer orderItemId) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" DELETE FROM ");	sql.append(TABLE_NAME);
+		sql.append(" WHERE order_item_id=:orderItemId ");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderItemId", orderItemId);
 		template.update(sql.toString(), param);
 	}
 }

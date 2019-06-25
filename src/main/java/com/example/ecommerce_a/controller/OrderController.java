@@ -88,12 +88,14 @@ public class OrderController {
 		model.addAttribute("years", years);
 		model.addAttribute("months", months);
 		User user = loginUser.getUser();
-		form.setDestinationEmail(user.getMailAddress());
-		form.setDestinationAddress(user.getAddress());
-		form.setDestinationZipcode(user.getZipCode());
-		form.setDestinationName(user.getName());
-		form.setDeliveryDate(Date.valueOf(LocalDate.now()).toString());
-		form.setDestinationTel(ConvertUtils.getDelHyphenTelephone(user.getTelephone()));
+		if(form.getDestinationName()==null) {
+			form.setDestinationEmail(user.getMailAddress());
+			form.setDestinationAddress(user.getAddress());
+			form.setDestinationZipcode(user.getZipCode());
+			form.setDestinationName(user.getName());
+			form.setDeliveryDate(Date.valueOf(LocalDate.now().plusDays(1)).toString());
+			form.setDestinationTel(ConvertUtils.getDelHyphenTelephone(user.getTelephone()));
+		}
 		
 		return "order_confirm";
 	}
@@ -130,7 +132,6 @@ public class OrderController {
 		}
 
 		if (result.hasErrors()) {
-			System.out.println(result.getAllErrors().get(0).getDefaultMessage());
 			return toOrder(model, form, loginUser);
 		}
 
