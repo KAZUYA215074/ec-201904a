@@ -104,12 +104,12 @@ public class CartController {
 		User user = loginUser.getUser();
 		
 		List<Order> orderList = orderService.showShoppingHistory(user.getId());
-		if(orderList!=null) {
-			Collections.reverse(orderList);
+		if(orderList==null) {
+			model.addAttribute("message","履歴は一件もありません");
 		}else {
-			orderList = new ArrayList<>();
+			Collections.reverse(orderList);
+			model.addAttribute("orderList",orderList);
 		}
-		model.addAttribute("orderList",orderList);
 		return "order-history";
 		
 	}

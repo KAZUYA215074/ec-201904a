@@ -32,6 +32,14 @@
 				</table>
 				
 				<hr>
+				<table th:if="${message}" class="table table-striped">
+					<tbody>
+						<tr>
+							<th colspan="6"><div class="text-center"><h3 th:text="${message}" style="color: red;"></h3></div></th>
+						</tr>
+					</tbody>
+				</table>
+				
 				<div th:each="order:${orderList}">
 				  <table class="table table-striped">
 					<tbody>

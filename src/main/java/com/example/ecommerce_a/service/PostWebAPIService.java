@@ -1,8 +1,10 @@
 package com.example.ecommerce_a.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.ecommerce_a.domain.ResponceCreditCardServerInfo;
+import com.example.ecommerce_a.domain.CreditcardInfo;
+import com.example.ecommerce_a.domain.ResponceCreditcardServerInfo;
 
 /**
  * WebAPIにPOSTを行うサービス.
@@ -10,14 +12,21 @@ import com.example.ecommerce_a.domain.ResponceCreditCardServerInfo;
  * @author Makoto
  *
  */
+@Service
 public class PostWebAPIService {
 
+	/** Creditcard APIのエンドポイント */
+	private final static String CREDITCARD_SERVER_ENDPOINT = "http://153.126.174.131:8080/sample-credit-card-web-api/credit-card/payment";
+
 	/**
-	 * CreditCard APIにカード情報をPOSTする
+	 * Creditcard APIにカード情報をPOSTする
 	 */
-	public void PostCreditcardServer() {
+	public ResponceCreditcardServerInfo postCreditcardServer(CreditcardInfo creditcardInfo) {
+		ResponceCreditcardServerInfo responceCreditcardServerInfo = new ResponceCreditcardServerInfo();
 		RestTemplate restTemplate = new RestTemplate();
-		ResponceCreditCardServerInfo responce = restTemplate.getForObject("http://153.126.174.131:8080/sample-credit-card-web-api/credit-card/payment ", ResponceCreditCardServerInfo.class);
+		responceCreditcardServerInfo = restTemplate.postForObject(CREDITCARD_SERVER_ENDPOINT, creditcardInfo,
+				ResponceCreditcardServerInfo.class);
+		return responceCreditcardServerInfo;
 	}
 
 }

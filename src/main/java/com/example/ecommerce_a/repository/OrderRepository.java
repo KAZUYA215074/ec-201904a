@@ -186,7 +186,7 @@ public class OrderRepository {
 	 * @param statuses : 検索する注文状況の配列
 	 * @return 結合されて検索された注文情報一覧
 	 */
-	public List<Order> findByJoinedOrderByUserIdAndStatus(int[] userIds,int[] statuses) {
+	public List<Order> findByJoinedOrderByUserIdAndStatus(int userId,List<Integer> statusList) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
 		sql.append(" FROM ");		sql.append(TABLE_NAME);			sql.append(" AS o ");
@@ -200,24 +200,46 @@ public class OrderRepository {
 		sql.append(" ON ot.topping_id = t.id ");
 		sql.append(" WHERE (o.user_id,o.status) IN( ");
 		MapSqlParameterSource mapParam = new MapSqlParameterSource();
-		int times = userIds.length ;
+		int times = statusList.size() ;
 		for(int i=0;i<times;i++) {
 			sql.append("(:userId");
 			sql.append(i);
 			sql.append(",:status");
 			sql.append(i);
 			sql.append("),");
-			mapParam.addValue("userId"+i, userIds[i]);
-			mapParam.addValue("status"+i, statuses[i]);
+			mapParam.addValue("userId"+i, userId);
+			mapParam.addValue("status"+i, statusList.get(i));
 		}
 		sql.deleteCharAt(sql.lastIndexOf(","));
 		sql.append(" ) ORDER BY o.id" );
-		
-		//SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
-		
 		return template.query(sql.toString(), mapParam,ORDER_RESULT_SET);
 	}
 	
+	
+	public List<Order> findByJoinedOrderByStatus(List<Integer> statusList) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
+		sql.append(" FROM ");		sql.append(TABLE_NAME);			sql.append(" AS o ");
+		sql.append(" INNER JOIN ");	sql.append(OrderItemRepository.TABLE_NAME);		sql.append(" AS oi ");
+		sql.append(" ON o.id = oi.order_id ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(OrderToppingRepository.TABLE_NAME);	sql.append(" AS ot ");
+		sql.append(" ON oi.id = ot.order_item_id ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(ItemRepository.TABLE_NAME);			sql.append(" AS i ");
+		sql.append(" ON oi.item_id = i.id ");
+		sql.append(" FULL OUTER JOIN ");	sql.append(ToppingRepository.TABLE_NAME);		sql.append(" AS t ");
+		sql.append(" ON ot.topping_id = t.id ");
+		sql.append(" WHERE (o.status) IN( ");
+		MapSqlParameterSource mapParam = new MapSqlParameterSource();
+		for(int i=0;i<statusList.size();i++) {
+			sql.append("(:status");
+			sql.append(i);
+			sql.append("),");
+			mapParam.addValue("status"+i, statusList.get(i));
+		}
+		sql.deleteCharAt(sql.lastIndexOf(","));
+		sql.append(" ) ORDER BY o.id" );
+		return template.query(sql.toString(), mapParam,ORDER_RESULT_SET);
+	}
 	
 	
 	/**

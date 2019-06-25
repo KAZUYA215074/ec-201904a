@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.example.ecommerce_a.domain.CreditcardInfo;
 import com.example.ecommerce_a.domain.User;
 
 /**
@@ -19,9 +20,7 @@ import com.example.ecommerce_a.domain.User;
  *
  */
 public class OrderForm {
-	/** ID */
-	private Integer id;
-	// TODO:不要
+
 	/** ユーザID */
 	private String userId;
 	/** 状態 */
@@ -73,6 +72,25 @@ public class OrderForm {
 	private String cardCVV;
 
 	/**
+	 * formのクレジットカード情報をCreditcardInfoに入れて返す.
+	 * 
+	 * @param orderNumber オーダーID
+	 * @return クレジットカード情報
+	 */
+	public CreditcardInfo createCreditcardInfo() {
+		CreditcardInfo creditCardInfo = new CreditcardInfo();
+		creditCardInfo.setOrder_number(orderNumber);
+		creditCardInfo.setAmount(amount);
+		creditCardInfo.setCard_number(cardNumber);
+		creditCardInfo.setCard_exp_year(cardExpYear);
+		creditCardInfo.setCard_exp_month(cardExpMonth);
+		creditCardInfo.setCard_name(cardName);
+		creditCardInfo.setCard_cvv(cardCVV);
+
+		return creditCardInfo;
+	}
+
+	/**
 	 * ユーザIDをInteger型で返す.
 	 * 
 	 * @return ユーザID
@@ -117,14 +135,6 @@ public class OrderForm {
 	 */
 	public Integer getIntPaymentMethod() {
 		return Integer.parseInt(paymentMethod);
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getUserId() {
@@ -281,7 +291,7 @@ public class OrderForm {
 
 	@Override
 	public String toString() {
-		return "OrderForm [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
+		return "OrderForm [userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
 				+ ", destinationName=" + destinationName + ", destinationEmail=" + destinationEmail
 				+ ", destinationZipcode=" + destinationZipcode + ", destinationAddress=" + destinationAddress
 				+ ", destinationTel=" + destinationTel + ", deliveryDate=" + deliveryDate + ", deliveryTime="
