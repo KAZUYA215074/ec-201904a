@@ -139,7 +139,7 @@ public class ItemDetailController {
 				order = new Order();
 				session.setAttribute("order", order);
 				orderItemList = new  ArrayList<>();
-			}else {
+			} else {
 				orderItemList = order.getOrderItemList();
 			}
 			
@@ -156,6 +156,6 @@ public class ItemDetailController {
 		if(user!=null) {
 			orderService.addItemToCart(order);
 		}
-		return "redirect:/item/showList";
+		return "redirect:/";
 	}
 }

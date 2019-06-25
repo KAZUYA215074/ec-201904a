@@ -26,7 +26,7 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/item/showList}" class="form-horizontal" th:object="${sortForm}">
+						<form method="post" th:action="@{/}" class="form-horizontal" th:object="${sortForm}">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
@@ -72,9 +72,6 @@
 						</tr>
 					</tbody>
 				</table>
-				<!--<span th:each="page:${pageList}">
-					<a th:href="@{'/item/showList?page='+${page}}"><button th:text="${page}" th:value="${page}"></button></a>
-				</span>-->
 			</div>
 		</div>
 	</div>
