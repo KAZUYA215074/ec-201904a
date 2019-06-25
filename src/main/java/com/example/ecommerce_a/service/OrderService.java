@@ -124,7 +124,9 @@ public class OrderService {
 		Order order = orderRepository.load(orderId);
 		order.setTotalPrice(order.getTotalPrice()-totalPrice);
 		orderRepository.update(order);
+		//orderItemRepository.deleteJoinById(orderItemId);
 		orderItemRepository.deleteById(orderItemId);
+		orderToppingRepository.deleteByOrderItemId(orderItemId);
 	}
 	
 	/**

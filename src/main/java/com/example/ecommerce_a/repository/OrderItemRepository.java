@@ -115,10 +115,25 @@ public class OrderItemRepository {
 	 * 
 	 * @param id 削除するID
 	 */
-	public void deleteById(Integer id) {
+	public void deleteJoinById(Integer id) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" WITH deleted AS (DELETE FROM order_items WHERE id=:id RETURNING id)");
 		sql.append(" DELETE FROM order_toppings WHERE order_item_id IN (SELECT id FROM deleted)");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql.toString(), param);
+	}
+	
+	/**
+	 * 注文商品を削除する.
+	 * 
+	 * @param id 削除する注文商品ID
+	 * 
+	 */
+	public void deleteById(Integer id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" DELETE FROM ");
+		sql.append(TABLE_NAME);
+		sql.append(" WHERE id = :id");
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql.toString(), param);
 	}
