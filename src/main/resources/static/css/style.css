@@ -3,4 +3,5 @@
 /** ヘッダーを浮かした分、ボディの開始位置をずらす */
 body.body{
 	padding-top: 70px;
+	padding-bottom: 100px;
 }
