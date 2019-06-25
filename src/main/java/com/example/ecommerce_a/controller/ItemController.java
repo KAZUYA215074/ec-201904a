@@ -27,19 +27,19 @@ import com.example.ecommerce_a.service.OrderService;
  *
  */
 @Controller
-@RequestMapping("/item")
+@RequestMapping("/")
 public class ItemController {
-	
+
 	@Autowired
 	private ItemService itemService;
 	@Autowired
 	private OrderService orderService;
 	@Autowired
 	private HttpSession session;
-	
+
 	/** 表示する最大の列の数 */
 	private static final int MAX_COLS = 3;
-	
+
 	@ModelAttribute
 	public SortForm setUpForm() {
 		return new SortForm();
@@ -53,14 +53,14 @@ public class ItemController {
 	 * @param page  押されたページ
 	 * @return 商品一覧ページ
 	 */
-	@RequestMapping("/showList")
-	public String showList(SortForm form,Model model, @AuthenticationPrincipal LoginUser loginUser) {
+	@RequestMapping("")
+	public String showList(SortForm form, Model model, @AuthenticationPrincipal LoginUser loginUser) {
 		// ログイン情報をコントローラで取得するサンプル
 		try {
 			User user = loginUser.getUser();
 			System.out.println(user.getName() + "さんがログイン中");
 			Order order = (Order) session.getAttribute("order");
-			if(order != null) {
+			if (order != null) {
 				order.setUser(user);
 				order.setUserId(user.getId());
 				orderService.addItemToCart(order);
@@ -71,17 +71,17 @@ public class ItemController {
 		}
 
 		if (form.getName() == null) {
-			 form.setName("");
+			form.setName("");
 		}
 		List<String> nameList = itemService.itemAllName();
-		List<Item> itemList = itemService.findByName(form.getName(),form.getSortName());
-		if(itemList.size() == 0) {
-			model.addAttribute("notFound",form.getName()+" に一致する商品が見つかりませんでした");
+		List<Item> itemList = itemService.findByName(form.getName(), form.getSortName());
+		if (itemList.size() == 0) {
+			model.addAttribute("notFound", form.getName() + " に一致する商品が見つかりませんでした");
 		}
 		List<Item> list = new ArrayList<>();
 		List<List<Item>> listList = new ArrayList<>();
-		for(int i=0;i<itemList.size();i++) {
-			if( i%MAX_COLS==0 ) {
+		for (int i = 0; i < itemList.size(); i++) {
+			if (i % MAX_COLS == 0) {
 				list = new ArrayList<>();
 				listList.add(list);
 			}

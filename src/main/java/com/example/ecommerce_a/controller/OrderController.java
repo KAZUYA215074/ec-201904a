@@ -83,7 +83,6 @@ public class OrderController {
 		model.addAttribute("months", months);
 		User user = loginUser.getUser();
 		form.setDestinationEmail(user.getMailAddress());
-		//form.setDestinationTel(user.getTelephone());
 		form.setDestinationAddress(user.getAddress());
 		form.setDestinationZipcode(user.getZipCode());
 		form.setDestinationName(user.getName());

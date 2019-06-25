@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-		        .antMatchers("/toLogin/", "/regist/", "/regist/regist", "/item/**","/detail/**","/cart/**","/user/**").permitAll()
+		        .antMatchers("/", "/toLogin/", "/regist/", "/regist/regist", "/item/**","/detail/**","/cart/**","/user/**").permitAll()
 		        .antMatchers("/admin/**").hasRole("ADMIN")
 		        .anyRequest().authenticated();
         
@@ -48,13 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		.loginPage("/toLogin/")
         		.loginProcessingUrl("/login")
         		//.failureUrl("/?error=true")
-        		.defaultSuccessUrl("/item/showList", true)
+        		.defaultSuccessUrl("/", true)
         		.usernameParameter("mailAddress")
         		.passwordParameter("password");
         
         http.logout()
         		.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-        		.logoutSuccessUrl("/item/showList")
+        		.logoutSuccessUrl("/")
         		.deleteCookies("JSESSIONID")
         		.invalidateHttpSession(true);
 //		http.formLogin().disable();
