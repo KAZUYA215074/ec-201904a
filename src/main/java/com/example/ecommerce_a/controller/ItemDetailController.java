@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -93,10 +95,9 @@ public class ItemDetailController {
 	 */
 	@RequestMapping("/addItem")
 	public String addItemToCart(
-			OrderItemForm form,
+			@Validated OrderItemForm form, BindingResult result,
 			@AuthenticationPrincipal LoginUser loginUser
 			) {
-		
 		User user = null;
 		try {
 			user = loginUser.getUser();
