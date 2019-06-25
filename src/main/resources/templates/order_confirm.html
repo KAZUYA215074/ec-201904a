@@ -180,13 +180,14 @@
 												</label>
 											</div>
 											<div class="col-sm-5">
-											<input type="date" name="deliveryDate" id="deliveryDate" class="form-control" placeholder="1979-7-27"
+											<input type="date" name="deliveryDate" id="deliveryDate" th:min="${minDate}" th:max="${maxDate}" class="form-control" placeholder="1979-7-27"
 										 th:field="*{deliveryDate}" th:errorclass="error-input" style="width:150px">
 											</div>
 
 										</div>
 										<div class="row">
 											<div class="col-sm-12">
+												<div th:text="${errorTime}" style="color:red"></div>
 												<label class="radio-inline">
 													<input type="radio" name="deliveryTime" value="10" checked="checked">
 													10時

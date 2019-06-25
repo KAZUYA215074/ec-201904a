@@ -3,6 +3,7 @@ package com.example.ecommerce_a.controller;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,8 @@ public class OrderController {
 		for (int i = minYear; i <= maxYear; i++) {
 			years.add(i);
 		}
+		model.addAttribute("minDate",LocalDate.now());
+		model.addAttribute("maxDate",LocalDate.now().plusDays(7));
 		model.addAttribute("order", order);
 		model.addAttribute("years", years);
 		model.addAttribute("months", months);
@@ -100,6 +103,11 @@ public class OrderController {
 	@RequestMapping("/ordercomp")
 	public String order(@Validated OrderForm form, BindingResult result, Model model,
 			@AuthenticationPrincipal LoginUser loginUser) {
+		int time = LocalDateTime.now().getHour();
+		if(form.getDeliveryDate().equals(LocalDate.now().toString()) && Integer.parseInt(form.getDeliveryTime()) <= time) {
+			model.addAttribute("errorTime","現在より前の時間は指定できません");
+			return toOrder(model,form,loginUser);
+		}
 		User user = loginUser.getUser();
 		Order order = orderService.showShoppingCart(user.getId());
 		order.setPaymentMethod(form.getIntPaymentMethod());
