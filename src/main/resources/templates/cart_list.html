@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="utf-8">
@@ -120,6 +120,6 @@
 	<span th:include="/fragment-footer::frag-footer"></span>
 	<!-- end container -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>
