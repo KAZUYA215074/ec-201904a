@@ -17,6 +17,12 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.example.ecommerce_a.domain.Order;
 
+/**
+ * メールを送るクラス.
+ * 
+ * @author taka
+ *
+ */
 @Component
 public class SendMail {
 
@@ -27,13 +33,19 @@ public class SendMail {
 		this.javaMailSender = javaMailSender;
 	}
 
+	/**
+	 * テキストの注文完了メールを送る
+	 * 
+	 * @param order 注文情報
+	 * @return メールメッセージ
+	 */
 	public SimpleMailMessage sendMainForOrderConfirmation(Order order) {
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 
 		try {
 			mailMessage.setTo(order.getDestinationEmail());
-			mailMessage.setReplyTo("maecan30o0@gmail.com");
-			mailMessage.setFrom("maecan30o0@gmail.com");
+			mailMessage.setReplyTo("rakusupiza@gmail.com");
+			mailMessage.setFrom("rakusupiza@gmail.com");
 			mailMessage.setSubject("卍ラクラクピザ卍　注文完了のお知らせ");
 			mailMessage.setText(order.toString());
 
@@ -46,14 +58,20 @@ public class SendMail {
 		}
 	}
 
+	/**
+	 * HTMLの注文完了メールを送る.
+	 * 
+	 * @param order 注文情報
+	 * 
+	 */
 	public void sendMailHTML(Order order) {
 		javaMailSender.send(new MimeMessagePreparator() {
 			
 			@Override
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, StandardCharsets.UTF_8.name());
-				helper.setFrom("hokueizi@gmail.com");
-				helper.setTo("hokueizi@gmail.com");
+				helper.setFrom("rakusupiza@gmail.com");
+				helper.setTo(order.getDestinationEmail());
 				helper.setSubject("商品一覧");
 				Context context = new Context();
 				context.setVariable("order", order);
@@ -62,6 +80,13 @@ public class SendMail {
 		});
 	}
 
+	/**
+	 * HTMLにコンテキストを入れる.
+	 * 
+	 * @param templateName HTMLファイルを指定
+	 * @param context セットしたコンテキスト
+	 * @return 
+	 */
 	private String getMailBody(String templateName, Context context) {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(mailTemplateResolver());
@@ -69,11 +94,15 @@ public class SendMail {
 
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private ClassLoaderTemplateResolver mailTemplateResolver() {
 		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
 		templateResolver.setTemplateMode(TemplateMode.HTML);
-		templateResolver.setPrefix("templates/");
-		templateResolver.setSuffix(".html");
+		templateResolver.setPrefix("templates/");		// メールのテンプレートの指定
+		templateResolver.setSuffix(".html");		
 		templateResolver.setCharacterEncoding("UTF-8");
 		templateResolver.setCacheable(true);
 		return templateResolver;

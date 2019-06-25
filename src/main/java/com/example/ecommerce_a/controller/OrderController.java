@@ -87,6 +87,8 @@ public class OrderController {
 		form.setDestinationZipcode(user.getZipCode());
 		form.setDestinationName(user.getName());
 		form.setDeliveryDate(Date.valueOf(LocalDate.now()).toString());
+		form.setDestinationTel(ConvertUtils.getDelHyphenTelephone(user.getTelephone()));
+		System.out.println(ConvertUtils.getDelHyphenTelephone(user.getTelephone()));
 		
 		return "order_confirm";
 	}
@@ -136,9 +138,9 @@ public class OrderController {
 
 		orderService.update(order);
 		
-		sendMail.sendMainForOrderConfirmation(order);
+		//sendMail.sendMainForOrderConfirmation(order);
 		
-		//sendMail.sendMailHTML(order);
+		sendMail.sendMailHTML(order);
 		return "order_finished";
 	}
 
