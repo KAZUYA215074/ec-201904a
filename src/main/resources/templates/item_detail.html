@@ -83,7 +83,8 @@ function allcheck(tf) {
 								<div>
 									<div class="col-sm-12" th:each="splitedToppingList: ${splitedToppingListInList}">
 										<label class="checkbox-inline" th:each="topping: ${splitedToppingList}">
-											<input name="toppingIdList" class="toppingCheckbox" type="checkbox" th:value="${topping.id}" th:text="${topping.name}">
+											<input name="toppingIdList" class="toppingCheckbox checkbox01-input" type="checkbox" th:value="${topping.id}">
+											<span class="checkbox01-parts" th:text="${topping.name}"></span>
 										</label>
 									</div>
 								</div>
