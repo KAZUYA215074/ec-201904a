@@ -108,7 +108,7 @@ public class OrderController {
 	public String order(@Validated OrderForm form, BindingResult result, Model model,
 			@AuthenticationPrincipal LoginUser loginUser) {
 		int time = LocalDateTime.now().getHour();
-		if(form.getDeliveryDate().equals(LocalDate.now().toString()) && Integer.parseInt(form.getDeliveryTime()) <= time) {
+		if(LocalDate.now().toString().equals(form.getDeliveryDate()) && form.getDeliveryTime() != null && Integer.parseInt(form.getDeliveryTime()) <= time) {
 			model.addAttribute("errorTime","現在より前の時間は指定できません");
 			return toOrder(model,form,loginUser);
 		}
