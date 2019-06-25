@@ -19,57 +19,56 @@ import com.example.ecommerce_a.domain.Order;
 
 @Component
 public class SendMail {
-	
-  private final JavaMailSender javaMailSender;
 
-  @Autowired
-  SendMail(JavaMailSender javaMailSender) {
-    this.javaMailSender = javaMailSender;
-  }
+	private final JavaMailSender javaMailSender;
 
-  public SimpleMailMessage sendMainForOrderConfirmation(Order order) {
-    SimpleMailMessage mailMessage = new SimpleMailMessage();
+	@Autowired
+	SendMail(JavaMailSender javaMailSender) {
+		this.javaMailSender = javaMailSender;
+	}
 
-    try {
-        mailMessage.setTo(order.getDestinationEmail());
-        mailMessage.setReplyTo("maecan30o0@gmail.com");
-        mailMessage.setFrom("maecan30o0@gmail.com");
-        mailMessage.setSubject("卍ラクラクピザ卍　注文完了のお知らせ");
-        mailMessage.setText(order.toString());
+	public SimpleMailMessage sendMainForOrderConfirmation(Order order) {
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        javaMailSender.send(mailMessage);
-        
-        return mailMessage;
-    } catch(Exception e) {
-    	e.printStackTrace();
-    	return null;
-    }
-  }
-  
-  public void sendMailHTML(Order order) {
-	  javaMailSender.send(new MimeMessagePreparator() {
-		  
-	        @Override
-	        public void prepare(MimeMessage mimeMessage) throws Exception {
-	            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
-	                    StandardCharsets.UTF_8.name());
-	            helper.setFrom("hokueizi@gmail.com");
-	            helper.setTo("hokueizi@gmail.com");
-	            helper.setSubject("商品一覧");
-	            Context context = new Context();
-	            context.setVariable("order", order);
-	            helper.setText(getMailBody("ordermail", context), true);
-	        }
-	    });
-  }
-  
-  private String getMailBody(String templateName, Context context) {
+		try {
+			mailMessage.setTo(order.getDestinationEmail());
+			mailMessage.setReplyTo("maecan30o0@gmail.com");
+			mailMessage.setFrom("maecan30o0@gmail.com");
+			mailMessage.setSubject("卍ラクラクピザ卍　注文完了のお知らせ");
+			mailMessage.setText(order.toString());
+
+			javaMailSender.send(mailMessage);
+
+			return mailMessage;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void sendMailHTML(Order order) {
+		javaMailSender.send(new MimeMessagePreparator() {
+			
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, StandardCharsets.UTF_8.name());
+				helper.setFrom("hokueizi@gmail.com");
+				helper.setTo("hokueizi@gmail.com");
+				helper.setSubject("商品一覧");
+				Context context = new Context();
+				context.setVariable("order", order);
+				helper.setText(getMailBody("ordermail", context), true);
+			}
+		});
+	}
+
+	private String getMailBody(String templateName, Context context) {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(mailTemplateResolver());
 		return templateEngine.process(templateName, context);
-		
+
 	}
-	
+
 	private ClassLoaderTemplateResolver mailTemplateResolver() {
 		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
 		templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -79,5 +78,5 @@ public class SendMail {
 		templateResolver.setCacheable(true);
 		return templateResolver;
 	}
-  
+
 }
