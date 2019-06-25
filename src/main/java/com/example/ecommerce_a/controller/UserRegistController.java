@@ -42,11 +42,6 @@ public class UserRegistController {
 		return new InsertUserForm();
 	}
 
-	@Bean
-	public PasswordEncoder encoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 	/**
 	 * ユーザー登録画面を出力する.
 	 * 
