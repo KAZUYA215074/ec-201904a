@@ -42,10 +42,10 @@ public class ItemDetailController {
 
 	@Autowired
 	private ItemService itemService;
-	
+
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Autowired
 	private ItemRepository itemRepository;
 
@@ -84,39 +84,39 @@ public class ItemDetailController {
 		}
 		model.addAttribute("item", item);
 		model.addAttribute("splitedToppingListInList", splitedToppingListInList);
-		
+
 		return "item_detail";
 	}
 
 	/**
 	 * カートに追加する.
+	 * 
 	 * @param form フォーム
 	 * @return 商品一覧
 	 */
 	@RequestMapping("/addItem")
-	public String addItemToCart(
-			@Validated OrderItemForm form, BindingResult result,
-			@AuthenticationPrincipal LoginUser loginUser
-			) {
+	public String addItemToCart(@Validated OrderItemForm form, BindingResult result,
+			@AuthenticationPrincipal LoginUser loginUser) {
 		User user = null;
 		try {
 			user = loginUser.getUser();
 		} catch (NullPointerException e) {
 			user = null;
 		}
-		
+
 		// 注文トッピングリスト
 		List<OrderTopping> orderToppingList = new ArrayList<>();
-		if(form.getToppingIdList()!=null) {
-			for (Integer id: form.getToppingIdList()) {
+		if (form.getToppingIdList() != null) {
+			for (Integer id : form.getToppingIdList()) {
 				OrderTopping orderTopping = new OrderTopping();
 				Topping topping = toppingService.load(id);
 				orderTopping.setTopping(topping);
-				orderTopping.setToppingId(topping.getId());;
+				orderTopping.setToppingId(topping.getId());
+				;
 				orderToppingList.add(orderTopping);
 			}
 		}
-		
+
 		// 注文商品
 		OrderItem orderItem = new OrderItem();
 		orderItem.setOrderToppingList(orderToppingList);
@@ -124,37 +124,37 @@ public class ItemDetailController {
 		orderItem.setSize(form.getSize());
 		orderItem.setItem(itemRepository.load(form.getItemId()));
 		orderItem.setItemId(form.getItemId());
-		
+
 		// 注文
 		Order order = null;
 		List<OrderItem> orderItemList = null;
-		
-		if(user!=null) {
+
+		if (user != null) {
 			order = new Order();
 			order.setUserId(user.getId());
 			orderItemList = new ArrayList<>();
 		} else {
 			order = (Order) session.getAttribute("order");
-			
-			if(order==null) {
+
+			if (order == null) {
 				order = new Order();
 				session.setAttribute("order", order);
-				orderItemList = new  ArrayList<>();
+				orderItemList = new ArrayList<>();
 			} else {
 				orderItemList = order.getOrderItemList();
 			}
-			
+
 		}
 		order.setOrderItemList(orderItemList);
 		orderItemList.add(orderItem);
 		order.setStatus(Order.Status.BEFORE_ORDER.getCode());
 		int totalPrice = 0;
-		for(OrderItem localOrderItem:orderItemList) {
+		for (OrderItem localOrderItem : orderItemList) {
 			totalPrice += localOrderItem.getSubTotal();
 		}
 		order.setTotalPrice(totalPrice);
-		
-		if(user!=null) {
+
+		if (user != null) {
 			orderService.addItemToCart(order);
 		}
 		return "redirect:/";

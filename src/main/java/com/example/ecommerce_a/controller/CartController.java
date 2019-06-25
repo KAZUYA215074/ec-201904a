@@ -30,7 +30,7 @@ public class CartController {
 
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Autowired
 	private HttpSession session;
 
@@ -42,22 +42,22 @@ public class CartController {
 	 */
 	@RequestMapping("/showCart")
 	public String showCartList(Model model, @AuthenticationPrincipal LoginUser loginUser) {
-		
+
 		Order order = null;
-		if(loginUser!=null) {
+		if (loginUser != null) {
 			User user = loginUser.getUser();
 			order = orderService.showShoppingCart(user.getId());
 		} else {
 			order = (Order) session.getAttribute("order");
 		}
-		
-		if(order==null) {
+
+		if (order == null) {
 			return "cart_list_not";
 		}
 		model.addAttribute("order", order);
 		return "cart_list";
 	}
-	
+
 	/**
 	 * 商品を削除する.
 	 * 
@@ -65,69 +65,68 @@ public class CartController {
 	 * @return ショッピングカートリスト表示
 	 */
 	@RequestMapping("/delete")
-	public String deleteItem(
-			Integer orderItemId,Integer totalPrice,Integer orderId, 
+	public String deleteItem(Integer orderItemId, Integer totalPrice, Integer orderId,
 			@AuthenticationPrincipal LoginUser loginUser) {
-		
-		if(loginUser!=null) {
-			orderService.deleteByOrderItem(orderItemId,totalPrice,orderId);
-		}else {
+
+		if (loginUser != null) {
+			orderService.deleteByOrderItem(orderItemId, totalPrice, orderId);
+		} else {
 			Order order = (Order) session.getAttribute("order");
 			List<OrderItem> orderItemList = order.getOrderItemList();
-			for(int i=0;i<orderItemList.size();i++) {
-				if(orderItemList.get(i).getId()==orderItemId) {
+			for (int i = 0; i < orderItemList.size(); i++) {
+				if (orderItemList.get(i).getId() == orderItemId) {
 					orderItemList.remove(i);
 				}
 			}
-			order.setTotalPrice(order.getTotalPrice()-totalPrice);
-			if(order.getOrderItemList().size() == 0) {
+			order.setTotalPrice(order.getTotalPrice() - totalPrice);
+			if (order.getOrderItemList().size() == 0) {
 				session.removeAttribute("order");
 			}
 		}
-		
+
 		return "redirect:/cart/showCart";
 	}
-	
+
 	/**
 	 * 購入履歴を表示する.
 	 * 
-	 * @param model 購入履歴
+	 * @param model     購入履歴
 	 * @param loginUser ログイン情報
 	 * @return 購入履歴表示
 	 */
 	@RequestMapping("/showHistory")
-	public String showHistory(Model model,@AuthenticationPrincipal LoginUser loginUser) {
-		
-		if(loginUser == null) {
+	public String showHistory(Model model, @AuthenticationPrincipal LoginUser loginUser) {
+
+		if (loginUser == null) {
 			return "redirect:/toLogin/";
 		}
 		User user = loginUser.getUser();
-		
+
 		List<Order> orderList = orderService.showShoppingHistory(user.getId());
-		if(orderList==null) {
-			model.addAttribute("message","履歴は一件もありません");
-		}else {
+		if (orderList == null) {
+			model.addAttribute("message", "履歴は一件もありません");
+		} else {
 			Collections.reverse(orderList);
-			model.addAttribute("orderList",orderList);
+			model.addAttribute("orderList", orderList);
 		}
 		return "order-history";
-		
+
 	}
-	
+
 	/**
 	 * 再注文する.
 	 * 
 	 * @param orderItemId : 注文商品ID
-	 * @param loginUser : ログイン情報
+	 * @param loginUser   : ログイン情報
 	 * @return ショッピングカートページ
 	 */
 	@RequestMapping("/repurchase")
-	public String showRepurchase(Integer orderItemId,@AuthenticationPrincipal LoginUser loginUser) {
+	public String showRepurchase(Integer orderItemId, @AuthenticationPrincipal LoginUser loginUser) {
 		User user = loginUser.getUser();
 		OrderItem orderItem = orderService.showOrderItem(orderItemId);
 		orderItem.setId(null);
 		Order order = orderService.showShoppingCart(user.getId());
-		if(order == null) {
+		if (order == null) {
 			order = new Order();
 			order.setTotalPrice(0);
 			order.setUser(user);
@@ -136,10 +135,10 @@ public class CartController {
 		order.setStatus(Order.Status.BEFORE_ORDER.getCode());
 		List<OrderItem> orderItemList = new ArrayList<>();
 		orderItemList.add(orderItem);
-		order.setOrderItemList( orderItemList ); 
+		order.setOrderItemList(orderItemList);
 		order.setTotalPrice(orderItem.getSubTotal());
 		orderService.addItemToCart(order);
-		
+
 		return "redirect:/cart/showCart";
 	}
 }
