@@ -12,8 +12,8 @@ spring:
     host: smtp.gmail.com
     port: 587
     #jndi-name: mail/Session
-    password: smdyhlqziouexxau # Google App password
-    username: maecan30o0@gmail.com # Google account mail address
+    password: aoustewobveosrqx # Google App password
+    username: rakusupiza@gmail.com # Google account mail address
     properties:
       mail:
         smtp:
