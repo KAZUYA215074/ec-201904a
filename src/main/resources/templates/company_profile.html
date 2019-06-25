@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>会社概要</title>
+<link rel="stylesheet" href="../../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" >
+<link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}" >
+</head>
+<body>
+		<!-- register form -->
+		<div class="row">
+			<div
+				class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-12 col-xs-12">
+				<!-- 背景をグレーに、埋め込んだようなコンポーネント -->
+				<div class="well">
+<!-- ここにモックのform要素を貼り付けます -->
+
+					<form >
+						<fieldset>
+							<legend>会社概要</legend>
+							<table class="table table-striped">
+							  <tr>
+							    <th nowrap>
+							      会社名
+							    </th>
+							    <td>
+							     <span>ラクラクピザ</span>
+							    </td>
+							  </tr>
+							  <tr>
+							    <th nowrap>
+							      代表者
+							    </th>
+							    <td>
+							      <span>頓花 貴俊</span>
+							    </td>
+							  </tr>
+							  <tr>
+							    <th nowrap>
+							      所在地
+							    </th>
+							    <td>
+							      <span>東京都新宿区</span>
+							    </td>
+							  </tr>
+							  <tr>
+							    <th nowrap>
+							      電話番号
+							    </th>
+							    <td>
+							      <span>000-0000－0000</span>
+							    </td>
+							  </tr>
+							  <tr>
+							    <th nowrap>
+							      受付時間
+							    </th>
+							    <td>
+							      平日9:00-19:00（土日祝9:00-20:00）
+							    </td>
+							  </tr>
+							  <tr>
+							    <th nowrap>
+							      設立
+							    </th>
+							    <td>
+							      2019年6月20日
+							    </td>
+							  </tr>
+							</table>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
