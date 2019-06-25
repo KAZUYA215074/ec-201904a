@@ -99,19 +99,7 @@ function allcheck(tf) {
 									<label for="">数量:</label>
 									<label class="control-label"
 										style="color: red" for="inputError">数量を選択してください</label>
-									<input type="text" name="quantity" class="form-control" list="count" autocomplete="off">
-									<datalist id="count">
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-										<option value="7">7</option>
-										<option value="8">8</option>
-										<option value="9">9</option>
-										<option value="10">10</option>
-									</datalist>
+									<input type="number" min="1" name="quantity" class="form-control" list="count" value="1">
 								</div>
 							</div>
 						</div>
