@@ -16,7 +16,7 @@ let calcSumPrice = () => {
 		        * selectedToppingNum
 		        + sizeMappingPrice[size])
 		        * quantitiy;
-    $("#total-price").text("この商品金額：" + price + "円(税抜)");
+    $("#total-price").text("この商品金額：" + Number(price).toLocaleString() + "円(税抜)");
 }
 
 $(function () {
