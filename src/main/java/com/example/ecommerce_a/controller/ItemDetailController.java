@@ -144,7 +144,6 @@ public class ItemDetailController {
 			}
 			
 		}
-		
 		order.setOrderItemList(orderItemList);
 		orderItemList.add(orderItem);
 		order.setStatus(Order.Status.BEFORE_ORDER.getCode());
