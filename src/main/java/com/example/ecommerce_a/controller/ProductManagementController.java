@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.form.AddNewPizzaForm;
@@ -52,7 +53,7 @@ public class ProductManagementController {
 	}
 
 	@RequestMapping("/addNewPizza")
-	public String addNewPizza(@Validated AddNewPizzaForm form, BindingResult result, Model model) throws IOException {
+	public String addNewPizza(@Validated AddNewPizzaForm form, BindingResult result, Model model, RedirectAttributes flash) throws IOException {
 		// 画像が空ならエラー
 		if (form.getImagePath().isEmpty()) {
 			result.rejectValue("image", null, "画像を選択してください ");
@@ -106,7 +107,7 @@ public class ProductManagementController {
 		// DBインサート
 		service.insertPizza(item);
 		
-		model.addAttribute("addedMessage", "新商品を追加しました");
+		flash.addFlashAttribute("addedMessage", "新商品を追加しました");
 
 		return "redirect:/admin";
 	}

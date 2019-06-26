@@ -216,7 +216,7 @@ public class OrderRepository {
 	}
 	
 	
-	public List<Order> findByJoinedOrderByStatus(List<Integer> statusList) {
+	public List<Order> findByJoinedOrderByStatus(List<Integer> statusList,String sort) {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" SELECT ");		sql.append(ALL_COLUMN_JOIN);
 		sql.append(" FROM ");		sql.append(TABLE_NAME);			sql.append(" AS o ");
@@ -237,7 +237,22 @@ public class OrderRepository {
 			mapParam.addValue("status"+i, statusList.get(i));
 		}
 		sql.deleteCharAt(sql.lastIndexOf(","));
-		sql.append(" ) ORDER BY o.id" );
+		sql.append(" ) ORDER BY ");
+		if(sort==null) {
+			sql.append("o.id");
+		}else {
+			switch(sort) {
+			case "orderDate":
+				sql.append("o.order_date DESC");
+				break;
+			case "deliveryTime":
+				sql.append("o.delivery_time DESC");
+				break;
+			default:
+				sql.append("o.id");
+				break;
+			}
+		}
 		return template.query(sql.toString(), mapParam,ORDER_RESULT_SET);
 	}
 	
