@@ -13,7 +13,7 @@ spring:
     port: 587
     #jndi-name: mail/Session
     password: xxxxxxxx # Google App password
-    username: rakusupiza@gmail.com # Google account mail address
+    username: xxxxxx@gmail.com # Google account mail address
     properties:
       mail:
         smtp:
