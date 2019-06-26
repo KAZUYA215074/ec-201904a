@@ -97,6 +97,7 @@ public class ItemDetailController {
 	@RequestMapping("/addItem")
 	public String addItemToCart(@Validated OrderItemForm form, BindingResult result,
 			@AuthenticationPrincipal LoginUser loginUser) {
+		System.out.println(form);
 		User user = null;
 		try {
 			user = loginUser.getUser();
