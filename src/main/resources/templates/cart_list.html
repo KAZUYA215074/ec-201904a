@@ -62,12 +62,22 @@
 								</div>
 							</td>
 							<td>
-								<span class="price" th:text="'&nbsp;'+${orderItem.size}+'&nbsp;'">&nbsp;L</span>
-								&nbsp;&nbsp;
-								<span th:if="${orderItem.size}=='L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,1,'COMMA')}+'円'">2,380円</span>
-								<span th:if="${orderItem.size}=='M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,1,'COMMA')}+'円'">2,380円</span>
-								&nbsp;&nbsp;
-								<span th:text="${orderItem.quantity}">1</span>個
+								<div class="text-center">
+								<form class=”form-inline” method="POST" th:action="@{/cart/update}">
+									<span class="price" th:text="'&nbsp;'+${orderItem.size}+'&nbsp;'">&nbsp;L</span>
+									&nbsp;&nbsp;
+									<span th:if="${orderItem.size}=='L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,1,'COMMA')}+'円'">2,380円</span>
+									<span th:if="${orderItem.size}=='M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,1,'COMMA')}+'円'">2,380円</span>
+									&nbsp;&nbsp;
+									<!-- <span th:text="${orderItem.quantity}">1</span>個 -->
+									<!-- <form method="POST" th:action="@{/cart/update}" > -->
+									<input type="number" min="1" name="quantity" value="1" th:value="${orderItem.quantity}" class="form-control" style="width: 70px;display: inline-block;" th:id="${status.index}">
+									<input type="hidden" name="orderItemId" th:value="${orderItem.id}">
+									<input type="hidden" th:name="'orderItemId'+${status.index}" th:value="${orderItem.id}">
+								</form>
+								</div>
+								<!-- </form> -->
+								
 							</td>
 							<td>
 							<a class="btn btn-default" data-toggle="collapse" th:href="${'#collapseExampl'+status.index}">トッピング詳細</a>
@@ -83,7 +93,7 @@
 								</div>
 							<td>
 								<div class="text-center">
-									<span th:text="${#numbers.formatInteger(orderItem.subTotal,1,'COMMA')}">3,280</span>
+									<span th:id="'subTotal'+${status.index}" th:text="${#numbers.formatInteger(orderItem.subTotal,1,'COMMA')}">3,280</span>
 									円
 								</div>
 							</td>
@@ -106,9 +116,10 @@
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 				<div class="form-group text-center">
-					<span id="total-price" th:text="'消費税：'+${#numbers.formatInteger(order.tax,1,'COMMA')}+'円'">8,000</span>
+					<span id="total-price">消費税：<span id="total-price" class="tax" th:text="${#numbers.formatInteger(order.tax,1,'COMMA')}"></span>円</span>
 					<br>
-					<span id="total-price" th:text="'ご注文金額合計：'+${#numbers.formatInteger(order.calcTotalPrice,1,'COMMA')}+'円 (税込)'">ご注文金額合計：38,000円 (税込)</span>
+					<span id="total-price" >ご注文金額合計：<span id="total-price" class="calcTotalPrice" th:text="${#numbers.formatInteger(order.calcTotalPrice,1,'COMMA')}"></span>円 (税込)</span>
+					
 				</div>
 			</div>
 		</div>
@@ -128,5 +139,6 @@
 	<!-- end container -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/updateOrderItem.js}"></script>
 </body>
 </html>

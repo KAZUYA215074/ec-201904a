@@ -2,7 +2,9 @@ package com.example.ecommerce_a.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.Order;
@@ -149,13 +152,35 @@ public class CartController {
 	 * @param quantity 変更する数量
 	 * @return ショッピングカート表示
 	 */
+	@ResponseBody
 	@RequestMapping("/update")
-	public String updateOrderItem(Integer orderItemId,Integer quantity) {
+	public Map<String,String> updateOrderItem(Integer orderItemId,Integer quantity,@AuthenticationPrincipal LoginUser loginUser) {
+		Order order = null;
+		User user = loginUser.getUser();
+		OrderItem orderItem = null;
+		if(user==null) {
+			order = (Order) session.getAttribute("order");
+			for(OrderItem oi :order.getOrderItemList()) {
+				if(oi.getId()==orderItemId) {
+					orderItem = oi;
+					break;
+				}
+			}
+			order.setTotalPrice(order.getTotalPrice()-orderItem.getSubTotal());
+			orderItem.setQuantity(quantity);
+			order.setTotalPrice(order.getTotalPrice()+orderItem.getSubTotal());
+		}else {
+			orderItem = orderService.showOrderItem(orderItemId);
+			orderItem.setQuantity(quantity);
+			orderService.updateByOrderItem(orderItem);
+			order = orderService.showShoppingCart(user.getId());
+		}
+		Map<String,String> map = new HashMap<>();
+		map.put("calcTotalPrice", String.format("%,d", order.getCalcTotalPrice()));
+		map.put("tax", String.format("%,d", order.getTax()));
+		map.put("subTotal", String.format("%,d", orderItem.getSubTotal()));
 		
-		OrderItem orderItem = orderService.showOrderItem(orderItemId);
-		orderItem.setQuantity(quantity);
-		orderService.updateByOrderItem(orderItem);
-		
-		return "redirect:/cart/showCart";
+		return map;
 	}
+
 }
