@@ -156,9 +156,9 @@ public class CartController {
 	@RequestMapping("/update")
 	public Map<String,String> updateOrderItem(Integer orderItemId,Integer quantity,@AuthenticationPrincipal LoginUser loginUser) {
 		Order order = null;
-		User user = loginUser.getUser();
 		OrderItem orderItem = null;
-		if(user==null) {
+		
+		if(loginUser==null) {
 			order = (Order) session.getAttribute("order");
 			for(OrderItem oi :order.getOrderItemList()) {
 				if(oi.getId()==orderItemId) {
@@ -173,7 +173,7 @@ public class CartController {
 			orderItem = orderService.showOrderItem(orderItemId);
 			orderItem.setQuantity(quantity);
 			orderService.updateByOrderItem(orderItem);
-			order = orderService.showShoppingCart(user.getId());
+			order = orderService.showShoppingCart(loginUser.getUser().getId());
 		}
 		Map<String,String> map = new HashMap<>();
 		map.put("calcTotalPrice", String.format("%,d", order.getCalcTotalPrice()));
