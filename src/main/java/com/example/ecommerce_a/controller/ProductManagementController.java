@@ -162,8 +162,20 @@ public class ProductManagementController {
 	 */
 	@RequestMapping("/deleteItem")
 	public String deleteItem(Integer id, RedirectAttributes flash) {
-		productManagementservice.delete(id);
+		productManagementservice.invisible(id);
 		flash.addFlashAttribute("message", "商品を削除しました");
+		return "redirect:/admin";
+	}
+	/**
+	 * 商品を復活する.
+	 * 
+	 * @param id　ピザのID
+	 * @return 管理者設定ページ
+	 */
+	@RequestMapping("/visibleItem")
+	public String visibleItem(Integer id, RedirectAttributes flash) {
+		productManagementservice.visible(id);
+		flash.addFlashAttribute("message", "商品が復活しました");
 		return "redirect:/admin";
 	}
 

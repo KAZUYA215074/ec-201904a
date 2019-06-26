@@ -124,6 +124,7 @@ function allcheck(tf) {
 		<form method="post" th:action="@{/admin/deleteItem}" sec:authorize="hasRole('ROLE_ADMIN')">
 			<input name="id" type="hidden" th:value="${item.id}">
 			<p><input class="form-control btn btn-danger btn-block" type="submit" value="削除"></p>
+			<p><input class="form-control btn btn-danger btn-block" type="button" value="復活" th:src="@{/admin/visibleItem}"></p>
 		</form>
 	</div>
 	</div>
