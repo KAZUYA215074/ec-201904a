@@ -53,7 +53,7 @@
 							</th>
 						</tr>
 						
-						<tr th:each = "orderItem:${order.orderItemList}">
+						<tr th:each="orderItem,status:${order.orderItemList}">
 							<td>
 								<img src="../static/img/i.jpg" th:src="@{/img/}+${orderItem.item.imagePath}" class="img-responsive center-block" width="100" height="300"><br>
 								<div class="text-center">
@@ -70,6 +70,9 @@
 								<span th:text="${orderItem.quantity}">1</span>個
 								</div>
 							<td>
+								<a class="btn btn-default" data-toggle="collapse" th:href="${'#collapseExampl'+status.index}">トッピング詳細</a>
+							<div class="collapse" th:id="${'collapseExampl'+status.index}">
+							<div>
 								<ul>
 									<li th:each="orderTopping:${orderItem.orderToppingList}">
 										<span th:text="${orderTopping.topping.name}">ピーマン</span>
@@ -78,6 +81,8 @@
 										円
 									</li>
 								</ul>
+								</div>
+								</div>
 							</td>
 							<td>
 								<div class="text-center">
