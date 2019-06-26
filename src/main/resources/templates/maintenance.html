@@ -12,37 +12,34 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="body" style="padding-bottom: 70px;">
+<body class="body" style="padding-bottom: 70px; background-color: #f6f6f6;">
 	<div class="container">
 		<!-- fragment-header.htmlからヘッダーを引っ張る処理 -->
-		<span th:include="/fragment-header::frag-header"></span>
+		<span th:include="/fragment-header::frag-header"></span>		
 		<!-- login form -->
 		<div class="row">
-			<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
-				<div class="well">
-					
-					<p>
+			<div class="col-lg-offset-1 col-lg-10 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
+				
+					<img alt="pizza" th:src="@{/img/maintenance.png}"  width="650"  height="300" class="img-responsib center-block">
+					<p style="text-align: center">
 					以下のいずれかの理由でシステムの操作を中断しました。<br><br>
 					
 					・不正な操作が行われた<br>
 					・長い時間操作を行わなかった<br>
 					・現在システムメンテナンス中<br><br>
 					
-					しばらく経ってからもう一度操作してください。<br><br>
-					
+					しばらく経ってからもう一度操作してください。
+					<a th:href="@{/toLogin/}" class="navbar-link">ログイン画面へ</a><br>
 					</p>
-					
-					<a th:href="@{/toLogin}" class="navbar-link">ログイン画面</a>
-					
-					
-				</div>
+					<img alt="pizza" th:src="@{/img/500.gif}" width="300" height="150" class="img-responsib center-block">
 			</div>
 		</div>
 	</div>
 		<!-- fragment-hooter.htmlからフッターを引っ張る処理 -->
 		<span th:include="/fragment-footer::frag-footer"></span>
 	<!-- end container -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script th:src="@{js/bootstrap.min.js}"></script>
 </body>
 </html>
