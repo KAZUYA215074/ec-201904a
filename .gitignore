@@ -4,6 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 /src/main/resources/application.yml
+/src/main/resources/img
 /bin
 
 ### STS ###
