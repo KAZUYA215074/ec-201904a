@@ -46,5 +46,15 @@ public class ProductManagementService {
 	public void visible(Integer id) {
 		repository.visible(id);
 	}
+	
+	
+	/**
+	 * ピザを削除する.
+	 * 
+	 * @param id ピザのid
+	 */
+	public void delete(Integer id) {
+		repository.delete(id);
+	}
 
 }

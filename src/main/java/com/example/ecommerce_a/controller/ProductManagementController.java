@@ -2,13 +2,12 @@ package com.example.ecommerce_a.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +122,7 @@ public class ProductManagementController {
 		}
 		
 		productManagementservice.insertPizza(item);
-		flash.addFlashAttribute("addedMessage", "新商品を追加しました");
+		flash.addFlashAttribute("message", "新商品を追加しました");
 
 		return "redirect:/admin";
 	}
@@ -161,10 +160,10 @@ public class ProductManagementController {
 	 * @param id　ピザのID
 	 * @return 管理者設定ページ
 	 */
-	@RequestMapping("deleteItem")
+	@RequestMapping("/deleteItem")
 	public String deleteItem(Integer id, RedirectAttributes flash) {
-		itemService.delete(id);
-		flash.addFlashAttribute("deletedMassage", "商品を削除しました");
+		productManagementservice.delete(id);
+		flash.addFlashAttribute("message", "商品を削除しました");
 		return "redirect:/admin";
 	}
 

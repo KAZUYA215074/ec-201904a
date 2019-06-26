@@ -61,12 +61,4 @@ public class ItemService {
 		return itemRepository.load(id);
 	}
 	
-	/**
-	 * ピザを削除する.
-	 * 
-	 * @param id ピザのid
-	 */
-	public void delete(Integer id) {
-		itemRepository.delete(id);
-	}
 }

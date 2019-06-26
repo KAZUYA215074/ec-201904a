@@ -22,7 +22,7 @@
 <!-- ここにモックのform要素を貼り付けます -->
 					<fieldset>
 						<legend>管理者画面</legend>
-						<div class="alert alert-danger" th:if="${addedMessage}" th:text="${addedMessage}"></div>
+						<div class="alert alert-success" th:if="${message}" th:text="${message}"></div>
 						<table class="table table-striped">
 						  <tr>
 						    <th nowrap>
