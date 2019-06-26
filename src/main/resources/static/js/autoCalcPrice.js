@@ -1,6 +1,6 @@
 var sizeMappingPrice = {
-    "M": 1380, 
-    "L": 2380
+    "M": Number($("#priceM").html().replace(/[^0-9]/g, '')), 
+    "L": Number($("#priceL").html().replace(/[^0-9]/g, ''))
 };
 
 var toppingMappingPrice = {
@@ -9,9 +9,9 @@ var toppingMappingPrice = {
 };
 
 let calcSumPrice = () => {
-    var size = $("input[name=size]:checked").val()
-    var selectedToppingNum = $("input[class=toppingCheckbox]:checked").length;
-    var quantitiy = $(".form-control").val()
+    var size = $("input[name=size]:checked").val();
+    var selectedToppingNum = $("input[class='toppingCheckbox checkbox01-input']:checked").length;
+    var quantitiy = $(".form-control").val();
     var price = (toppingMappingPrice[size]
 		        * selectedToppingNum
 		        + sizeMappingPrice[size])
