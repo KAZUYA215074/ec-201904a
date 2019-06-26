@@ -55,7 +55,7 @@ public class ProductManagementController {
 	public String addNewPizza(@Validated AddNewPizzaForm form, BindingResult result, Model model) throws IOException {
 		// 画像が空ならエラー
 		if (form.getImagePath().isEmpty()) {
-			result.rejectValue("image", null, "画像を選択してください ");
+			result.rejectValue("imagePath", null, "画像を選択してください ");
 		}
 		// 画像ファイル形式チェック
 		MultipartFile imagePath = form.getImagePath();
