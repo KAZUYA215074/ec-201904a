@@ -12,26 +12,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="body" style="padding-bottom: 70px;">
+<body class="body" style="padding-bottom: 70px; background-color: #f6f6f6;">
 	<div class="container">
 		<!-- fragment-header.htmlからヘッダーを引っ張る処理 -->
 		<span th:include="/fragment-header::frag-header"></span>		
 		<!-- login form -->
 		<div class="row">
-			<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
-				<div class="well">
-					<img alt="pizza" th:src="@{/img/notFound.png}"  width="1000"  height="500" >
-					<p>
-					404 Not Found<br>
-					申し訳ございません。お探しのページは見つかりませんでした。<br><br>
-					
-					以下のリンクからログインし直してください。<br><br>
-					
+			<div class="col-lg-offset-1 col-lg-10 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
+				
+					<img alt="pizza" th:src="@{/img/notFound.png}"  width="650"  height="300" class="img-responsib center-block">
+					<br><br><br>
+					<p style="text-align: center">
+					申し訳ございません。お探しのページは見つかりませんでした。<br>
+					以下のリンクからログインし直してください。<br>
+					<a th:href="@{/toLogin/}" class="navbar-link">ログイン画面へ</a><br>
 					</p>
-					<img alt="pizza" th:src="@{/img/pizza.gif}">
-					<a th:href="@{/toLogin/}" class="navbar-link">ログイン画面</a>
-					
-				</div>
+					<img alt="pizza" th:src="@{/img/pizza.gif}" width="300" height="150" class="img-responsib center-block">
 			</div>
 		</div>
 	</div>
