@@ -30,8 +30,12 @@
 					<a th:href="@{/toLogin/}" class="navbar-link">
 					<span>ゲストさん(ログインしていません)</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
 					</span>
+					<span sec:authorize="hasRole('ROLE_USER') or isAnonymous()">
 					<a th:href="@{/cart/showCart}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
+					</span>
+					<span sec:authorize="hasRole('ROLE_USER') or isAnonymous()">
 					<a th:href="@{/cart/showHistory}" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
+					</span>
 					<span sec:authorize="isAnonymous()">
 					<a th:href="@{/toLogin}" class="navbar-link">ログイン</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					</span>
