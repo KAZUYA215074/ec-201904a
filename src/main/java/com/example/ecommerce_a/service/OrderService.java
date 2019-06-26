@@ -195,4 +195,19 @@ public class OrderService {
 		return orderItemRepository.findById(orderItemId);
 	}
 	
+	
+	/**
+	 * 注文商品を更新する.
+	 * 
+	 * @param orderItem 更新された注文商品
+	 * 
+	 */
+	public void updateByOrderItem(OrderItem orderItem) {
+		Order order = orderRepository.load(orderItem.getOrderId());
+		OrderItem originOrderItem = orderItemRepository.findById(orderItem.getId());
+		order.setTotalPrice(order.getTotalPrice()-originOrderItem.getSubTotal()+orderItem.getSubTotal());
+		orderRepository.update(order);
+		orderItemRepository.update(orderItem);
+	}
+	
 }

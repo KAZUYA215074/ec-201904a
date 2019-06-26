@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.form.AddNewPizzaForm;
+import com.example.ecommerce_a.service.ItemService;
 import com.example.ecommerce_a.service.ProductManagementService;
 
 /**
@@ -35,28 +37,52 @@ import com.example.ecommerce_a.service.ProductManagementService;
 public class ProductManagementController {
 
 	@Autowired
-	private ProductManagementService service;
+	private ProductManagementService productManagementservice;
+
+	@Autowired
+	private ItemService itemService;
 
 	@ModelAttribute
 	public AddNewPizzaForm setUpAddNewPizzaForm() {
 		return new AddNewPizzaForm();
 	}
 
+	/**
+	 * 管理者の設定ページに遷移する.
+	 * 
+	 * @param model モデル
+	 * @return 管理者設定ページ
+	 */
 	@RequestMapping("")
 	public String admin(Model model) {
 		return "admin_setting";
 	}
 
+	/**
+	 * ピザを追加するページに遷移する.
+	 * 
+	 * @param model モデル
+	 * @return ピザ追加ページ
+	 */
 	@RequestMapping("/toAddNewPizza")
 	public String toAddNewPizza(Model model) {
 		return "add_new_pizza";
 	}
 
+	/**
+	 * ピザを追加する.
+	 * 
+	 * @param form   フォーム
+	 * @param result リザルト
+	 * @param model  モデル
+	 * @return 管理者設定ページにリダイレクトする
+	 * @throws IOException
+	 */
 	@RequestMapping("/addNewPizza")
 	public String addNewPizza(@Validated AddNewPizzaForm form, BindingResult result, Model model, RedirectAttributes flash) throws IOException {
 		// 画像が空ならエラー
 		if (form.getImagePath().isEmpty()) {
-			result.rejectValue("image", null, "画像を選択してください ");
+			result.rejectValue("imagePath", null, "画像を選択してください ");
 		}
 		// 画像ファイル形式チェック
 		MultipartFile imagePath = form.getImagePath();
@@ -94,21 +120,50 @@ public class ProductManagementController {
 		} catch (IOException ex) {
 			System.err.println(ex);
 		}
-
-//		// 画像ファイルをBase64形式にエンコード
-//		String base64FileString = Base64.getEncoder().encodeToString(imagePath.getBytes());
-//		if ("jpg".equals(fileExtension)) {
-//			base64FileString = "data:image/jpeg;base64," + base64FileString;
-//		} else if ("png".equals(fileExtension)) {
-//			base64FileString = "data:image/png;base64," + base64FileString;
-//		}
-//		item.setImagePath(base64FileString);
-
-		// DBインサート
-		service.insertPizza(item);
 		
-		flash.addFlashAttribute("addedMessage", "新商品を追加しました");
+		productManagementservice.insertPizza(item);
+		flash.addFlashAttribute("message", "新商品を追加しました");
 
+		return "redirect:/admin";
+	}
+
+	/**
+	 * 商品管理ページに遷移する.
+	 * 
+	 * @param model モデル
+	 * @return 商品管理ページ
+	 */
+	@RequestMapping("/toItemConfig")
+	public String toItemConfig(Model model) {
+		List<Item> itemList = itemService.findAll();
+		model.addAttribute("itemList", itemList);
+		return "item-config";
+	}
+
+	/**
+	 * 商品詳細ページに遷移する.
+	 * 
+	 * @param id ピザのID
+	 * @param model モデル
+	 * @return 商品詳細ページ
+	 */
+	@RequestMapping("/showDetail")
+	public String detailItem(Integer id, Model model) {
+		Item item = itemService.load(id);
+		model.addAttribute("item", item);
+		return "item_detail";
+	}
+
+	/**
+	 * 商品を削除する.
+	 * 
+	 * @param id　ピザのID
+	 * @return 管理者設定ページ
+	 */
+	@RequestMapping("/deleteItem")
+	public String deleteItem(Integer id, RedirectAttributes flash) {
+		productManagementservice.delete(id);
+		flash.addFlashAttribute("message", "商品を削除しました");
 		return "redirect:/admin";
 	}
 

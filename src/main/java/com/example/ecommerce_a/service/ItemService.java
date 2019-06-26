@@ -18,6 +18,7 @@ import com.example.ecommerce_a.repository.ItemRepository;
 @Service
 @Transactional
 public class ItemService {
+	
 	@Autowired
 	private ItemRepository itemRepository;
 	
@@ -59,4 +60,5 @@ public class ItemService {
 	public Item load(Integer id) {
 		return itemRepository.load(id);
 	}
+	
 }
