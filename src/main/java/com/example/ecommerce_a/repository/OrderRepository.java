@@ -243,10 +243,10 @@ public class OrderRepository {
 		}else {
 			switch(sort) {
 			case "orderDate":
-				sql.append("o.order_date");
+				sql.append("o.order_date DESC");
 				break;
 			case "deliveryTime":
-				sql.append("o.delivery_time");
+				sql.append("o.delivery_time DESC");
 				break;
 			default:
 				sql.append("o.id");
