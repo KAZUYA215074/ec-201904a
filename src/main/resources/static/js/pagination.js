@@ -18,6 +18,7 @@ $(function() {
 		prevNextPageBtnMode            : false,
 		firstEndPageBtnMode            : false,
 		setPaginationMode              : 'prepend',
+	});
 });
 
 $(function() {
