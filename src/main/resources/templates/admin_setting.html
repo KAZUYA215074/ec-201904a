@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>会社概要</title>
+<title>管理者画面</title>
 <link rel="stylesheet" href="../../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" >
 <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}" >
 </head>
@@ -21,18 +21,24 @@
 				<div class="well">
 <!-- ここにモックのform要素を貼り付けます -->
 
-					<form >
-						<fieldset>
-							<legend>管理者画面</legend>
-							<table class="table table-striped">
-							  <tr>
-							    <th nowrap>
-							     <span><a th:href="@{/admin/toAddNewPizza}">新商品追加</a></span>
-							    </th>					    					    
-							  </tr>
-							</table>
-						</fieldset>
-					</form>
+					<fieldset>
+						<legend>管理者画面</legend>
+						<table class="table table-striped">
+						  <tr>
+						    <th nowrap>
+						     <span><a th:href="@{/admin/toAddNewPizza}">新商品追加</a></span>
+						    </th>					    					    
+						  </tr>
+						</table>
+						<legend>商品管理</legend>
+						<table class="table table-striped">
+						  <tr>
+						    <th nowrap>
+						     <span><a th:href="@{/admin/toItemConfig}">商品管理</a></span>
+						    </th>					    					    
+						  </tr>
+						</table>
+					</fieldset>
 				</div>
 			</div>
 		</div>

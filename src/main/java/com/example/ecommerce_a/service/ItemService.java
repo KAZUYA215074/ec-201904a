@@ -18,6 +18,7 @@ import com.example.ecommerce_a.repository.ItemRepository;
 @Service
 @Transactional
 public class ItemService {
+	
 	@Autowired
 	private ItemRepository itemRepository;
 	
@@ -58,5 +59,14 @@ public class ItemService {
 	 */
 	public Item load(Integer id) {
 		return itemRepository.load(id);
+	}
+	
+	/**
+	 * ピザを削除する.
+	 * 
+	 * @param id ピザのid
+	 */
+	public void delete(Integer id) {
+		itemRepository.delete(id);
 	}
 }

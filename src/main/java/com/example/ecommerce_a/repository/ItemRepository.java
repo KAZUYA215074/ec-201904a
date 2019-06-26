@@ -101,4 +101,15 @@ public class ItemRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		return template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 	}
+	
+	/**
+	 * ピザを削除する.
+	 * 
+	 * @param id ピザのid
+	 */
+	public void delete(Integer id) {
+		String sql = "delete from items where id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
+	}
 }
