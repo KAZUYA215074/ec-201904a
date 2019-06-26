@@ -151,7 +151,7 @@ public class OrderController {
 
 		//sendMail.sendMainForOrderConfirmation(order);
 
-		sendMail.sendMailHTML(order);
+		//sendMail.sendMailHTML(order);
 		return "order_finished";
 	}
 

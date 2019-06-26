@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ピザ屋のネット注文</title>
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
-<link th:href="@{/css/test.css}" rel="stylesheet">
 <link th:href="@{/css/piza.css}" rel="stylesheet">
 <link th:href="@{/css/style.css}" rel="stylesheet">
 <!--[if lt IE 9]>
@@ -24,165 +23,171 @@
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				<form method="post" th:action="@{/orderStatus/showStatus}" th:object="${statusSortForm}">
 				<table class="table table-striped">
 					<tbody>
 						<tr>
-							<th colspan="6"><div class="text-center"><h3>注文履歴</h3></div></th>
+							<th colspan="6"><div class="text-center"><h3>注文状況</h3></div></th>
 						</tr>
 					</tbody>
 				</table>
-				
-				<hr>
-				<table th:if="${message}" class="table table-striped">
-					<tbody>
-						<tr>
-							<th colspan="6"><div class="text-center"><h3 th:text="${message}" style="color: red;"></h3></div></th>
-						</tr>
-					</tbody>
-				</table>
-				
-				<div th:each="order:${orderList}">
-				  <table class="table table-striped">
-					<tbody>
-						<tr>
-							<th colspan="1"><div class="text-center">購入日</div></th>
-							<th colspan="2"><div class="text-center" th:text="${#dates.format(order.orderDate,'yyyy年MM月dd日(EEE)')}">2019年6月21日(金)&nbsp;12:30</div></th>
-							<th colspan="1"><div class="text-center"></div>注文合計金額：</th>
-							<th colspan="1"><div class="text-center" th:text="${order.totalPrice}+'円'">8000円</div></th>
-							<th></th>
-						</tr>
-						<tr>
-							<th>
-								<div class="text-center">
-									商品名
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									サイズ、価格(税抜)、数量
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									トッピング、価格(税抜)
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									小計
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									商品の注文状況
-								</div>
-							</th>
-							<th>
-							</th>
-						</tr>
-						<tr th:each="orderItem:${order.orderItemList}">
-							<td>
-								<div class="center">
-									<img th:src="@{/img/}+${orderItem.item.imagePath}" class="img-responsive img-rounded" width="100" height="100"><br>
-									<span th:text="${orderItem.item.name}">じゃがバターベーコン</span>
-								</div>
-							</td>
-							<td>
-								<span class="price" th:text="'&nbsp;'+${orderItem.size}+'&nbsp;'">&nbsp;L</span>
-								&nbsp;&nbsp;
-								<span th:if="${orderItem.size}=='L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,1,'COMMA')}+'円'">2,380円</span>
-								<span th:if="${orderItem.size}=='M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,1,'COMMA')}+'円'">2,380円</span>
-								&nbsp;&nbsp;
-								<span th:text="${orderItem.quantity}+'個'">1</span>
-							</td>
-							<td>
-								<ul>
-									<li th:each="orderTopping:${orderItem.orderToppingList}">
-										<span th:text="${orderTopping.topping.name}">ピーマン</span>
-										<span th:if="${orderItem.size}=='L'" th:text="${orderTopping.topping.priceL}+'円'">300</span>
-										<span th:if="${orderItem.size}=='M'" th:text="${orderTopping.topping.priceM}+'円'">300</span>
-									</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									<span th:text="${#numbers.formatInteger(orderItem.subTotal,1,'COMMA')}+'円'">3,280</span>
-								</div>
-							</td>
-							<td>
-								<div class="text-center" th:text="${order.textStatus}">
-									配送待ち
-								</div>
-							</td>
-							<td></td>
-						</tr>
-					  </table>
+				<select id="sort" name="sortName" th:field="*{sortName}" onchange="submit(this.form)">
+					<option value="null">----</option>
+					<option value="orderDate">注文日順</option>
+					<option value="deliveryTime">配達日順</option>
+				</select>
+				<input type="checkbox" value="1" th:field="*{statuses}">未入金
+				<input type="checkbox" value="2" th:field="*{statuses}">入金済
+				<input type="checkbox" value="3" th:field="*{statuses}">発送済
+				<input type="submit" value="絞り込み">
+				</form>
+				<hr class="line">
+				<div class="alert alert-danger" th:if="${notFound != null}" th:text="${notFound}"></div>
+				<div class="orders">
+				<div th:each="order:${orderList}" class="order">
 					  <table class="table table-striped">
-					  	<tbody>
+						<tbody>
 							<tr>
-								<th colspan="6"><div class="text-center">ユーザ情報</div></th>
+								<th colspan="1"><div class="text-center">購入日</div></th>
+								<th colspan="2"><div class="text-center" th:text="${#dates.format(order.orderDate,'yyyy年MM月dd日(EEE)')}">2019年6月21日(金)&nbsp;12:30</div></th>
+								<th colspan="1"><div class="text-center"></div>注文合計金額：</th>
+								<th colspan="1"><div class="text-center" th:text="${order.totalPrice}+'円'">8000円</div></th>
+								<th></th>
 							</tr>
 							<tr>
 								<th>
 									<div class="text-center">
-										ユーザ名
+										商品名
 									</div>
 								</th>
 								<th>
 									<div class="text-center">
-										配送先住所
+										サイズ、価格(税抜)、数量
 									</div>
 								</th>
 								<th>
 									<div class="text-center">
-										連絡先
+										トッピング、価格(税抜)
 									</div>
 								</th>
 								<th>
 									<div class="text-center">
-										配達希望時間
+										小計
 									</div>
 								</th>
 								<th>
 									<div class="text-center">
-										支払方法
+										商品の注文状況
 									</div>
 								</th>
 								<th>
 								</th>
 							</tr>
-							<tr>
+							<tr th:each="orderItem:${order.orderItemList}">
 								<td>
 									<div class="text-center">
-										<span th:text="${order.destinationName}"></span>
+										<span th:text="${orderItem.item.name}">じゃがバターベーコン</span>
 									</div>
 								</td>
 								<td>
 									<div class="text-center">
-										<span th:text="${order.destinationAddress}"></span>
+									<span class="price" th:text="'&nbsp;'+${orderItem.size}+'&nbsp;'">&nbsp;L</span>
+									&nbsp;&nbsp;
+									<span th:if="${orderItem.size}=='L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,1,'COMMA')}+'円'">2,380円</span>
+									<span th:if="${orderItem.size}=='M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,1,'COMMA')}+'円'">2,380円</span>
+									&nbsp;&nbsp;
+									<span th:text="${orderItem.quantity}+'個'">1</span>
 									</div>
+								</td>
+								<td>
+									<ul>
+										<li th:each="orderTopping:${orderItem.orderToppingList}">
+											<span th:text="${orderTopping.topping.name}">ピーマン</span>
+											<span th:if="${orderItem.size}=='L'" th:text="${orderTopping.topping.priceL}+'円'">300</span>
+											<span th:if="${orderItem.size}=='M'" th:text="${orderTopping.topping.priceM}+'円'">300</span>
+										</li>
+									</ul>
 								</td>
 								<td>
 									<div class="text-center">
-										<span th:text="${order.destinationTel}"></span>
+										<span th:text="${#numbers.formatInteger(orderItem.subTotal,1,'COMMA')}+'円'">3,280</span>
 									</div>
 								</td>
 								<td>
-									<div class="text-center">
-										<span th:text="${#dates.format(order.deliveryTime,'yyyy年MM月dd日HH時')}"></span>
+									<div class="text-center" th:text="${order.textStatus}">
+										配送待ち
 									</div>
 								</td>
-								<td>
-									<div class="text-center">
-										<span th:text="${order.textPaymentMethod}"></span>
-									</div>
-								</td>
-								<td>
-								</td>
+								<td></td>
 							</tr>
-						</tbody>
-					  </table>
-					<hr class="line">
+						  </table>
+						  <table class="table table-striped">
+						  	<tbody>
+								<tr>
+									<th colspan="6"><div class="text-center">ユーザ情報</div></th>
+								</tr>
+								<tr>
+									<th>
+										<div class="text-center">
+											ユーザ名
+										</div>
+									</th>
+									<th>
+										<div class="text-center">
+											配送先住所
+										</div>
+									</th>
+									<th>
+										<div class="text-center">
+											連絡先
+										</div>
+									</th>
+									<th>
+										<div class="text-center">
+											配達希望時間
+										</div>
+									</th>
+									<th>
+										<div class="text-center">
+											支払方法
+										</div>
+									</th>
+									<th>
+									</th>
+								</tr>
+								<tr>
+									<td>
+										<div class="text-center">
+											<span th:text="${order.destinationName}"></span>
+										</div>
+									</td>
+									<td>
+										<div class="text-center">
+											<span th:text="${order.destinationAddress}"></span>
+										</div>
+									</td>
+									<td>
+										<div class="text-center">
+											<span th:text="${order.destinationTel}"></span>
+										</div>
+									</td>
+									<td>
+										<div class="text-center">
+											<span th:text="${#dates.format(order.deliveryTime,'yyyy年MM月dd日HH時')}"></span>
+										</div>
+									</td>
+									<td>
+										<div class="text-center">
+											<span th:text="${order.textPaymentMethod}"></span>
+										</div>
+									</td>
+									<td>
+									</td>
+								</tr>
+							</tbody>
+						  </table>
+						<hr class="line">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -192,5 +197,7 @@
 	<!-- end container -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/jquery.pagination.js}"></script>
+	<script th:src="@{/js/pagination.js}"></script>
 </body>
 </html>

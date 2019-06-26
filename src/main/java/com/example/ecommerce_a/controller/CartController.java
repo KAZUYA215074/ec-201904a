@@ -141,4 +141,21 @@ public class CartController {
 
 		return "redirect:/cart/showCart";
 	}
+	
+	/**
+	 * 注文商品を更新する.
+	 * 
+	 * @param orderItemId 注文商品ID
+	 * @param quantity 変更する数量
+	 * @return ショッピングカート表示
+	 */
+	@RequestMapping("/update")
+	public String updateOrderItem(Integer orderItemId,Integer quantity) {
+		
+		OrderItem orderItem = orderService.showOrderItem(orderItemId);
+		orderItem.setQuantity(quantity);
+		orderService.updateByOrderItem(orderItem);
+		
+		return "redirect:/cart/showCart";
+	}
 }
