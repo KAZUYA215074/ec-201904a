@@ -8,6 +8,22 @@
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
 <link th:href="@{/css/piza.css}" rel="stylesheet">
 <link th:href="@{/css/style.css}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
+<script>
+jQuery(function($){
+ $.extend( $.fn.dataTable.defaults, {
+ language: {
+ url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+ }
+ });
+$('#myTable').DataTable({
+paging: true,//デフォルトでtrueなのでなくてもOK
+pageLength: 3,//初期表示件数
+lengthMenu: [ [7, 10, 15,-1], [7, 10, 15, "全件"]],//表示件数メニュー
+});
+});
+</script>
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -21,8 +37,7 @@
 
 		<!-- table -->
 		<div class="row">
-			<div
-				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<table class="table table-striped">
 					<tbody>
 						<tr>
@@ -30,7 +45,6 @@
 						</tr>
 					</tbody>
 				</table>
-				
 				<hr>
 				<table th:if="${message}" class="table table-striped">
 					<tbody>
@@ -39,9 +53,10 @@
 						</tr>
 					</tbody>
 				</table>
-				
-				<div th:each="order:${orderList}">
-				  <table class="table table-striped">
+
+				<div class="histories">
+				<div th:each="order:${orderList}" class="history">
+				  <table class="table table-striped" id="myTable">
 					<tbody>
 						<tr>
 							<th colspan="1"><div class="text-center">購入日</div></th>
@@ -122,9 +137,13 @@
 								</div>
 							</td>
 						</tr>
+						</tbody>
 					  </table>
 					<hr>
 				</div>
+				</div>
+				
+				
 			</div>
 		</div>
 	</div>
@@ -132,6 +151,8 @@
 		<span th:include="/fragment-footer::frag-footer"></span>
 	<!-- end container -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>	
+	<script th:src="@{/js/jquery.pagination.js}"></script>	
+	<script th:src="@{/js/pagination.js}"></script>	
 </body>
 </html>
