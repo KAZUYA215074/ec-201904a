@@ -56,7 +56,7 @@ $(function(){
 							<th>
 							</th>
 						</tr>
-						<tr th:each="orderItem:${order.orderItemList}">
+						<tr th:each="orderItem,status:${order.orderItemList}">
 							<td>
 								<div class="center">
 									<a href="item_detail.html" th:href="@{'/detail?id='+${orderItem.itemId}}">
@@ -76,9 +76,8 @@ $(function(){
 								<span th:text="${orderItem.quantity}">1</span>個
 							</td>
 							<td>
-							<a class="btn btn-default" data-toggle="collapse" href="#collapseExample">トッピング詳細</a>
-							<div class="collapse" id="collapseExample">
-							<div>
+							<a class="btn btn-default" data-toggle="collapse" th:href="${'#collapseExampl'+status.index}">トッピング詳細</a>
+							<div class="collapse" th:id="${'collapseExampl'+status.index}">
 								<ul>
 									<li th:each="orderTopping:${orderItem.orderToppingList}">
 										<span th:text="${orderTopping.topping.name}">ピーマン</span>
@@ -87,7 +86,6 @@ $(function(){
 										円
 									</li>
 								</ul>
-								</div>
 								</div>
 							<td>
 								<div class="text-center">
