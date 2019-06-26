@@ -24,6 +24,7 @@
 					<form >
 						<fieldset>
 							<legend>管理者画面</legend>
+							<div class="alert alert-danger" th:if="${addedMessage}" th:text="${addedMessage}"></div>
 							<table class="table table-striped">
 							  <tr>
 							    <th nowrap>
