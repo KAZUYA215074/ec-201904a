@@ -40,20 +40,41 @@
 					<label id="*{statuses}"><input type="checkbox" value="1" th:field="*{statuses}">未入金</label>
 					<label id="*{statuses}"><input type="checkbox" value="2" th:field="*{statuses}">入金済</label>
 					<label id="*{statuses}"><input type="checkbox" value="3" th:field="*{statuses}">発送済</label>
-					<input type="submit" value="絞り込み">
+					<input type="submit" class="btn btn-primary" value="絞り込み">
 				</form>
 				<hr class="line">
 				<div class="alert alert-danger" th:if="${notFound != null}" th:text="${notFound}"></div>
 				<div class="orders">
-				<div th:each="order:${orderList}" class="order">
+				<div th:each="order,orderStat:${orderList}" class="order">
 				  
+						<form method="post" th:action="@{/orderStatus/update}">
+						  <table class="table table-striped">
+						  	<tr>
+						  		<td>
+						  			<span class="text-center">
+						  				商品の注文状況
+						  			</span>
+						  		</td>
+						  		<td>
+						  			<select name="status" class="text-center">
+						  				<option value="0" selected>-----</option>
+										<option th:each="status:${statusList}" th:text="${status.text}" th:value="${status.code}"></option>
+						  			</select>
+						  		</td>
+						  		<td>
+						  			<input type="hidden" name="orderId" th:value="${order.id}" >
+						  			<button class="btn btn-primary">更新</button> 
+						  		</td>
+						  	</tr>
+						  </table>
+						</form>
 					  <table class="table table-striped">
 						<tbody>
 							<tr>
 								<th colspan="1"><div class="text-center">購入日</div></th>
-								<th colspan="2"><div class="text-center" th:text="${#dates.format(order.orderDate,'yyyy年MM月dd日(EEE)')}">2019年6月21日(金)&nbsp;12:30</div></th>
-								<th colspan="1"><div class="text-center"></div>注文合計金額：</th>
-								<th colspan="1"><div class="text-center" th:text="${order.totalPrice}+'円'">8000円</div></th>
+								<th colspan="1"><div class="text-center" th:text="${#dates.format(order.orderDate,'yyyy年MM月dd日(EEE)')}">2019年6月21日(金)&nbsp;12:30</div></th>
+								<th colspan="1"><div class="text-center">注文合計金額：</div></th>
+								<th colspan="2"><div class="text-center" th:text="${#numbers.formatInteger(order.totalPrice,1,'COMMA')}+'円'">8000円</div></th>
 								<th></th>
 							</tr>
 							<tr>
@@ -85,7 +106,7 @@
 								<th>
 								</th>
 							</tr>
-							<tr th:each="orderItem,status:${order.orderItemList}">
+							<tr th:each="orderItem,itemStat:${order.orderItemList}">
 								<td>
 									<div class="text-center">
 										<span th:text="${orderItem.item.name}">じゃがバターベーコン</span>
@@ -102,8 +123,8 @@
 									</div>
 								</td>
 								<td>
-								<a class="btn btn-default" data-toggle="collapse" th:href="${'#collapseExampl'+status.index}" th:text="'トッピング詳細 合計:'+${#numbers.formatInteger(orderItem.subTotalTopping,1,'COMMA')} +'円'">トッピング詳細</a>
-							<div class="collapse" th:id="${'collapseExampl'+status.index}">
+								<a class="btn btn-default" data-toggle="collapse" th:href="'#collapseExampl_'+${orderStat.index}+'_'+${itemStat.index}" th:text="'トッピング詳細 合計:'+${#numbers.formatInteger(orderItem.subTotalTopping,1,'COMMA')} +'円'">トッピング詳細</a>
+							<div class="collapse" th:id="'collapseExampl_'+${orderStat.index}+'_'+${itemStat.index}">
 							<div>
 								<ul>
 									<li th:each="orderTopping:${orderItem.orderToppingList}">
@@ -126,7 +147,9 @@
 										配送待ち
 									</div>
 								</td>
-								<td></td>
+								<td>
+									
+								</td>
 							</tr>
 						  </table>
 						  <table class="table table-striped">

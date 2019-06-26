@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.domain.Order.Status;
 import com.example.ecommerce_a.form.StatusSortForm;
 import com.example.ecommerce_a.service.OrderService;
 
@@ -55,6 +56,24 @@ public class OrderStatusController {
 		}
 		model.addAttribute("orderList",orderList);
 		
+		List<Status> statusList = new ArrayList<>();
+		statusList.add(Status.NOT_PAYMENT);
+		statusList.add(Status.DONE_PAYMENT);
+		statusList.add(Status.DONE_DELIVELY);
+		model.addAttribute("statusList",statusList);
+		
+		
 		return "admin-order-status";
+	}
+	
+	@RequestMapping("/update")
+	public String update(Integer orderId,Integer status) {
+		if(orderId==null||status==null||status==0) {
+			return "redirect:/orderStatus/showStatus";
+		}
+		Order order = orderService.load(orderId);
+		order.setStatus(status);
+		orderService.update(order);
+		return "redirect:/orderStatus/showStatus";
 	}
 }
