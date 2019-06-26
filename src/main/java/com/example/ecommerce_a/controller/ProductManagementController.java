@@ -135,7 +135,7 @@ public class ProductManagementController {
 	 */
 	@RequestMapping("/toItemConfig")
 	public String toItemConfig(Model model) {
-		List<Item> itemList = itemService.findAll();
+		List<Item> itemList = itemService.findAllIncludeDeleted();
 		model.addAttribute("itemList", itemList);
 		return "item-config";
 	}
@@ -149,7 +149,7 @@ public class ProductManagementController {
 	 */
 	@RequestMapping("/showDetail")
 	public String detailItem(Integer id, Model model) {
-		Item item = itemService.load(id);
+		Item item = itemService.loadIncludeDeleted(id);
 		model.addAttribute("item", item);
 		return "item_detail";
 	}

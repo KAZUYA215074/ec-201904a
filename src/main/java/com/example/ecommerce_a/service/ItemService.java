@@ -32,6 +32,15 @@ public class ItemService {
 	}
 	
 	/**
+	 * 全件検索.(削除済みも含む)
+	 * 
+	 * @return　商品リスト
+	 */
+	public List<Item> findAllIncludeDeleted(){
+		return itemRepository.findAllIncludeDeleted();
+	}
+	
+	/**
 	 * あいまい検索.
 	 * 
 	 * @param name 入力された文字列
@@ -59,6 +68,16 @@ public class ItemService {
 	 */
 	public Item load(Integer id) {
 		return itemRepository.load(id);
+	}
+	
+	/**
+	 * id検索を行う.
+	 * 
+	 * @param id　商品ID
+	 * @return　商品詳細
+	 */
+	public Item loadIncludeDeleted(Integer id) {
+		return itemRepository.loadIncludeDeleted(id);
 	}
 	
 }

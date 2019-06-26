@@ -54,6 +54,17 @@ public class ItemRepository {
 		return itemList;
 	}
 
+	/**
+	 * ピザを全検検索する.(削除済みも含む)
+	 * 
+	 * @return ピザのリスト
+	 */
+	public List<Item> findAllIncludeDeleted() {
+		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items order by id";
+		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
+		return itemList;
+	}
+	
 	/*
 	 * あいまい検索を行う.
 	 * 
@@ -98,6 +109,18 @@ public class ItemRepository {
 	 */
 	public Item load(Integer id) {
 		String sql = "select id, name, description, price_m, price_l, image_path, deleted from items where deleted = false and id= :id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		return template.queryForObject(sql, param, ITEM_ROW_MAPPER);
+	}
+	
+	/**
+	 * ピザの主キー検索.
+	 * 
+	 * @param id ピザのid
+	 * @return ピザ
+	 */
+	public Item loadIncludeDeleted(Integer id) {
+		String sql = "select id, name, description, price_m, price_l, image_path, deleted from items where  id= :id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		return template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 	}
