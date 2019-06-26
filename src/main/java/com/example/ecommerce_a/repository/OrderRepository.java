@@ -171,11 +171,9 @@ public class OrderRepository {
 	 * @return 検索された注文情報
 	 */
 	public Order load(int orderId) {
-		System.out.println(orderId);
 		String sql = "SELECT " + ALL_COLUMN_ORDER + " FROM "+ TABLE_NAME +" WHERE id = :id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", orderId);
 		Order order = template.queryForObject(sql, param, ORDER_ROW_MAPPER);
-		System.out.println(order);
 		return order;
 	}
 
