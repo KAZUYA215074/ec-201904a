@@ -24,22 +24,22 @@
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<form method="post" th:action="@{/orderStatus/showStatus}" th:object="${statusSortForm}">
-				<table class="table table-striped">
-					<tbody>
-						<tr>
-							<th colspan="6"><div class="text-center"><h3>注文状況</h3></div></th>
-						</tr>
-					</tbody>
-				</table>
-				<select id="sort" name="sortName" th:field="*{sortName}" onchange="submit(this.form)">
-					<option value="null">----</option>
-					<option value="orderDate">注文日順</option>
-					<option value="deliveryTime">配達日順</option>
-				</select>
-				<input type="checkbox" value="1" th:field="*{statuses}">未入金
-				<input type="checkbox" value="2" th:field="*{statuses}">入金済
-				<input type="checkbox" value="3" th:field="*{statuses}">発送済
-				<input type="submit" value="絞り込み">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<th colspan="6"><div class="text-center"><h3>注文状況</h3></div></th>
+							</tr>
+						</tbody>
+					</table>
+					<select id="sort" name="sortName" th:field="*{sortName}" onchange="submit(this.form)">
+						<option value="null">----</option>
+						<option value="orderDate">注文日順</option>
+						<option value="deliveryTime">配達日順</option>
+					</select>
+					<label id="*{statuses}"><input type="checkbox" value="1" th:field="*{statuses}">未入金</label>
+					<label id="*{statuses}"><input type="checkbox" value="2" th:field="*{statuses}">入金済</label>
+					<label id="*{statuses}"><input type="checkbox" value="3" th:field="*{statuses}">発送済</label>
+					<input type="submit" value="絞り込み">
 				</form>
 				<hr class="line">
 				<div class="alert alert-danger" th:if="${notFound != null}" th:text="${notFound}"></div>

@@ -53,18 +53,20 @@
 						
 						<tr th:each = "orderItem:${order.orderItemList}">
 							<td>
-								<div class="center">
-									<img src="../static/img/i.jpg" th:src="@{/img/}+${orderItem.item.imagePath}" class="img-responsive img-rounded" width="100" height="300"><br>
+								<img src="../static/img/i.jpg" th:src="@{/img/}+${orderItem.item.imagePath}" class="img-responsive center-block" width="100" height="300"><br>
+								<div class="text-center">
 									<span th:text="${orderItem.item.name}">じゃがバターベーコン</span>
 								</div>
 							</td>
 							<td>
+								<div class="text-center">
 								<span class="price" th:text="'&nbsp;'+${orderItem.size}+'&nbsp;'">&nbsp;L</span>
 								&nbsp;&nbsp;
 								<span th:if="${orderItem.size}=='L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,1,'COMMA')}+'円'">2,380円</span>
 								<span th:if="${orderItem.size}=='M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,1,'COMMA')}+'円'">2,380円</span>
 								&nbsp;&nbsp;
 								<span th:text="${orderItem.quantity}">1</span>個
+								</div>
 							<td>
 								<ul>
 									<li th:each="orderTopping:${orderItem.orderToppingList}">
