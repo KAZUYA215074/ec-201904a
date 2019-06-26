@@ -44,3 +44,6 @@ body.body {
 	border-bottom: 3px solid #009a9a;
 	border-right: 3px solid #009a9a;
 }
+.line{
+	border: 1px solid #000000;
+}

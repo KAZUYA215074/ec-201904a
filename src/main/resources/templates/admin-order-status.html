@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ピザ屋のネット注文</title>
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/test.css}" rel="stylesheet">
 <link th:href="@{/css/piza.css}" rel="stylesheet">
 <link th:href="@{/css/style.css}" rel="stylesheet">
 <!--[if lt IE 9]>
@@ -113,17 +114,75 @@
 									配送待ち
 								</div>
 							</td>
-							<td>
-								<div class="text-center">
-									<form method="POST" th:action="@{/cart/repurchase}">
-										<button type="submit" class="btn btn-primary">再度購入する</button>
-										<input type="hidden" name="orderItemId" th:value="${orderItem.id}">
-									</form>
-								</div>
-							</td>
+							<td></td>
 						</tr>
 					  </table>
-					<hr>
+					  <table class="table table-striped">
+					  	<tbody>
+							<tr>
+								<th colspan="6"><div class="text-center">ユーザ情報</div></th>
+							</tr>
+							<tr>
+								<th>
+									<div class="text-center">
+										ユーザ名
+									</div>
+								</th>
+								<th>
+									<div class="text-center">
+										配送先住所
+									</div>
+								</th>
+								<th>
+									<div class="text-center">
+										連絡先
+									</div>
+								</th>
+								<th>
+									<div class="text-center">
+										配達希望時間
+									</div>
+								</th>
+								<th>
+									<div class="text-center">
+										支払方法
+									</div>
+								</th>
+								<th>
+								</th>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										<span th:text="${order.destinationName}"></span>
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<span th:text="${order.destinationAddress}"></span>
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<span th:text="${order.destinationTel}"></span>
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<span th:text="${#dates.format(order.deliveryTime,'yyyy年MM月dd日HH時')}"></span>
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<span th:text="${order.textPaymentMethod}"></span>
+									</div>
+								</td>
+								<td>
+								</td>
+							</tr>
+						</tbody>
+					  </table>
+					<hr class="line">
 				</div>
 			</div>
 		</div>
