@@ -20,9 +20,9 @@
 				<!-- 背景をグレーに、埋め込んだようなコンポーネント -->
 				<div class="well">
 <!-- ここにモックのform要素を貼り付けます -->
-
 					<fieldset>
 						<legend>管理者画面</legend>
+						<div class="alert alert-danger" th:if="${addedMessage}" th:text="${addedMessage}"></div>
 						<table class="table table-striped">
 						  <tr>
 						    <th nowrap>
@@ -36,6 +36,11 @@
 						    <th nowrap>
 						     <span><a th:href="@{/admin/toItemConfig}">商品管理</a></span>
 						    </th>					    					    
+						  </tr>
+						  <tr>
+						  	<th nowrap>
+						  	  <span><a th:href="@{/orderStatus/showStatus}">注文状況</a></span>
+						  	 </th>
 						  </tr>
 						</table>
 					</fieldset>

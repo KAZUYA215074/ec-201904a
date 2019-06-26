@@ -4,6 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +80,11 @@ public class ProductManagementController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/addNewPizza")
-	public String addNewPizza(@Validated AddNewPizzaForm form, BindingResult result, Model model) throws IOException {
+	public String addNewPizza(@Validated AddNewPizzaForm form, BindingResult result, Model model, RedirectAttributes flash) throws IOException {
+		// 画像が空ならエラー
+		if (form.getImagePath().isEmpty()) {
+			result.rejectValue("image", null, "画像を選択してください ");
+		}
 		// 画像ファイル形式チェック
 		MultipartFile imagePath = form.getImagePath();
 		String fileExtension = null;
@@ -84,7 +93,7 @@ public class ProductManagementController {
 			fileExtension = getExtension(imagePath.getOriginalFilename());
 
 			if (!"jpg".equals(fileExtension) && !"png".equals(fileExtension)) {
-				result.rejectValue("imagePath", "", "拡張子は.jpgか.pngのみに対応しています");
+				result.rejectValue("imagePath", null, "拡張子は.jpgか.pngのみに対応しています");
 			}
 		} catch (Exception e) {
 			result.rejectValue("imagePath", null, "拡張子は.jpgか.pngのみに対応しています");
@@ -101,17 +110,20 @@ public class ProductManagementController {
 		BeanUtils.copyProperties(form, item);
 		item.setPriceM(Integer.parseInt(form.getPriceM()));
 		item.setPriceL(Integer.parseInt(form.getPriceL()));
-		// 画像ファイルをBase64形式にエンコード
-		String base64FileString = Base64.getEncoder().encodeToString(imagePath.getBytes());
-		if ("jpg".equals(fileExtension)) {
-			base64FileString = "data:image/jpeg;base64," + base64FileString;
-		} else if ("png".equals(fileExtension)) {
-			base64FileString = "data:image/png;base64," + base64FileString;
-		}
-		item.setImagePath(base64FileString);
+		item.setImagePath(form.getImagePath().getOriginalFilename());
 
-		// DBインサート
+		// 画像ファイルをIMGフォルダに保存する
+		String filename = item.getImagePath();
+		Path uploadfile = Paths.get("src/main/resources/static/img/" + filename);
+		try (OutputStream os = Files.newOutputStream(uploadfile, StandardOpenOption.CREATE)) {
+			byte[] bytes = form.getImagePath().getBytes();
+			os.write(bytes);
+		} catch (IOException ex) {
+			System.err.println(ex);
+		}
+		
 		productManagementservice.insertPizza(item);
+		flash.addFlashAttribute("addedMessage", "新商品を追加しました");
 
 		return "redirect:/admin";
 	}
