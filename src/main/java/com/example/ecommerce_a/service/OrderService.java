@@ -159,12 +159,29 @@ public class OrderService {
 		statusList.add(Order.Status.NOT_PAYMENT.getCode());
 		statusList.add(Order.Status.DONE_PAYMENT.getCode());
 		statusList.add(Order.Status.DONE_DELIVELY.getCode());
-		List<Order> orderList = orderRepository.findByJoinedOrderByStatus(statusList);
+		List<Order> orderList = orderRepository.findByJoinedOrderByStatus(statusList,null);
 		if(orderList.size()!=0) {
 			return orderList;
 		}else {
 			return null;
 		}
+	}
+	
+	/**
+	 * 注文状況をソート検索する.
+	 * 
+	 * @param statusList 注文状況IDの一覧
+	 * @param sort ソート
+	 * @return 注文情報一覧
+	 */
+	public List<Order> showOrderByStatus(List<Integer> statusList,String sort) {
+		List<Order> orderList = orderRepository.findByJoinedOrderByStatus(statusList,sort);
+		if(orderList.size()!=0) {
+			return orderList;
+		}else {
+			return null;
+		}
+		
 	}
 	
 	
