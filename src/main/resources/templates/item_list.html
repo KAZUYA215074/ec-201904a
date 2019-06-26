@@ -57,7 +57,8 @@
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<div class="alert alert-danger" th:if="${notFound != null}" th:text="${notFound}"></div>
-				<table class="table table-striped">
+				<div style="background-color:white">
+				<table class="table table-striped" >
 					<tbody class="pizzas">
 						<tr th:each="list:${listList}" class="pizza">
 							<th th:each="item:${list}">
@@ -72,6 +73,7 @@
 						</tr>
 					</tbody>
 				</table>
+				</div>
 			</div>
 		</div>
 	</div>
