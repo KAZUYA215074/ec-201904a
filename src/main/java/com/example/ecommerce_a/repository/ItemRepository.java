@@ -26,10 +26,10 @@ public class ItemRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	/** 商品のテーブル名 */
 	public static final String TABLE_NAME = "items";
-	
+
 	/** ItemのRowMapper */
 	private static final RowMapper<Item> ITEM_ROW_MAPPER = (rs, i) -> {
 		Item item = new Item();
@@ -42,7 +42,7 @@ public class ItemRepository {
 		item.setDeleted(rs.getBoolean("deleted"));
 		return item;
 	};
-	
+
 	/**
 	 * ピザを全検検索する.
 	 * 
@@ -64,7 +64,7 @@ public class ItemRepository {
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
 	}
-	
+
 	/*
 	 * あいまい検索を行う.
 	 * 
@@ -74,9 +74,9 @@ public class ItemRepository {
 	 * 
 	 * @return 任意の件数の商品一覧
 	 */
-	public List<Item> findByName(String name,String sort) {
+	public List<Item> findByName(String name, String sort) {
 		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where deleted = false and upper(name) like upper(:name) ";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%"+ name +"%");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
 		if ("price_m".equals(sort)) {
 			sql += " order by price_m asc ";
 		} else if ("name".equals(sort)) {
@@ -112,7 +112,7 @@ public class ItemRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		return template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 	}
-	
+
 	/**
 	 * ピザの主キー検索.
 	 * 
@@ -124,5 +124,5 @@ public class ItemRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		return template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 	}
-	
+
 }

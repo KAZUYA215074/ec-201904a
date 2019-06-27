@@ -17,10 +17,10 @@ import com.example.ecommerce_a.domain.Item;
  */
 @Repository
 public class ProductManagementRepository {
-	
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	/**
 	 * 新商品の追加を行う.
 	 * 
@@ -31,30 +31,29 @@ public class ProductManagementRepository {
 		String sql = "insert into items values((select max(id)+1 from items), :name, :description, :priceM, :priceL, :imagePath);";
 		template.update(sql, param);
 	}
-	
+
 	/**
 	 * 商品一覧から見えなくする.
 	 * 
 	 * @param id
 	 */
 	public void invisible(Integer id) {
-		String sql ="update items set deleted=true where id=:id;";
+		String sql = "update items set deleted=true where id=:id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql, param);
 	}
-	
+
 	/**
 	 * 商品一覧に表示する.
 	 * 
 	 * @param id
 	 */
 	public void visible(Integer id) {
-		String sql ="update items set deleted=false where id=:id;";
+		String sql = "update items set deleted=false where id=:id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql, param);
 	}
-	
-	
+
 	/**
 	 * ピザを削除する.
 	 * 
@@ -65,5 +64,5 @@ public class ProductManagementRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql, param);
 	}
-	
+
 }

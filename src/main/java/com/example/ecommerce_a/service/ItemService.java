@@ -18,66 +18,66 @@ import com.example.ecommerce_a.repository.ItemRepository;
 @Service
 @Transactional
 public class ItemService {
-	
+
 	@Autowired
 	private ItemRepository itemRepository;
-	
+
 	/**
 	 * 全件検索.
 	 * 
-	 * @return　商品リスト
+	 * @return 商品リスト
 	 */
-	public List<Item> findAll(){
+	public List<Item> findAll() {
 		return itemRepository.findAll();
 	}
-	
+
 	/**
 	 * 全件検索.(削除済みも含む)
 	 * 
-	 * @return　商品リスト
+	 * @return 商品リスト
 	 */
-	public List<Item> findAllIncludeDeleted(){
+	public List<Item> findAllIncludeDeleted() {
 		return itemRepository.findAllIncludeDeleted();
 	}
-	
+
 	/**
 	 * あいまい検索.
 	 * 
-	 * @param name 入力された文字列
-	 * @param offset　データの開始位置
-	 * @return　商品リスト
+	 * @param name   入力された文字列
+	 * @param offset データの開始位置
+	 * @return 商品リスト
 	 */
-	public List<Item> findByName(String name,String sort){
-		return itemRepository.findByName(name,sort);
+	public List<Item> findByName(String name, String sort) {
+		return itemRepository.findByName(name, sort);
 	}
-	
+
 	/**
 	 * 商品の名前一覧.
 	 * 
 	 * @return 商品の名前一覧
 	 */
-	public List<String> itemAllName(){
+	public List<String> itemAllName() {
 		return itemRepository.itemAllName();
 	}
-	
+
 	/**
 	 * id検索を行う.
 	 * 
-	 * @param id　商品ID
-	 * @return　商品詳細
+	 * @param id 商品ID
+	 * @return 商品詳細
 	 */
 	public Item load(Integer id) {
 		return itemRepository.load(id);
 	}
-	
+
 	/**
 	 * id検索を行う.
 	 * 
-	 * @param id　商品ID
-	 * @return　商品詳細
+	 * @param id 商品ID
+	 * @return 商品詳細
 	 */
 	public Item loadIncludeDeleted(Integer id) {
 		return itemRepository.loadIncludeDeleted(id);
 	}
-	
+
 }

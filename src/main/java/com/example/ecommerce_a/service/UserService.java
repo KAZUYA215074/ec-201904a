@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.repository.UserRepository;
 
-
-
 /**
  * ユーザー登録に関する操作を行う.
  * 
@@ -18,10 +16,10 @@ import com.example.ecommerce_a.repository.UserRepository;
 @Service
 @Transactional
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	/**
 	 * ユーザー情報を登録.
 	 * 
@@ -30,7 +28,7 @@ public class UserService {
 	public void insert(User user) {
 		userRepository.insert(user);
 	}
-	
+
 	/**
 	 * メールアドレスからアカウントの有無を調べる.
 	 * 
@@ -39,14 +37,14 @@ public class UserService {
 	 * 
 	 */
 	public Boolean isCheckByMailAddress(String mailAddress) {
-		if(userRepository.findByMailAddress(mailAddress)!= null) {
+		if (userRepository.findByMailAddress(mailAddress) != null) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
-	//XXX:未テスト
+
+	// XXX:未テスト
 	/**
 	 * ユーザー情報を更新する.
 	 * 
@@ -55,8 +53,8 @@ public class UserService {
 	public void update(User user) {
 		userRepository.update(user);
 	}
-	
-	//XXX:未テスト
+
+	// XXX:未テスト
 	/**
 	 * ユーザー情報を削除する.
 	 * 

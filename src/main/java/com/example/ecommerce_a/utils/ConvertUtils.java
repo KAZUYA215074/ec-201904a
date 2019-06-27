@@ -27,7 +27,7 @@ public class ConvertUtils {
 			return hyphenZipCode.toString();
 		}
 	}
-	
+
 	/**
 	 * 電話番号からハイフンを削除する.
 	 * 
@@ -37,11 +37,11 @@ public class ConvertUtils {
 	public static String getDelHyphenTelephone(String telephone) {
 		StringBuffer hyphenTelephone = new StringBuffer(telephone);
 		boolean isCheck = true;
-		while(isCheck) {			
+		while (isCheck) {
 			int hyphenIndex = hyphenTelephone.indexOf("-");
-			if( hyphenIndex == -1 ) {
+			if (hyphenIndex == -1) {
 				return hyphenTelephone.toString();
-			}else {
+			} else {
 				hyphenTelephone.deleteCharAt(hyphenIndex);
 			}
 		}

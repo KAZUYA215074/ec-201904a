@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("そのメールアドレスは登録されていません");
 		}
-		//admin@gmail.comの時だけadminとしてログインできる
+		// admin@gmail.comの時だけadminとしてログインできる
 		if (user.getMailAddress().equals("admin@gmail.com")) {
 			Collection<GrantedAuthority> authorityList = new ArrayList<>();
 			authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));

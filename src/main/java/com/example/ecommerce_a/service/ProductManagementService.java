@@ -16,10 +16,10 @@ import com.example.ecommerce_a.repository.ProductManagementRepository;
 @Service
 @Transactional
 public class ProductManagementService {
-	
+
 	@Autowired
 	private ProductManagementRepository repository;
-	
+
 	/**
 	 * 新しいピザの追加.
 	 * 
@@ -28,7 +28,7 @@ public class ProductManagementService {
 	public void insertPizza(Item item) {
 		repository.insertPizza(item);
 	}
-	
+
 	/**
 	 * 商品一覧から見えなくする.
 	 * 
@@ -37,7 +37,7 @@ public class ProductManagementService {
 	public void invisible(Integer id) {
 		repository.invisible(id);
 	}
-	
+
 	/**
 	 * 商品一覧に表示させる.
 	 * 
@@ -46,8 +46,7 @@ public class ProductManagementService {
 	public void visible(Integer id) {
 		repository.visible(id);
 	}
-	
-	
+
 	/**
 	 * ピザを削除する.
 	 * 

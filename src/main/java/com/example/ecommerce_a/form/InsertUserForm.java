@@ -12,38 +12,36 @@ import javax.validation.constraints.Size;
  *
  */
 public class InsertUserForm {
-	
+
 	/** ID */
 	private Integer id;
 	/** 名前 */
-	@NotBlank(message="名前を入力してください")
+	@NotBlank(message = "名前を入力してください")
 	private String name;
 	/** メールアドレス */
-	@NotBlank(message="メールアドレスを入力してください")
-	@Email(message="メールアドレスの形式ではありません")
+	@NotBlank(message = "メールアドレスを入力してください")
+	@Email(message = "メールアドレスの形式ではありません")
 	private String mailAddress;
 	/** パスワード */
-	@NotBlank(message="パスワードを入力してください")
-	@Size(min = 6, max = 12, message="パスワードは６〜１２文字で入力してください")
+	@NotBlank(message = "パスワードを入力してください")
+	@Size(min = 6, max = 12, message = "パスワードは６〜１２文字で入力してください")
 	private String password;
 	/** 確認用パスワード */
-	@NotBlank(message="パスワードを入力してください")
-	@Size(min = 6, max = 12, message="パスワードは６〜１２文字で入力してください")
+	@NotBlank(message = "パスワードを入力してください")
+	@Size(min = 6, max = 12, message = "パスワードは６〜１２文字で入力してください")
 	private String checkedpassword;
 	/** 郵便番号 */
-	//@NotBlank(message="郵便番号を入力してください")
+	// @NotBlank(message="郵便番号を入力してください")
 	@Pattern(regexp = "^\\d{3}\\-?\\d{4}$", message = "郵便番号を入力したください")
 	private String zipCode;
 	/** 住所 */
-	@NotBlank(message="住所を入力してください")
+	@NotBlank(message = "住所を入力してください")
 	private String address;
 	/** 電話番号 */
-	@NotBlank(message="電話番号を入力してください")
+	@NotBlank(message = "電話番号を入力してください")
 	@Pattern(regexp = "[0-9]*", message = "電話番号を入力してください")
-	@Size(max=11,message = "電話番号を入力してください")
+	@Size(max = 11, message = "電話番号を入力してください")
 	private String telephone;
-	
-
 
 	@Override
 	public String toString() {
@@ -115,6 +113,5 @@ public class InsertUserForm {
 	public void setCheckedpassword(String checkedpassword) {
 		this.checkedpassword = checkedpassword;
 	}
-	
 
 }

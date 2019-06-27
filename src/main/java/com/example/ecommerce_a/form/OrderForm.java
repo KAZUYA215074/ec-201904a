@@ -29,7 +29,7 @@ public class OrderForm {
 	@NotBlank(message = "メールアドレスを入力してください")
 	private String destinationEmail;
 	/** 宛先郵便番号 */
-	//@NotBlank(message = "郵便番号を入力してください")
+	// @NotBlank(message = "郵便番号を入力してください")
 	@Pattern(regexp = "^\\d{3}\\-?\\d{4}$", message = "郵便番号を入力したください")
 	private String destinationZipcode;
 	/** 宛先住所 */
@@ -38,7 +38,7 @@ public class OrderForm {
 	/** 宛先TEL */
 	@NotBlank(message = "電話番号を入力してください")
 	@Pattern(regexp = "[0-9]*", message = "電話番号を入力してください")
-	@Size(max=11,message = "電話番号を入力してください")
+	@Size(max = 11, message = "電話番号を入力してください")
 	private String destinationTel;
 	/** 配達日 */
 	@NotEmpty(message = "配達日時を入力してください")
@@ -241,7 +241,5 @@ public class OrderForm {
 				+ ", amount=" + amount + ", cardNumber=" + cardNumber + ", cardExpYear=" + cardExpYear
 				+ ", cardExpMonth=" + cardExpMonth + ", cardName=" + cardName + ", cardCVV=" + cardCVV + "]";
 	}
-
-	
 
 }

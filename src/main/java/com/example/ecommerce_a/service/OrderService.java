@@ -23,13 +23,13 @@ import com.example.ecommerce_a.repository.OrderToppingRepository;
 @Service
 @Transactional
 public class OrderService {
-	
+
 	@Autowired
 	private OrderRepository orderRepository;
-	
+
 	@Autowired
 	private OrderToppingRepository orderToppingRepository;
-	
+
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 
@@ -41,22 +41,21 @@ public class OrderService {
 	public Order addItemToCart(Order order) {
 		// 注文に追加する
 		Order serchOrder = orderRepository.findByUserIdAndStatus(order.getUserId(), order.getStatus());
-		if(serchOrder == null) {
+		if (serchOrder == null) {
 			order = orderRepository.insert(order);
-		}else {
+		} else {
 			order.setId(serchOrder.getId());
-			order.setTotalPrice(order.getTotalPrice()+serchOrder.getTotalPrice());
+			order.setTotalPrice(order.getTotalPrice() + serchOrder.getTotalPrice());
 			orderRepository.update(order);
 		}
-		// 
-		for(OrderItem orderItem:order.getOrderItemList()) {			
+		//
+		for (OrderItem orderItem : order.getOrderItemList()) {
 			orderItem.setOrderId(order.getId());
 			addOrderItemToCart(orderItem);
 		}
 		return order;
 	}
-	
-	
+
 	/**
 	 * 注文商品と注文トッピング
 	 * 
@@ -65,12 +64,12 @@ public class OrderService {
 	public void addOrderItemToCart(OrderItem orderItem) {
 		orderItem = orderItemRepository.insertItem(orderItem);
 		List<OrderTopping> orderToppingList = orderItem.getOrderToppingList();
-		
-		for(OrderTopping orderTopping: orderToppingList) {
+
+		for (OrderTopping orderTopping : orderToppingList) {
 			orderTopping.setOrderItemId(orderItem.getId());
 //			orderToppingRepository.insertOrderTopping(orderTopping);
 		}
-		if(orderToppingList.size() != 0) {
+		if (orderToppingList.size() != 0) {
 			orderToppingRepository.insertOrderTopping(orderToppingList);
 		}
 	}
@@ -94,7 +93,6 @@ public class OrderService {
 		return orderRepository.load(OrderId);
 	}
 
-
 	/**
 	 * 注文情報を結合して検索.
 	 * 
@@ -104,12 +102,12 @@ public class OrderService {
 	public Order showShoppingCart(int userId) {
 		List<Integer> statusList = new ArrayList<>();
 		statusList.add(Order.Status.BEFORE_ORDER.getCode());
-		
-		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,statusList);
-		if(orderList.size()!=0) {
+
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId, statusList);
+		if (orderList.size() != 0) {
 			Order order = orderList.get(0);
 			return order;
-			
+
 		} else {
 			return null;
 		}
@@ -120,15 +118,15 @@ public class OrderService {
 	 * 
 	 * @param orderItemId 削除するID
 	 */
-	public void deleteByOrderItem(Integer orderItemId,Integer totalPrice,Integer orderId) {
+	public void deleteByOrderItem(Integer orderItemId, Integer totalPrice, Integer orderId) {
 		Order order = orderRepository.load(orderId);
-		order.setTotalPrice(order.getTotalPrice()-totalPrice);
+		order.setTotalPrice(order.getTotalPrice() - totalPrice);
 		orderRepository.update(order);
-		//orderItemRepository.deleteJoinById(orderItemId);
+		// orderItemRepository.deleteJoinById(orderItemId);
 		orderItemRepository.deleteById(orderItemId);
 		orderToppingRepository.deleteByOrderItemId(orderItemId);
 	}
-	
+
 	/**
 	 * 購入履歴を検索する.
 	 * 
@@ -140,15 +138,14 @@ public class OrderService {
 		statusList.add(Order.Status.NOT_PAYMENT.getCode());
 		statusList.add(Order.Status.DONE_PAYMENT.getCode());
 		statusList.add(Order.Status.DONE_DELIVELY.getCode());
-		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId,statusList);
-		if(orderList.size()!=0) {
+		List<Order> orderList = orderRepository.findByJoinedOrderByUserIdAndStatus(userId, statusList);
+		if (orderList.size() != 0) {
 			return orderList;
-		}else {
+		} else {
 			return null;
 		}
 	}
-	
-	
+
 	/**
 	 * すべての注文状況を検索する.
 	 * 
@@ -159,32 +156,31 @@ public class OrderService {
 		statusList.add(Order.Status.NOT_PAYMENT.getCode());
 		statusList.add(Order.Status.DONE_PAYMENT.getCode());
 		statusList.add(Order.Status.DONE_DELIVELY.getCode());
-		List<Order> orderList = orderRepository.findByJoinedOrderByStatus(statusList,null);
-		if(orderList.size()!=0) {
+		List<Order> orderList = orderRepository.findByJoinedOrderByStatus(statusList, null);
+		if (orderList.size() != 0) {
 			return orderList;
-		}else {
+		} else {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 注文状況をソート検索する.
 	 * 
 	 * @param statusList 注文状況IDの一覧
-	 * @param sort ソート
+	 * @param sort       ソート
 	 * @return 注文情報一覧
 	 */
-	public List<Order> showOrderByStatus(List<Integer> statusList,String sort) {
-		List<Order> orderList = orderRepository.findByJoinedOrderByStatus(statusList,sort);
-		if(orderList.size()!=0) {
+	public List<Order> showOrderByStatus(List<Integer> statusList, String sort) {
+		List<Order> orderList = orderRepository.findByJoinedOrderByStatus(statusList, sort);
+		if (orderList.size() != 0) {
 			return orderList;
-		}else {
+		} else {
 			return null;
 		}
-		
+
 	}
-	
-	
+
 	/**
 	 * 注文商品情報を検索する.
 	 * 
@@ -194,8 +190,7 @@ public class OrderService {
 	public OrderItem showOrderItem(int orderItemId) {
 		return orderItemRepository.findById(orderItemId);
 	}
-	
-	
+
 	/**
 	 * 注文商品を更新する.
 	 * 
@@ -205,9 +200,9 @@ public class OrderService {
 	public void updateByOrderItem(OrderItem orderItem) {
 		Order order = orderRepository.load(orderItem.getOrderId());
 		OrderItem originOrderItem = orderItemRepository.findById(orderItem.getId());
-		order.setTotalPrice(order.getTotalPrice()-originOrderItem.getSubTotal()+orderItem.getSubTotal());
+		order.setTotalPrice(order.getTotalPrice() - originOrderItem.getSubTotal() + orderItem.getSubTotal());
 		orderRepository.update(order);
 		orderItemRepository.update(orderItem);
 	}
-	
+
 }

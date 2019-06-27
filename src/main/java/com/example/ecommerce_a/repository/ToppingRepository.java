@@ -23,10 +23,10 @@ public class ToppingRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	/** トッピングのテーブル名前 */
 	public static final String TABLE_NAME = "toppings";
-	
+
 	/** トッピングのRowMapper */
 	private static final RowMapper<Topping> TOPPING_ROW_MAPPER = (rs, i) -> {
 		Topping topping = new Topping();
@@ -37,7 +37,6 @@ public class ToppingRepository {
 		return topping;
 	};
 
-	
 	/**
 	 * 全トッピング情報を検索する.
 	 * 

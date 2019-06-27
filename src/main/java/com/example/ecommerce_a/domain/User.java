@@ -7,7 +7,7 @@ package com.example.ecommerce_a.domain;
  *
  */
 public class User {
-	
+
 	/** ID */
 	private Integer id;
 	/** 名前 */
@@ -22,9 +22,10 @@ public class User {
 	private String address;
 	/** 電話番号 */
 	private String telephone;
-	
+
 	public User() {
 	}
+
 	public User(Integer id, String name, String mailAddress, String password, String zipCode, String address,
 			String telephone) {
 		super();
@@ -36,7 +37,6 @@ public class User {
 		this.address = address;
 		this.telephone = telephone;
 	}
-
 
 	@Override
 	public String toString() {
@@ -99,6 +99,5 @@ public class User {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-	
 
 }

@@ -37,8 +37,9 @@ public class OrderItemRepository {
 
 	/** 注文商品テーブル名 */
 	public static final String TABLE_NAME = "order_items";
+
 	/** すべてのカラム名 */
-	//private static final String ALL_COLUMN = "id,item_id,order_id,quantity,size";
+	// private static final String ALL_COLUMN = "id,item_id,order_id,quantity,size";
 
 	@PostConstruct
 	public void init() {
@@ -52,14 +53,14 @@ public class OrderItemRepository {
 			+ " ot.id AS ot_id,	ot.topping_id AS ot_topping_id, "
 			+ " i.name AS i_name, i.description AS i_description, i.price_m AS i_price_m, i.price_l AS i_price_l, i.image_path AS i_image_path, i.deleted AS i_deleted,"
 			+ " t.name AS t_name, t.price_m AS t_price_m, t.price_l AS t_price_l";
-	
+
 	/** 注文詳細のExtractor */
 	private static final ResultSetExtractor<List<OrderItem>> ORDER_ITEM_RESULT_SET = (rs) -> {
 		List<OrderItem> orderItemList = new ArrayList<>();
 		List<OrderTopping> orderToppingList = null;
 		List<Topping> toppingList = null;
 		OrderItem orderItem = null;
-		
+
 		Integer beforeOrderItemId = null;
 		while (rs.next()) {
 
@@ -80,8 +81,8 @@ public class OrderItemRepository {
 				} else {
 					size = 0;
 				}
-				orderItem = new OrderItem(orderItemId, itemId, rs.getInt("oi_order_id"), rs.getInt("oi_quantity"), size, item,
-						orderToppingList);
+				orderItem = new OrderItem(orderItemId, itemId, rs.getInt("oi_order_id"), rs.getInt("oi_quantity"), size,
+						item, orderToppingList);
 				orderItemList.add(orderItem);
 			}
 
@@ -122,7 +123,7 @@ public class OrderItemRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql.toString(), param);
 	}
-	
+
 	/**
 	 * 注文商品を削除する.
 	 * 
