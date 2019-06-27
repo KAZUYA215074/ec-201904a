@@ -47,7 +47,7 @@
 				<div class="orders">
 				<div th:each="order,orderStat:${orderList}" class="order">
 				  
-						<form method="post" th:action="@{/orderStatus/update}">
+						<form method="post" th:action="@{/orderStatus/update}" >
 						  <table class="table table-striped">
 						  	<tr>
 						  		<td>
@@ -56,14 +56,14 @@
 						  			</span>
 						  		</td>
 						  		<td>
-						  			<select name="status" class="text-center">
+						  			<select name="status" class="text-center" th:id="'status'+${order.id}">
 						  				<option value="0" selected>-----</option>
 										<option th:each="status:${statusList}" th:text="${status.text}" th:value="${status.code}"></option>
 						  			</select>
 						  		</td>
-						  		<td>
+						  		<td class="update">
+						  			<input type="button" class="btn btn-primary" th:id="${order.id}" value="更新"> 
 						  			<input type="hidden" name="orderId" th:value="${order.id}" >
-						  			<button class="btn btn-primary">更新</button> 
 						  		</td>
 						  	</tr>
 						  </table>
@@ -143,8 +143,10 @@
 									</div>
 								</td>
 								<td>
-									<div class="text-center" th:text="${order.textStatus}">
+									<div class="text-center">
+									<div th:class="'status_'+${order.id}" th:text="${order.textStatus}">
 										配送待ち
+									</div>
 									</div>
 								</td>
 								<td>
@@ -231,5 +233,6 @@
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/jquery.pagination.js}"></script>
 	<script th:src="@{/js/pagination.js}"></script>
+	<script th:src="@{/js/updateStatus.js}"></script>
 </body>
 </html>
