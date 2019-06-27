@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/toLogin")
 public class UserLoginController {
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	/**
 	 * ログイン画面に遷移する.
 	 * 
@@ -30,10 +30,10 @@ public class UserLoginController {
 	 * @return ログイン画面
 	 */
 	@RequestMapping("/")
-	public String toLogin(Model model, @RequestParam(required = false) String error, 
-			@RequestHeader(name="Referer", required=false) String referer) {
+	public String toLogin(Model model, @RequestParam(required = false) String error,
+			@RequestHeader(name = "Referer", required = false) String referer) {
 		System.out.println("referer: " + referer);
-		//System.err.println("login error "+ error);
+		// System.err.println("login error "+ error);
 		if (error != null) {
 			System.err.println(error);
 			System.err.println("login failed");

@@ -79,7 +79,8 @@ public class ProductManagementController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/addNewPizza")
-	public String addNewPizza(@Validated AddNewPizzaForm form, BindingResult result, Model model, RedirectAttributes flash) throws IOException {
+	public String addNewPizza(@Validated AddNewPizzaForm form, BindingResult result, Model model,
+			RedirectAttributes flash) throws IOException {
 		// 画像が空ならエラー
 		if (form.getImagePath().isEmpty()) {
 			result.rejectValue("imagePath", null, "画像を選択してください ");
@@ -120,7 +121,7 @@ public class ProductManagementController {
 		} catch (IOException ex) {
 			System.err.println(ex);
 		}
-		
+
 		productManagementservice.insertPizza(item);
 		flash.addFlashAttribute("message", "新商品を追加しました");
 
@@ -143,7 +144,7 @@ public class ProductManagementController {
 	/**
 	 * 商品詳細ページに遷移する.
 	 * 
-	 * @param id ピザのID
+	 * @param id    ピザのID
 	 * @param model モデル
 	 * @return 商品詳細ページ
 	 */
@@ -157,7 +158,7 @@ public class ProductManagementController {
 	/**
 	 * 商品を削除する.
 	 * 
-	 * @param id　ピザのID
+	 * @param id ピザのID
 	 * @return 管理者設定ページ
 	 */
 	@RequestMapping("/deleteItem")
@@ -166,10 +167,11 @@ public class ProductManagementController {
 		flash.addFlashAttribute("message", "商品を削除しました");
 		return "redirect:/admin";
 	}
+
 	/**
 	 * 商品を復活する.
 	 * 
-	 * @param id　ピザのID
+	 * @param id ピザのID
 	 * @return 管理者設定ページ
 	 */
 	@RequestMapping("/visibleItem")

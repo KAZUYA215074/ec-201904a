@@ -149,8 +149,8 @@ public class OrderController {
 
 		orderService.update(order);
 
-		//sendMail.sendMainForOrderConfirmation(order);
-		//sendMail.sendMailHTML(order);
+//		sendMail.sendMainForOrderConfirmation(order);
+		sendMail.sendMailHTML(order);
 		return "order_finished";
 	}
 

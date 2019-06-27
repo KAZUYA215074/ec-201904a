@@ -24,7 +24,7 @@ public class CreditcardInfo {
 	private String card_name;
 	/** セキュリティコード */
 	private String card_cvv;
-	
+
 	public CreditcardInfo() {
 	}
 
@@ -111,7 +111,5 @@ public class CreditcardInfo {
 				+ ", card_number=" + card_number + ", card_exp_year=" + card_exp_year + ", card_exp_month="
 				+ card_exp_month + ", card_name=" + card_name + ", card_cvv=" + card_cvv + "]";
 	}
-	
-	
 
 }

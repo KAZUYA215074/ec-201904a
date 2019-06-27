@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService memberDetailService;
 
 	/**
-	 *静的リソースを許可する.
+	 * 静的リソースを許可する.
 	 */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -39,29 +39,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-		        .antMatchers("/", "/toLogin/", "/regist/", "/regist/regist", 
-		        		"/item/**","/detail/**","/cart/**","/user/**", 
-		        		"/common/**", "/order/**", "/footer/**")
-		        .permitAll()
-		        .antMatchers("/admin/**").hasRole("ADMIN")
-		        .anyRequest().authenticated();
-        
-        http.formLogin()
-        		.loginPage("/toLogin/")
-        		.loginProcessingUrl("/login")
-        		//.failureUrl("/?error=true")
-        		.defaultSuccessUrl("/common/afterLogin", true)
-        		.usernameParameter("mailAddress")
-        		.passwordParameter("password");
-        
-        http.logout()
-        		.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-        		.logoutSuccessUrl("/")
-        		.deleteCookies("JSESSIONID")
-        		.invalidateHttpSession(true);
-//		http.formLogin().disable();
+		http.authorizeRequests()
+				.antMatchers("/", "/toLogin/", "/regist/", "/regist/regist", "/item/**", "/detail/**", "/cart/**",
+						"/user/**", "/common/**", "/order/**", "/footer/**")
+				.permitAll().antMatchers("/admin/**").hasRole("ADMIN").anyRequest().authenticated();
 
+		http.formLogin().loginPage("/toLogin/").loginProcessingUrl("/login")
+				// .failureUrl("/?error=true")
+				.defaultSuccessUrl("/common/afterLogin", true).usernameParameter("mailAddress")
+				.passwordParameter("password");
+
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout**")).logoutSuccessUrl("/")
+				.deleteCookies("JSESSIONID").invalidateHttpSession(true);
 	}
 
 	/**

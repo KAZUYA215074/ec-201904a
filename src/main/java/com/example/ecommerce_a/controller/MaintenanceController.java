@@ -10,10 +10,10 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 @Component
-public class MaintenanceController implements HandlerExceptionResolver{
-	
+public class MaintenanceController implements HandlerExceptionResolver {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(MaintenanceController.class);
-	
+
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {

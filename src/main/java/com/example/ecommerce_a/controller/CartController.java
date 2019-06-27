@@ -146,45 +146,46 @@ public class CartController {
 
 		return "redirect:/cart/showCart";
 	}
-	
+
 	/**
 	 * 非同期で注文商品を更新する.
 	 * 
 	 * @param orderItemId 注文商品ID
-	 * @param quantity 変更する数量
+	 * @param quantity    変更する数量
 	 * @return ショッピングカート表示
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	public Map<String,String> updateOrderItem(Integer orderItemId,Integer quantity,@AuthenticationPrincipal LoginUser loginUser) {
+	public Map<String, String> updateOrderItem(Integer orderItemId, Integer quantity,
+			@AuthenticationPrincipal LoginUser loginUser) {
 		Order order = null;
 		OrderItem orderItem = null;
-		
-		if(loginUser==null) {
+
+		if (loginUser == null) {
 			order = (Order) session.getAttribute("order");
-			for(OrderItem oi :order.getOrderItemList()) {
-				if(oi.getId()==orderItemId) {
+			for (OrderItem oi : order.getOrderItemList()) {
+				if (oi.getId() == orderItemId) {
 					orderItem = oi;
 					break;
 				}
 			}
-			order.setTotalPrice(order.getTotalPrice()-orderItem.getSubTotal());
+			order.setTotalPrice(order.getTotalPrice() - orderItem.getSubTotal());
 			orderItem.setQuantity(quantity);
-			order.setTotalPrice(order.getTotalPrice()+orderItem.getSubTotal());
-		}else {
+			order.setTotalPrice(order.getTotalPrice() + orderItem.getSubTotal());
+		} else {
 			orderItem = orderService.showOrderItem(orderItemId);
 			orderItem.setQuantity(quantity);
 			orderService.updateByOrderItem(orderItem);
 			order = orderService.showShoppingCart(loginUser.getUser().getId());
 		}
-		Map<String,String> map = new HashMap<>();
+		Map<String, String> map = new HashMap<>();
 		map.put("calcTotalPrice", String.format("%,d", order.getCalcTotalPrice()));
 		map.put("tax", String.format("%,d", order.getTax()));
 		map.put("subTotal", String.format("%,d", orderItem.getSubTotal()));
-		
+
 		return map;
 	}
-	
+
 	/**
 	 * 商品をキャンセルする.
 	 * 
@@ -193,13 +194,13 @@ public class CartController {
 	 */
 	@RequestMapping("/cancel")
 	public String cancel(Integer orderId) {
-		
+
 		Order order = orderService.load(orderId);
-		if(order!=null && order.getStatus()!=Order.Status.DONE_DELIVELY.getCode()) {
+		if (order != null && order.getStatus() != Order.Status.DONE_DELIVELY.getCode()) {
 			order.setStatus(Order.Status.CANCEL.getCode());
 			orderService.update(order);
 		}
-		
+
 		return "redirect:/cart/showHistory";
 	}
 

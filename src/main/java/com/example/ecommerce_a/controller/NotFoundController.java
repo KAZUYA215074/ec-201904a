@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class NotFoundController implements ErrorController {
-	
+
 	private static final String PATH = "/error";
-	
+
 	@Override
 	@RequestMapping(PATH)
 	public String getErrorPath() {

@@ -21,13 +21,13 @@ import com.example.ecommerce_a.service.OrderService;
 @Controller
 @RequestMapping("/common")
 public class CommonController {
-	
+
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	/**
 	 * ログイン後に遷移するページを選択する.
 	 * 
@@ -44,16 +44,16 @@ public class CommonController {
 			orderService.addItemToCart(order);
 		}
 		session.removeAttribute("order");
-		
+
 		String referer = (String) session.getAttribute("referer");
-		
-		if(referer!=null) {
+
+		if (referer != null) {
 			String path = referer.replaceAll("(http.?:\\/\\/[a-zA-Z0-9.:]*)", "");
-			if (path.equals("/ec-201904a/cart/showCart")&&order!=null) {
+			if (path.equals("/ec-201904a/cart/showCart") && order != null) {
 				return "redirect:/order/orderlist";
 			}
 		}
-		
+
 		return "redirect:/";
 	}
 

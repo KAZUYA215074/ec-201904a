@@ -65,21 +65,21 @@ public class OrderItem {
 		}
 		return total = total * quantity;
 	}
-	
+
 	/**
 	 * トッピングの合計を計算する.
 	 * 
 	 * @return トッピング合計金額
 	 */
 	public int getSubTotalTopping() {
-		if(this.orderToppingList==null||this.orderToppingList.size()==0) {
+		if (this.orderToppingList == null || this.orderToppingList.size() == 0) {
 			return 0;
-		}else {
+		} else {
 			int total = 0;
-			for(OrderTopping orderTopping:this.orderToppingList) {
-				if(getSize()=='M') {
+			for (OrderTopping orderTopping : this.orderToppingList) {
+				if (getSize() == 'M') {
 					total += orderTopping.getTopping().getPriceM();
-				}else if(getSize()=='L'){
+				} else if (getSize() == 'L') {
 					total += orderTopping.getTopping().getPriceL();
 				}
 			}

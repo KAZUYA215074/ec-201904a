@@ -66,7 +66,7 @@ public class SendMail {
 	 */
 	public void sendMailHTML(Order order) {
 		javaMailSender.send(new MimeMessagePreparator() {
-			
+
 			@Override
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, StandardCharsets.UTF_8.name());
@@ -84,8 +84,8 @@ public class SendMail {
 	 * HTMLにコンテキストを入れる.
 	 * 
 	 * @param templateName HTMLファイルを指定
-	 * @param context セットしたコンテキスト
-	 * @return 
+	 * @param context      セットしたコンテキスト
+	 * @return
 	 */
 	private String getMailBody(String templateName, Context context) {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -101,8 +101,8 @@ public class SendMail {
 	private ClassLoaderTemplateResolver mailTemplateResolver() {
 		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
 		templateResolver.setTemplateMode(TemplateMode.HTML);
-		templateResolver.setPrefix("templates/");		// メールのテンプレートの指定
-		templateResolver.setSuffix(".html");		
+		templateResolver.setPrefix("templates/"); // メールのテンプレートの指定
+		templateResolver.setSuffix(".html");
 		templateResolver.setCharacterEncoding("UTF-8");
 		templateResolver.setCacheable(true);
 		return templateResolver;

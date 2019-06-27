@@ -1,4 +1,5 @@
 package com.example.ecommerce_a.domain;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -65,82 +66,76 @@ public class Order {
 
 	/** 注文状況のEnum */
 	public enum Status {
-		BEFORE_ORDER(0,"未発注"),
-		NOT_PAYMENT(1,"未入金"),
-		DONE_PAYMENT(2,"入金済"),
-		DONE_DELIVELY(3,"発送済"),
-		CANCEL(9,"キャンセル"),
-		;
-		
+		BEFORE_ORDER(0, "未発注"), NOT_PAYMENT(1, "未入金"), DONE_PAYMENT(2, "入金済"), DONE_DELIVELY(3, "発送済"),
+		CANCEL(9, "キャンセル"),;
+
 		/** コード */
 		private final int code;
 		/** テキスト */
 		private final String text;
-		
-		private Status(final int code,final String text) {
+
+		private Status(final int code, final String text) {
 			this.code = code;
 			this.text = text;
 		}
-		
+
 		public int getCode() {
 			return code;
 		}
-		
+
 		public String getText() {
 			return text;
 		}
-		
+
 		public static Status getTypeByCode(Integer code) {
-			for(Status s:values()) {
-				if(s.getCode()==code) {
+			for (Status s : values()) {
+				if (s.getCode() == code) {
 					return s;
 				}
 			}
 			return null;
 		}
 	}
-	
+
 	/** 支払方法のEnum */
 	public enum PaymentMethod {
-		CASH_ON_DELIVERY(1,"代金引換"),
-		CREDIT(2,"クレジット"),
-		;
+		CASH_ON_DELIVERY(1, "代金引換"), CREDIT(2, "クレジット"),;
 		/** コード */
 		private final int code;
 		/** テキスト */
 		private final String text;
-		
-		private PaymentMethod(final int code,final String text) {
+
+		private PaymentMethod(final int code, final String text) {
 			this.code = code;
 			this.text = text;
 		}
-		
+
 		public int getCode() {
 			return code;
 		}
-		
+
 		public String getText() {
 			return text;
 		}
-		
+
 		public static PaymentMethod getTypeByCode(Integer code) {
-			for(PaymentMethod p:values()) {
-				if(p.getCode()==code) {
+			for (PaymentMethod p : values()) {
+				if (p.getCode() == code) {
 					return p;
 				}
 			}
 			return null;
 		}
 	}
-	
+
 	public String getTextStatus() {
 		return Status.getTypeByCode(this.status).getText();
 	}
-	
+
 	public String getTextPaymentMethod() {
 		return PaymentMethod.getTypeByCode(this.paymentMethod).getText();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice

@@ -19,14 +19,15 @@ import com.example.ecommerce_a.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserUpdateController {
+	
 	@Autowired
 	private UserService userService;
-	
+
 	@ModelAttribute
 	public UpdateUserForm setUpUserForm() {
 		return new UpdateUserForm();
 	}
-	
+
 	@RequestMapping("/info")
 	public String info(Model model, String name, @AuthenticationPrincipal LoginUser loginUser) {
 		User user = new User();
@@ -35,20 +36,21 @@ public class UserUpdateController {
 		user.setZipCode(loginUser.getUser().getZipCode());
 		user.setAddress(loginUser.getUser().getAddress());
 		user.setTelephone(loginUser.getUser().getTelephone());
-		model.addAttribute("user",user);
+		model.addAttribute("user", user);
 		return "user_info";
 	}
-	
+
 	@RequestMapping("/edit")
-	public String edit(UpdateUserForm form,Model model, @AuthenticationPrincipal LoginUser loginUser) {
+	public String edit(UpdateUserForm form, Model model, @AuthenticationPrincipal LoginUser loginUser) {
 		BeanUtils.copyProperties(loginUser.getUser(), form);
 		return "user_edit";
 	}
-	
+
 	@RequestMapping("/update")
-	public String update(@Validated UpdateUserForm form,BindingResult result,Model model,@AuthenticationPrincipal LoginUser loginUser, RedirectAttributes flash) {
-		if(result.hasErrors()) {
-			return edit(form,model,loginUser);
+	public String update(@Validated UpdateUserForm form, BindingResult result, Model model,
+			@AuthenticationPrincipal LoginUser loginUser, RedirectAttributes flash) {
+		if (result.hasErrors()) {
+			return edit(form, model, loginUser);
 		}
 		User user = loginUser.getUser();
 		BeanUtils.copyProperties(form, user);
