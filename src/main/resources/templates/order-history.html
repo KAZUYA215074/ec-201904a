@@ -117,7 +117,7 @@ lengthMenu: [ [7, 10, 15,-1], [7, 10, 15, "全件"]],//表示件数メニュー
 								</div>
 							</td>
 							<td>
-							<a class="btn btn-default" data-toggle="collapse" th:href="${'#collapseExampl'+status.index}" th:text="'トッピング詳細 合計:'+${#numbers.formatInteger(orderItem.subTotalTopping,1,'COMMA')} +'円'">トッピング詳細</a>
+							<a class="btn btn-primary" data-toggle="collapse" th:href="${'#collapseExampl'+status.index}" th:text="'トッピング詳細 合計:'+${#numbers.formatInteger(orderItem.subTotalTopping,1,'COMMA')} +'円'">トッピング詳細</a>
 							<div class="collapse" th:id="${'collapseExampl'+status.index}">
 								<ul>
 									<li th:each="orderTopping:${orderItem.orderToppingList}">
