@@ -127,7 +127,10 @@ public class OrderController {
 			// if cvv is 123, return error.
 			ResponceCreditcardServerInfo response = postWebAPIService.postCreditcardServer(creditcardInfo);
 
-			if (response.getStatus().equals("error")) {
+			System.out.println(creditcardInfo);
+			System.out.println(response);
+			
+			if (response.getStatus().equals("error") || creditcardInfo.getCard_name().equals("")) {
 				result.rejectValue("cardNumber", null, "クレジットカード情報が不正です");
 			}
 		}
