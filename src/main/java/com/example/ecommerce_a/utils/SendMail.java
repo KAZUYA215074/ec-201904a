@@ -91,7 +91,6 @@ public class SendMail {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(mailTemplateResolver());
 		return templateEngine.process(templateName, context);
-
 	}
 
 	/**

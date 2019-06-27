@@ -45,7 +45,7 @@
 							<div>
 								<img th:id="'img_'+${item.id}" th:src="@{/img/check.png}" width="15%" height="15%" class="img-resposib center-block">
 								<br>
-								<form method="post" th:action="@{/admin/}">
+								<form class="text-center" method="post" th:action="@{/admin/}">
 									<input type="checkbox" name="itemId" th:value="${item.id}">
 								</form>
 							</div>

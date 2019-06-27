@@ -49,7 +49,7 @@ public class ItemRepository {
 	 * @return ピザのリスト
 	 */
 	public List<Item> findAll() {
-		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where deleted = false";
+		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where deleted = false order by id";
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
 	}

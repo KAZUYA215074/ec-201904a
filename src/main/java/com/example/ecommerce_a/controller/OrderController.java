@@ -82,13 +82,13 @@ public class OrderController {
 		for (int i = minYear; i <= maxYear; i++) {
 			years.add(i);
 		}
-		model.addAttribute("minDate",LocalDate.now());
-		model.addAttribute("maxDate",LocalDate.now().plusDays(7));
+		model.addAttribute("minDate", LocalDate.now());
+		model.addAttribute("maxDate", LocalDate.now().plusDays(7));
 		model.addAttribute("order", order);
 		model.addAttribute("years", years);
 		model.addAttribute("months", months);
 		User user = loginUser.getUser();
-		if(form.getDestinationName()==null) {
+		if (form.getDestinationName() == null) {
 			form.setDestinationEmail(user.getMailAddress());
 			form.setDestinationAddress(user.getAddress());
 			form.setDestinationZipcode(user.getZipCode());
@@ -96,7 +96,7 @@ public class OrderController {
 			form.setDeliveryDate(Date.valueOf(LocalDate.now().plusDays(1)).toString());
 			form.setDestinationTel(ConvertUtils.getDelHyphenTelephone(user.getTelephone()));
 		}
-		
+
 		return "order_confirm";
 	}
 
@@ -110,9 +110,10 @@ public class OrderController {
 	public String order(@Validated OrderForm form, BindingResult result, Model model,
 			@AuthenticationPrincipal LoginUser loginUser) {
 		int time = LocalDateTime.now().getHour();
-		if(LocalDate.now().toString().equals(form.getDeliveryDate()) && form.getDeliveryTime() != null && Integer.parseInt(form.getDeliveryTime()) <= time) {
-			model.addAttribute("errorTime","現在より前の時間は指定できません");
-			return toOrder(model,form,loginUser);
+		if (LocalDate.now().toString().equals(form.getDeliveryDate()) && form.getDeliveryTime() != null
+				&& Integer.parseInt(form.getDeliveryTime()) <= time) {
+			model.addAttribute("errorTime", "現在より前の時間は指定できません");
+			return toOrder(model, form, loginUser);
 		}
 		User user = loginUser.getUser();
 		Order order = orderService.showShoppingCart(user.getId());
