@@ -19,6 +19,8 @@ import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.User;
+import com.example.ecommerce_a.domain.Order.Status;
+import com.example.ecommerce_a.repository.OrderRepository;
 import com.example.ecommerce_a.service.OrderService;
 
 /**
@@ -146,7 +148,7 @@ public class CartController {
 	}
 	
 	/**
-	 * 注文商品を更新する.
+	 * 非同期で注文商品を更新する.
 	 * 
 	 * @param orderItemId 注文商品ID
 	 * @param quantity 変更する数量
@@ -181,6 +183,24 @@ public class CartController {
 		map.put("subTotal", String.format("%,d", orderItem.getSubTotal()));
 		
 		return map;
+	}
+	
+	/**
+	 * 商品をキャンセルする.
+	 * 
+	 * @param orderId
+	 * @return
+	 */
+	@RequestMapping("/cancel")
+	public String cancel(Integer orderId) {
+		
+		Order order = orderService.load(orderId);
+		if(order!=null && order.getStatus()!=Order.Status.DONE_DELIVELY.getCode()) {
+			order.setStatus(Order.Status.CANCEL.getCode());
+			orderService.update(order);
+		}
+		
+		return "redirect:/cart/showHistory";
 	}
 
 }

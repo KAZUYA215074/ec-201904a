@@ -1,13 +1,16 @@
 package com.example.ecommerce_a.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.Order.Status;
@@ -66,14 +69,24 @@ public class OrderStatusController {
 		return "admin-order-status";
 	}
 	
+	/**
+	 * 非同期で注文状況を更新する.
+	 * 
+	 * @param orderId 更新する注文ID
+	 * @param status 注文状況
+	 * @return Map JSON
+	 */
+	@ResponseBody
 	@RequestMapping("/update")
-	public String update(Integer orderId,Integer status) {
+	public Map<String,String> update(Integer orderId,Integer status) {
 		if(orderId==null||status==null||status==0) {
-			return "redirect:/orderStatus/showStatus";
+			return new HashMap<>();
 		}
 		Order order = orderService.load(orderId);
 		order.setStatus(status);
 		orderService.update(order);
-		return "redirect:/orderStatus/showStatus";
+		Map<String,String> map = new HashMap<>();
+		map.put("status", order.getTextStatus());
+		return map;
 	}
 }
