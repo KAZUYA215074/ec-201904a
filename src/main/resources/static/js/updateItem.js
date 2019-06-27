@@ -8,13 +8,9 @@ $(function(){
 		var itemId = $(this).val();
 		var isCheck = $(this).prop('checked');
 		var csrf = $("input[name='_csrf']").val();
-		console.log("change");
-		console.log(itemId);
-		console.log(isCheck);
-		console.log(csrf);
 		
 		$.ajax({
-			url : "http://localhost:8080/ec-201904a/admin/updateItem",
+			url : "updateItem",
 			dataType : "json",
 			type : 'POST',
 			data:{

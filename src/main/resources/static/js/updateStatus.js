@@ -10,7 +10,7 @@ $(function(){
 		var value = $("#status"+id).val();
 		if(value>0){
 			$.ajax({
-				url : "http://localhost:8080/ec-201904a/orderStatus/update",
+				url : "update",
 				dataType : "json",
 				type : 'POST',
 				data:{

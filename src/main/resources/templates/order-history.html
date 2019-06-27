@@ -34,7 +34,6 @@ lengthMenu: [ [7, 10, 15,-1], [7, 10, 15, "全件"]],//表示件数メニュー
 		<!-- fragment-header.htmlからヘッダーを引っ張る処理 -->
 		<span th:include="/fragment-header::frag-header"></span>
 
-
 		<!-- table -->
 		<div class="row">
 			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12" style="background-color:white">
@@ -66,7 +65,8 @@ lengthMenu: [ [7, 10, 15,-1], [7, 10, 15, "全件"]],//表示件数メニュー
 							<th colspan="1"><div class="center">
 								<form method="post" th:action="@{/cart/cancel}">
 									<input type="hidden" name="orderId" th:value="${order.id}">
-									<button class="btn btn-danger">キャンセル</button>
+									<button th:unless="${order.status}==3" class="btn btn-danger" >キャンセル</button>
+									<button th:if="${order.status}==3" class="btn btn-danger" disabled>キャンセル</button>
 								</form>
 							</div></th>
 						</tr>

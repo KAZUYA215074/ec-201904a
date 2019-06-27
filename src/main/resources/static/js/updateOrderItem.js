@@ -6,13 +6,14 @@ $(function(){
 	
 	$(":input").bind('keyup mouseup', function () {
 		  //値が変更されたときの処理
+		var ip = $("#IP").val();
 		var index = $(this).attr("id");
 		var value = $(this).val();
 		var csrf = $("input[name='_csrf']").val();
 		var id = $("input[name='orderItemId"+index+"']").val();
 		if(value>0){
 			$.ajax({
-				url : "http://localhost:8080/ec-201904a/cart/update",
+				url : "update",
 				dataType : "json",
 				type : 'POST',
 				data:{
