@@ -123,7 +123,7 @@
 									</div>
 								</td>
 								<td>
-								<a class="btn btn-default" data-toggle="collapse" th:href="'#collapseExampl_'+${orderStat.index}+'_'+${itemStat.index}" th:text="'トッピング詳細 合計:'+${#numbers.formatInteger(orderItem.subTotalTopping,1,'COMMA')} +'円'">トッピング詳細</a>
+								<a class="btn btn-primary" data-toggle="collapse" th:href="'#collapseExampl_'+${orderStat.index}+'_'+${itemStat.index}" th:text="'トッピング詳細 合計:'+${#numbers.formatInteger(orderItem.subTotalTopping,1,'COMMA')} +'円'">トッピング詳細</a>
 							<div class="collapse" th:id="'collapseExampl_'+${orderStat.index}+'_'+${itemStat.index}">
 							<div>
 								<ul>

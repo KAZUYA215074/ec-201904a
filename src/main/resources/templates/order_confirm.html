@@ -70,9 +70,8 @@
 								<span th:text="${orderItem.quantity}">1</span>個
 								</div>
 							<td>
-								<a class="btn btn-default" data-toggle="collapse" th:href="${'#collapseExampl'+status.index}" th:text="'トッピング詳細 合計:'+${#numbers.formatInteger(orderItem.subTotalTopping,1,'COMMA')} +'円'">トッピング詳細</a>
+								<a class="btn btn-primary" data-toggle="collapse" th:href="${'#collapseExampl'+status.index}" th:text="'トッピング詳細 合計:'+${#numbers.formatInteger(orderItem.subTotalTopping,1,'COMMA')} +'円'">トッピング詳細</a>
 							<div class="collapse" th:id="${'collapseExampl'+status.index}">
-							<div>
 								<ul>
 									<li th:each="orderTopping:${orderItem.orderToppingList}">
 										<span th:text="${orderTopping.topping.name}">ピーマン</span>
@@ -81,8 +80,7 @@
 										円
 									</li>
 								</ul>
-								</div>
-								</div>
+							</div>
 							</td>
 							<td>
 								<div class="text-center">
@@ -336,6 +334,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
 	<script th:src="@{/js/searchAddressFromZipCode.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/display.js}"></script>
 </body>
 </html>
