@@ -195,8 +195,10 @@ public class CartController {
 	public String cancel(Integer orderId) {
 		
 		Order order = orderService.load(orderId);
-		order.setStatus(Order.Status.CANCEL.getCode());
-		orderService.update(order);
+		if(order!=null && order.getStatus()!=Order.Status.DONE_DELIVELY.getCode()) {
+			order.setStatus(Order.Status.CANCEL.getCode());
+			orderService.update(order);
+		}
 		
 		return "redirect:/cart/showHistory";
 	}
