@@ -7,7 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -179,6 +182,18 @@ public class ProductManagementController {
 		productManagementservice.visible(id);
 		flash.addFlashAttribute("message", "商品が復活しました");
 		return "redirect:/admin";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updateItem")
+	public Map<String,String> updateItem(Integer itemId,boolean isCheck){
+		
+		if(isCheck) {
+			productManagementservice.visible(itemId);
+		}else {
+			productManagementservice.invisible(itemId);
+		}
+		return new HashMap<>();
 	}
 
 	/*
