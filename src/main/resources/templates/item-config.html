@@ -28,20 +28,20 @@
 			<table class="table table-striped">
 				<tbody>
 					<tr>
-						<th width="100">
+						<th width="10">
 							<div class="text-center">商品名</div>
 						</th>
-						<th width="30">
+						<th width="3">
 							<div class="text-center">追加済み</div>
 						</th>
 					</tr>
 					<tr th:each="item: ${itemList}">
-						<td width="100">
+						<td width="10">
 							<div class="center">
 								<a th:href="@{'/admin/showDetail?id='+${item.id}}" th:text="${item.name}"></a><br>
 							</div>
 						</td>
-						<td width="30">
+						<td width="3">
 							<div>
 								<img th:src="@{/img/check.png}" th:unless="${item.deleted}" width="15%" height="15%"
 								class="img-resposib center-block"><br>
