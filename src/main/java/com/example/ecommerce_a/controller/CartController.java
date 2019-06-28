@@ -1,5 +1,7 @@
 package com.example.ecommerce_a.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,8 +21,6 @@ import com.example.ecommerce_a.domain.LoginUser;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.User;
-import com.example.ecommerce_a.domain.Order.Status;
-import com.example.ecommerce_a.repository.OrderRepository;
 import com.example.ecommerce_a.service.OrderService;
 
 /**
@@ -60,6 +60,7 @@ public class CartController {
 			return "cart_list_not";
 		}
 		model.addAttribute("order", order);
+		
 		return "cart_list";
 	}
 
@@ -89,6 +90,7 @@ public class CartController {
 			}
 		}
 
+		
 		return "redirect:/cart/showCart";
 	}
 
@@ -114,6 +116,7 @@ public class CartController {
 			Collections.reverse(orderList);
 			model.addAttribute("orderList", orderList);
 		}
+		
 		return "order-history";
 
 	}
@@ -143,7 +146,7 @@ public class CartController {
 		order.setOrderItemList(orderItemList);
 		order.setTotalPrice(orderItem.getSubTotal());
 		orderService.addItemToCart(order);
-
+		
 		return "redirect:/cart/showCart";
 	}
 
