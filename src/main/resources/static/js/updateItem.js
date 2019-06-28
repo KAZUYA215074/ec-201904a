@@ -4,11 +4,16 @@
 
 $(function(){
 	
-	$(":input").change(function(){
-		var itemId = $(this).val();
-		var isCheck = $(this).prop('checked');
-		var csrf = $("input[name='_csrf']").val();
+	$(":image").click(function(){
 		
+		var itemId = $(this).val();
+		if($(this).next().val()=="true"){
+			var isCheck = true;
+		}else{
+			var isCheck = false;
+		}
+		
+		var csrf = $("input[name='_csrf']").val();
 		$.ajax({
 			url : "updateItem",
 			dataType : "json",
@@ -21,15 +26,17 @@ $(function(){
 			timeout: 10000,
 		}).done(function(result){
 			if(isCheck){				
-				$("#img_"+itemId).show();
+				$("#false_"+itemId).show();
+				$("#true_"+itemId).hide();
 			}else{
-				$("#img_"+itemId).hide();
+				$("#true_"+itemId).show();
+				$("#false_"+itemId).hide();
 			}
+			
 		}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 			console.log("error");
 		})
-		
-		
+		return false;
 	})
 	
 	
