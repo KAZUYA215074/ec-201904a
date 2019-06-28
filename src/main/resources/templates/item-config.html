@@ -44,7 +44,7 @@
 						<td width="3">
 								<!-- <img th:id="'img_'+${item.id}" th:src="@{/img/check.png}" width="15%" height="15%" class="img-resposib center-block"> -->
 								<div class="form-inline">
-								<script th:unless="${item.deleted}" th:inline="javascript">
+								<script th:if="${item.deleted}==true" th:inline="javascript">
 									/*<![CDATA[*/
 									$(function(){
 										$(/*[['#true_'+${item.id}]]*/).hide();
@@ -53,9 +53,9 @@
 								</script>
 								<form class="text-center" method="post" th:action="@{/admin/}" th:id="'true_'+${item.id}">
 									<input type="image" th:src="@{/img/checkbox_checked.png}" width="15%" height="15%" class="img-resposib center-block" name="itemId" th:value="${item.id}" >
-									<input type="hidden" name="isCheck" value=true>
+									<input type="hidden" name="isCheck" value="true">
 								</form>
-								<script th:if="${item.deleted}" th:inline="javascript">
+								<script th:if="${item.deleted}==false" th:inline="javascript">
 									/*<![CDATA[*/
 									$(function(){
 										$(/*[['#false_'+${item.id}]]*/).hide();
@@ -64,7 +64,7 @@
 								</script>
 								<form class="text-center" method="post" th:action="@{/admin/}" th:id="'false_'+${item.id}" >
 									<input type="image" th:src="@{/img/checkbox_unchecked.png}" width="12%" height="12%" class="img-resposib center-block" name="itemId" th:value="${item.id}" >
-									<input type="hidden" name="isCheck" value=false>
+									<input type="hidden" name="isCheck" value="false">
 								</form>
 								</div>
 						</td>

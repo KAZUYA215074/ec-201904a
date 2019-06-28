@@ -8,11 +8,11 @@ $(function(){
 		
 		var itemId = $(this).val();
 		if($(this).next().val()=="true"){
-			var isCheck = true;
-		}else{
 			var isCheck = false;
+		}else{
+			var isCheck = true;
 		}
-		
+		console.log(isCheck);
 		var csrf = $("input[name='_csrf']").val();
 		$.ajax({
 			url : "updateItem",
@@ -25,7 +25,7 @@ $(function(){
 			},
 			timeout: 10000,
 		}).done(function(result){
-			if(isCheck){				
+			if(!isCheck){				
 				$("#false_"+itemId).show();
 				$("#true_"+itemId).hide();
 			}else{
