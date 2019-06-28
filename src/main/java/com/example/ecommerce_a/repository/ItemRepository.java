@@ -81,6 +81,8 @@ public class ItemRepository {
 			sql += " order by price_m asc ";
 		} else if ("name".equals(sort)) {
 			sql += " order by name asc ";
+		} else {
+			sql += " order by id ";
 		}
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
@@ -92,7 +94,8 @@ public class ItemRepository {
 	 * @return 全ピザ名一覧
 	 */
 	public List<String> itemAllName() {
-		String sql = "select id,name,description,price_m,price_l,image_path,deleted from items where deleted = false";
+		String sql = "select id, name, description, price_m,price_l, image_path, deleted "
+				+ "from items where deleted=false order by id";
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		List<String> nameList = new ArrayList<>();
 		for (Item item : itemList) {

@@ -126,11 +126,14 @@ public class OrderController {
 			creditcardInfo.setAmount(String.valueOf(order.getTotalPrice()));
 			// if cvv is 123, return error.
 			ResponceCreditcardServerInfo response = postWebAPIService.postCreditcardServer(creditcardInfo);
-
-			System.out.println(creditcardInfo);
-			System.out.println(response);
 			
-			if (response.getStatus().equals("error") || creditcardInfo.getCard_name().equals("")) {
+			if (creditcardInfo.getCard_name().equals("") 
+					|| creditcardInfo.getCard_number().length() < 14 
+					|| creditcardInfo.getCard_number().length() > 16) {
+				response.setStatus("error");
+			}
+			
+			if (response.getStatus().equals("error")) {
 				result.rejectValue("cardNumber", null, "クレジットカード情報が不正です");
 			}
 		}

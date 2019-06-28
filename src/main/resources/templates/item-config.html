@@ -43,11 +43,12 @@
 						</td>
 						<td width="3">
 							<div>
-								<img th:id="'img_'+${item.id}" th:src="@{/img/check.png}" width="15%" height="15%" class="img-resposib center-block">
+  								<img th:id="'img_'+${item.id}" th:src="@{/img/check.png}" width="15%" height="15%" class="img-resposib center-block">
 								<br>
 								<form class="text-center" method="post" th:action="@{/admin/}">
-									<input type="checkbox" name="itemId" th:value="${item.id}">
-								</form>
+									<input type="image" th:id="'img_'+${item.id}" name="itemId" th:src="@{/img/check.png}" 
+									th:value="${item.id}" width="15%" height="15%" class="img-resposib center-block">
+								</form> 
 							</div>
 						</td>
 					</tr>
