@@ -71,10 +71,8 @@
 					  <table class="table table-striped">
 						<tbody>
 							<tr>
-								<th colspan="1"><div class="text-center">購入日</div></th>
-								<th colspan="1"><div class="text-center" th:text="${#dates.format(order.orderDate,'yyyy年MM月dd日(EEE)')}">2019年6月21日(金)&nbsp;12:30</div></th>
-								<th colspan="1"><div class="text-center">注文合計金額：</div></th>
-								<th colspan="2"><div class="text-center" th:text="${#numbers.formatInteger(order.totalPrice,1,'COMMA')}+'円'">8000円</div></th>
+								<th colspan="2"><div class="text-center">購入日：<span th:text="${#dates.format(order.orderDate,'yyyy年MM月dd日(EEE)')}"></span></div></th>
+								<th colspan="2"><div class="text-center">注文合計金額：<span th:text="${#numbers.formatInteger(order.totalPrice,1,'COMMA')}+'円'"></span></div></th>
 								<th></th>
 							</tr>
 							<tr>
